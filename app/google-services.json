@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "735022595038",
+    "firebase_url": "https://receptura-f8c2f-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "receptura-f8c2f",
+    "storage_bucket": "receptura-f8c2f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:735022595038:android:ab114e370695789b02fb4f",
+        "android_client_info": {
+          "package_name": "com.andreikslpv.thekitchen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "735022595038-ktpv8898fv87597b35buimef13ug1r3r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.andreikslpv.thekitchen",
+            "certificate_hash": "cf9e127931033c499d109e2f4f8233ecc1f127fd"
+          }
+        },
+        {
+          "client_id": "735022595038-6v09ip5g806r6ng71gg4bftpdah5lpcq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBg2N-Xexxl8LAicvZab9Xg0zaSFXh-T-g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "735022595038-0hdk9mdtn4bb6rf7qel8q6rj2dtukmbs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
