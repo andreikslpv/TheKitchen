@@ -6,6 +6,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.databinding.ActivityAuthBinding
 import com.andreikslpv.thekitchen.di.MainIntent
@@ -31,9 +32,12 @@ class AuthActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        checkIfUserIsAuthenticated()
 
         binding.googleSignInButton.setOnClickListener {
             resultLauncher.launch(signInIntent)
@@ -41,6 +45,13 @@ class AuthActivity : AppCompatActivity() {
         initResultLauncher()
 
     }
+
+    private fun checkIfUserIsAuthenticated() {
+        if (viewModel.isUserAuthenticated) {
+            goToMainActivity()
+        }
+    }
+
 
     private fun initResultLauncher() {
         resultLauncher = registerForActivityResult(StartActivityForResult()) { result ->

@@ -20,7 +20,12 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="SplashTheme" parent="Theme.TheKitchen.NoActionBar">
-        <item name="android:windowBackground">@drawable/splash_background</item>
+    <!-- Splash Screen Theme (API >= 31) -->
+    <style name="Theme.TheKitchen.Starting" parent="Theme.SplashScreen">
+        <!-- The splash screen background, animated icon, and animation duration -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_kitchen_logo</item>
+        <item name="windowSplashScreenBackground">@color/purple_500</item>
+        <item name="windowSplashScreenAnimationDuration">0</item>
+        <item name="postSplashScreenTheme">@style/Theme.TheKitchen.NoActionBar</item>
     </style>
 </resources>

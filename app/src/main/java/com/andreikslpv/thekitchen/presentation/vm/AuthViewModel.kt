@@ -12,6 +12,8 @@ class AuthViewModel : ViewModel() {
     @Inject
     lateinit var repository: AuthRepository
 
+    val isUserAuthenticated get() = repository.isUserAuthenticatedInFirebase
+
     init {
         App.instance.dagger.inject(this)
     }

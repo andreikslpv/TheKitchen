@@ -14,33 +14,30 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.TheKitchen"
+        android:theme="@style/Theme.TheKitchen.Starting"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.ui.activity.SplashActivity"
-            android:exported="true"
-            android:theme="@style/SplashTheme">
+            android:name=".presentation.ui.activity.AuthActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.ui.activity.AuthActivity"
-            android:theme="@style/Theme.TheKitchen.NoActionBar"/>
-        <activity android:name=".presentation.ui.activity.MainActivity"/>
+        <activity
+            android:name=".presentation.ui.activity.MainActivity"
+            android:theme="@style/Theme.TheKitchen" />
 
 
+        <!--        <activity-->
+        <!--            android:name="com.andreikslpv.thekitchen.presentation.ui.activity.MainActivity"-->
+        <!--            android:exported="true">-->
+        <!--            <intent-filter>-->
+        <!--                <action android:name="android.intent.action.MAIN" />-->
 
-
-<!--        <activity-->
-<!--            android:name="com.andreikslpv.thekitchen.presentation.ui.activity.MainActivity"-->
-<!--            android:exported="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
+        <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+        <!--            </intent-filter>-->
+        <!--        </activity>-->
     </application>
 
 </manifest>
