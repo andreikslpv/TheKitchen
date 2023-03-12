@@ -2,7 +2,6 @@ package com.andreikslpv.thekitchen.presentation.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.activity.viewModels
@@ -66,17 +65,17 @@ class AuthActivity : AppCompatActivity() {
             when (response) {
                 is Response.Loading -> binding.progressBar.show()
                 is Response.Success -> {
-                    val isNewUser = response.data
-                    if (isNewUser) {
-                        Toast.makeText(this, "I/o isNewUser = true", Toast.LENGTH_SHORT).show()
-                        println("I/o isNewUser = true")
-                        createUser()
-                    } else {
-                        Toast.makeText(this, "I/o isNewUser = false", Toast.LENGTH_SHORT).show()
-                        println("I/o isNewUser = false")
-                        goToMainActivity()
-                        binding.progressBar.hide()
-                    }
+                    goToMainActivity()
+                    binding.progressBar.hide()
+//                    val isNewUser = response.data
+//                    if (isNewUser) {
+//                        println("I/o isNewUser = true")
+//                        createUser()
+//                    } else {
+//                        println("I/o isNewUser = false")
+//                        goToMainActivity()
+//                        binding.progressBar.hide()
+//                    }
                 }
                 is Response.Failure -> {
                     print(response.errorMessage)
@@ -86,21 +85,21 @@ class AuthActivity : AppCompatActivity() {
         }
     }
 
-    private fun createUser() {
-        viewModel.createUser().observe(this) { response ->
-            when (response) {
-                is Response.Loading -> binding.progressBar.show()
-                is Response.Success -> {
-                    goToMainActivity()
-                    binding.progressBar.hide()
-                }
-                is Response.Failure -> {
-                    print(response.errorMessage)
-                    binding.progressBar.hide()
-                }
-            }
-        }
-    }
+//    private fun createUser() {
+//        viewModel.createUser().observe(this) { response ->
+//            when (response) {
+//                is Response.Loading -> binding.progressBar.show()
+//                is Response.Success -> {
+//                    goToMainActivity()
+//                    binding.progressBar.hide()
+//                }
+//                is Response.Failure -> {
+//                    print(response.errorMessage)
+//                    binding.progressBar.hide()
+//                }
+//            }
+//        }
+//    }
 
     private fun goToMainActivity() {
         startActivity(mainIntent)

@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.text.text = "Пользователь ${viewModel.getCurrentUser()?.displayName} поздравляет прекрасную половину команды Pixels с праздников 8 марта!!!"
+        binding.text.text = "Пользователь ${viewModel.getCurrentUser()?.displayName} поздравляет прекрасную половину команды Pixels с праздником 8 марта!!!"
         //setNavController()
         getAuthState()
     }

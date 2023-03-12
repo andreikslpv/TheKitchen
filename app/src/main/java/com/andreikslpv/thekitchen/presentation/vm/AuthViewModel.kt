@@ -22,9 +22,9 @@ class AuthViewModel : ViewModel() {
         }
     }
 
-    fun createUser() = liveData(Dispatchers.IO) {
-        repository.createUserInFirestore().collect { response ->
-            emit(response)
-        }
-    }
+//    fun createUser() = liveData(Dispatchers.IO) {
+//        repository.createUserInFirestore().collect { response ->
+//            emit(response)
+//        }
+//    }
 }
