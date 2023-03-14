@@ -1,35 +1,17 @@
 package com.andreikslpv.thekitchen.di
 
-import android.content.Context
 import android.content.Intent
 import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.R
-import com.andreikslpv.thekitchen.presentation.ui.activity.AuthActivity
-import com.andreikslpv.thekitchen.presentation.ui.activity.MainActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import dagger.Module
 import dagger.Provides
-import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
 class AppModule {
-
-    @Provides
-    @Singleton
-    @AuthIntent
-    fun provideAuthIntent(context: Context): Intent {
-        return Intent(context, AuthActivity::class.java)
-    }
-
-    @Provides
-    @Singleton
-    @MainIntent
-    fun provideMainIntent(context: Context): Intent {
-        return Intent(context, MainActivity::class.java)
-    }
 
 //    @Singleton
 //    @MainIntent
@@ -61,11 +43,3 @@ class AppModule {
         return googleSignInClient.signInIntent
     }
 }
-
-@Qualifier
-@Retention(AnnotationRetention.RUNTIME)
-annotation class AuthIntent
-
-@Qualifier
-@Retention(AnnotationRetention.RUNTIME)
-annotation class MainIntent

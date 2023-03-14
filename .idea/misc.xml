@@ -12,7 +12,15 @@
         <entry key="..\:/Users/Andrey/AndroidStudioProjects/TheKitchen/app/src/main/res/drawable/ic_kitchen_logo.xml" value="0.116" />
         <entry key="..\:/Users/Andrey/AndroidStudioProjects/TheKitchen/app/src/main/res/drawable/splash_background.xml" value="0.107" />
         <entry key="..\:/Users/Andrey/AndroidStudioProjects/TheKitchen/app/src/main/res/layout/activity_main.xml" value="0.24010416666666667" />
+        <entry key="..\:/Users/Andrey/AndroidStudioProjects/TheKitchen/app/src/main/res/layout/fragment_auth.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Andrey/AndroidStudioProjects/TheKitchen/app/src/main/res/layout/fragment_catalog.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Andrey/AndroidStudioProjects/TheKitchen/app/src/main/res/layout/fragment_favorites.xml" value="0.24010416666666667" />
+        <entry key="..\:/Users/Andrey/AndroidStudioProjects/TheKitchen/app/src/main/res/layout/fragment_filters.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Andrey/AndroidStudioProjects/TheKitchen/app/src/main/res/layout/fragment_home.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Andrey/AndroidStudioProjects/TheKitchen/app/src/main/res/layout/fragment_sign_in.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Andrey/AndroidStudioProjects/TheKitchen/app/src/main/res/layout/fragment_tabs.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Andrey/AndroidStudioProjects/TheKitchen/app/src/main/res/menu/menu_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Andrey/AndroidStudioProjects/TheKitchen/app/src/main/res/menu/menu_tabs.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>
