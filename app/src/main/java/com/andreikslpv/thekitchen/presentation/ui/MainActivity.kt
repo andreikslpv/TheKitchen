@@ -14,9 +14,11 @@ import androidx.navigation.fragment.findNavController
 import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.R
 import com.andreikslpv.thekitchen.databinding.ActivityMainBinding
+import com.andreikslpv.thekitchen.domain.usecases.InitApplicationSettingsUseCase
 import com.andreikslpv.thekitchen.presentation.ui.fragments.TabsFragment
 import com.andreikslpv.thekitchen.presentation.vm.MainViewModel
 import java.util.regex.Pattern
+import javax.inject.Inject
 
 /**
  * Container for all screens in the app.
@@ -27,6 +29,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val viewModel by viewModels<MainViewModel>()
+
+    @Inject
+    lateinit var initApplicationSettingsUseCase: InitApplicationSettingsUseCase
 
     // nav controller of the current screen
     private var navController: NavController? = null
@@ -53,6 +58,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initApplicationSettings()
+
         // preparing root nav controller
         val navController = getRootNavController()
         prepareRootNavController(isSignedIn(), navController)
@@ -67,12 +74,18 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if (isStartDestination(navController?.currentDestination)) {
             super.onBackPressed()
         } else {
             navController?.popBackStack()
         }
+    }
+
+    private fun initApplicationSettings() {
+        // устанавливаем сохраненные настройки приложения
+        initApplicationSettingsUseCase.execute()
     }
 
     override fun onSupportNavigateUp(): Boolean = (navController?.navigateUp() ?: false) || super.onSupportNavigateUp()
