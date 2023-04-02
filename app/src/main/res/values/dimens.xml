@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- elevation -->
+    <dimen name="card_elevation">8dp</dimen>
+    <dimen name="card_elevation_title">12dp</dimen>
+
+    <!-- for item category -->
+    <dimen name="card_category_width">100dp</dimen>
+    <dimen name="card_category_height">128dp</dimen>
+    <dimen name="image_category_dimen">84dp</dimen>
+    <dimen name="image_category_margin">8dp</dimen>
+    <dimen name="background_category_margin_top">28dp</dimen>
+
+
+
+    <dimen name="angle_of_shape">45</dimen>
+    <!-- for ProgressBar -->
+    <dimen name="progress_bar_dimen">50dp</dimen>
+    <dimen name="progress_bar_elevation">12dp</dimen>
+
+    <!-- for FAB -->
+    <dimen name="FAB_margin">8dp</dimen>
+    <dimen name="FAB_elevation">12dp</dimen>
+
+    <!-- for RV and her item -->
+    <dimen name="card_margin">8dp</dimen>
+
+    <dimen name="card_corner_radius">10dp</dimen>
+    <dimen name="card_dimen">150dp</dimen>
+    <dimen name="FAB_dimen">24dp</dimen>
+    <dimen name="margin_of_RV">4dp</dimen>
+    <dimen name="item_padding">4dp</dimen>
+
+    <dimen name="category_column_count">2</dimen>
+
+
+
+    <dimen name="margin_of_search">8dp</dimen>
+    <dimen name="margin_of_elements">8dp</dimen>
+    <dimen name="border">1dp</dimen>
+    <dimen name="button_width">288dp</dimen>
+
+</resources>

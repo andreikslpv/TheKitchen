@@ -13,7 +13,7 @@ package com.andreikslpv.thekitchen.di
  import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AppModule::class, DomainModule::class, DataModule::class, FirebaseModule::class])
+@Component(modules = [AppModule::class, DomainModule::class, DataModule::class, FirebaseModule::class, DatabaseModule::class])
 interface AppComponent {
 
     @Component.Factory

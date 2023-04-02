@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface RecipeRepository {
 
-    suspend fun getAllCategories(): Flow<Response<List<Category>>>
+    suspend fun getCategoriesByType(type: String): Flow<Response<List<Category>>>
 
     fun updateLocalData(path: String)
 }

@@ -7,6 +7,8 @@
     <string name="shopping_list_title">Список покупок</string>
     <string name="favorites_title">Избранное</string>
 
+    //Toolbar menu
+    <string name="profile">Профиль</string>
 
     //Menu Items
     <string name="sign_out_item">Sign-out</string>
@@ -16,7 +18,8 @@
     <string name="movie_fragment">Movie Details</string>
 
     //Buttons
-    <string name="sign_in_with_google_button">Sign in with Google</string>
+    <string name="sign_in_with_google_button">Войти с Google</string>
+    <string name="anonymous_button">Войти без авторизации</string>
 
     //TextViews
     <string name="authentication">Authentication</string>

@@ -43,6 +43,9 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>(FragmentAuthBinding::infl
         binding.googleSignInButton.setOnClickListener {
             resultLauncher.launch(signInIntent)
         }
+        binding.anonymousButton.setOnClickListener {
+            startTabsFragment()
+        }
         initResultLauncher()
     }
 
@@ -69,12 +72,7 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>(FragmentAuthBinding::infl
             when (response) {
                 is Response.Loading -> binding.progressBar.show()
                 is Response.Success -> {
-                    // запускаем фрагмент Tabs, при этом убираем из стека AuthFragment
-                    findNavController().navigate(R.id.action_authFragment_to_tabsFragment, null, navOptions {
-                        popUpTo(R.id.authFragment) {
-                            inclusive = true
-                        }
-                    })
+                    startTabsFragment()
                     binding.progressBar.hide()
                 }
                 is Response.Failure -> {
@@ -83,5 +81,14 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>(FragmentAuthBinding::infl
                 }
             }
         }
+    }
+
+    private fun startTabsFragment() {
+        // запускаем фрагмент Tabs, при этом убираем из стека AuthFragment
+        findNavController().navigate(R.id.tabsFragment, null, navOptions {
+            popUpTo(R.id.authFragment) {
+                inclusive = true
+            }
+        })
     }
 }

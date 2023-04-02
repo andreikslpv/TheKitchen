@@ -11,6 +11,7 @@ object RoomConstants {
     const val COLUMN_CATEGORY_ID = "id"
     const val COLUMN_CATEGORY_NAME = "name"
     const val COLUMN_CATEGORY_TYPE = "type"
+    const val COLUMN_CATEGORY_IMAGE = "image"
 
     const val TABLE_CACHED_UNIT = "cached_unit"
     const val COLUMN_UNIT_ID = "id"

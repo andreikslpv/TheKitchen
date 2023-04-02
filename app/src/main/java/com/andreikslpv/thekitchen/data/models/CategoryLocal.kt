@@ -12,7 +12,8 @@ import com.andreikslpv.thekitchen.data.db.RoomConstants
 )
 data class CategoryLocal(
     @PrimaryKey
-    @ColumnInfo(name = RoomConstants.COLUMN_CATEGORY_ID) val id: String = "",
-    @ColumnInfo(name = RoomConstants.COLUMN_CATEGORY_NAME) val name: String = "",
-    @ColumnInfo(name = RoomConstants.COLUMN_CATEGORY_TYPE) val type: String = "",
+    @ColumnInfo(name = RoomConstants.COLUMN_CATEGORY_ID) val id: String = "ca00000",
+    @ColumnInfo(name = RoomConstants.COLUMN_CATEGORY_NAME) val name: String = "category",
+    @ColumnInfo(name = RoomConstants.COLUMN_CATEGORY_TYPE) val type: String = "ct00000",
+    @ColumnInfo(name = RoomConstants.COLUMN_CATEGORY_IMAGE) val image: String = "",
 )

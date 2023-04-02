@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="?attr/colorPrimary" />
 
     <item
-        android:drawable="@drawable/ic_flower"
-        android:gravity="center" />
+        android:drawable="@drawable/ic_card_category_left"
+        android:gravity="center|bottom" />
 </layer-list>

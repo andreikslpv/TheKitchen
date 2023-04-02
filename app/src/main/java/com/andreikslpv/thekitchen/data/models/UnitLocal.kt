@@ -12,7 +12,7 @@ import com.andreikslpv.thekitchen.data.db.RoomConstants
 )
 data class UnitLocal(
     @PrimaryKey
-    @ColumnInfo(name = RoomConstants.COLUMN_UNIT_ID) val id: String = "",
-    @ColumnInfo(name = RoomConstants.COLUMN_UNIT_NAME) val name: String = "",
+    @ColumnInfo(name = RoomConstants.COLUMN_UNIT_ID) val id: String = "un00000",
+    @ColumnInfo(name = RoomConstants.COLUMN_UNIT_NAME) val name: String = "unit",
 )
 
