@@ -64,17 +64,17 @@ object Mappers {
         }
     }
 
-    object ProductToLocalListMapper :
-        BaseMapper<List<Product>, List<ProductLocal>> {
-        override fun map(type: List<Product>?): List<ProductLocal> {
-            return type?.map {
-                ProductLocal(
-                    id = it.id,
-                    name = it.name,
-                    unit = it.unit,
-                )
-            } ?: listOf()
-        }
-    }
+//    object ProductToLocalListMapper :
+//        BaseMapper<List<Product>, List<ProductLocal>> {
+//        override fun map(type: List<Product>?): List<ProductLocal> {
+//            return type?.map {
+//                ProductLocal(
+//                    id = it.id,
+//                    name = it.name,
+//                    unit = it.unit,
+//                )
+//            } ?: listOf()
+//        }
+//    }
 
 }

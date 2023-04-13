@@ -2,8 +2,8 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="@dimen/card_dimen"
-    android:layout_height="@dimen/card_dimen">
+    android:layout_width="@dimen/card_new_width"
+    android:layout_height="@dimen/card_new_height">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/itemContainer"
@@ -31,7 +31,7 @@
         android:elevation="@dimen/FAB_elevation"
         app:backgroundTint="#CCCCCC"
         app:layout_anchor="@id/itemContainer"
-        app:layout_anchorGravity="bottom|end"
+        app:layout_anchorGravity="top|end"
         app:srcCompat="@drawable/ic_favorites"
         tools:ignore="ContentDescription" />
 

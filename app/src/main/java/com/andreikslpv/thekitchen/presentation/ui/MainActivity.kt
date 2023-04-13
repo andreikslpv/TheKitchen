@@ -13,9 +13,11 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.R
-import com.andreikslpv.thekitchen.data.db.FirestoreConstants.PATH_CATEGORY
+import com.andreikslpv.thekitchen.admin.Categories
+import com.andreikslpv.thekitchen.admin.Products
+import com.andreikslpv.thekitchen.admin.Recipe4
+import com.andreikslpv.thekitchen.admin.Recipe5
 import com.andreikslpv.thekitchen.databinding.ActivityMainBinding
-import com.andreikslpv.thekitchen.domain.models.Category
 import com.andreikslpv.thekitchen.domain.usecases.InitApplicationSettingsUseCase
 import com.andreikslpv.thekitchen.presentation.ui.fragments.TabsFragment
 import com.andreikslpv.thekitchen.presentation.vm.MainViewModel
@@ -24,7 +26,6 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import java.util.regex.Pattern
 import javax.inject.Inject
 
@@ -76,9 +77,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        CoroutineScope(Dispatchers.IO).launch {
-//            addToDb()
-//        }
+        CoroutineScope(Dispatchers.IO).launch {
+//            Recipe4.addToDb(firestore, storage)
+//            Recipe5.addToDb(firestore, storage)
+//            Categories.addToDb(firestore, storage)
+//            Products.addToDb(firestore)
+        }
 
         initApplicationSettings()
 
@@ -89,301 +93,6 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, true)
     }
-
-    private suspend fun addToDb() {
-
-        val collection = firestore.collection(PATH_CATEGORY)
-        var id = "ca00000"
-        var image = ""
-        try {
-            image = storage.reference.child("category/$id.png").downloadUrl.await().toString() ?: ""
-        } catch (e: Exception) {
-
-        }
-        var document = collection.document(id)
-        document.set(
-            Category(
-                id = id,
-                name = "category",
-                type = "ct00000",
-                image = image,
-            )
-        ).await()
-
-        id = "ca00001"
-        try {
-            image = storage.reference.child("category/$id.png").downloadUrl.await().toString() ?: ""
-        } catch (e: Exception) {
-
-        }
-        document = collection.document(id)
-        document.set(
-            Category(
-                id = id,
-                name = "до 30 минут",
-                type = "ct00001",
-                image = image,
-            )
-        ).await()
-
-        id = "ca00002"
-        try {
-            image = storage.reference.child("category/$id.png").downloadUrl.await().toString() ?: ""
-        } catch (e: Exception) {
-
-        }
-        document = collection.document(id)
-        document.set(
-            Category(
-                id = id,
-                name = "до 45 минут",
-                type = "ct00001",
-                image = image,
-            )
-        ).await()
-
-        id = "ca00003"
-        try {
-            image = storage.reference.child("category/$id.png").downloadUrl.await().toString() ?: ""
-        } catch (e: Exception) {
-
-        }
-        document = collection.document(id)
-        document.set(
-            Category(
-                id = id,
-                name = "до 60 минут",
-                type = "ct00001",
-                image = image,
-            )
-        ).await()
-
-        id = "ca00004"
-        try {
-            image = storage.reference.child("category/$id.png").downloadUrl.await().toString() ?: ""
-        } catch (e: Exception) {
-
-        }
-        document = collection.document(id)
-        document.set(
-            Category(
-                id = id,
-                name = "Супы",
-                type = "ct00002",
-                image = image,
-            )
-        ).await()
-
-        id = "ca00005"
-        try {
-            image = storage.reference.child("category/$id.png").downloadUrl.await().toString() ?: ""
-        } catch (e: Exception) {
-
-        }
-        document = collection.document(id)
-        document.set(
-            Category(
-                id = id,
-                name = "Салаты",
-                type = "ct00002",
-                image = image,
-            )
-        ).await()
-
-        id = "ca00006"
-        try {
-            image = storage.reference.child("category/$id.png").downloadUrl.await().toString() ?: ""
-        } catch (e: Exception) {
-
-        }
-        document = collection.document(id)
-        document.set(
-            Category(
-                id = id,
-                name = "Десерты",
-                type = "ct00002",
-                image = image,
-            )
-        ).await()
-
-        id = "ca00007"
-        try {
-            image = storage.reference.child("category/$id.png").downloadUrl.await().toString() ?: ""
-        } catch (e: Exception) {
-
-        }
-        document = collection.document(id)
-        document.set(
-            Category(
-                id = id,
-                name = "Горячее",
-                type = "ct00002",
-                image = image,
-            )
-        ).await()
-
-        id = "ca00008"
-        try {
-            image = storage.reference.child("category/$id.png").downloadUrl.await().toString() ?: ""
-        } catch (e: Exception) {
-
-        }
-        document = collection.document(id)
-        document.set(
-            Category(
-                id = id,
-                name = "Завтраки",
-                type = "ct00002",
-                image = image,
-            )
-        ).await()
-
-        id = "ca00009"
-        try {
-            image = storage.reference.child("category/$id.png").downloadUrl.await().toString() ?: ""
-        } catch (e: Exception) {
-
-        }
-        document = collection.document(id)
-        document.set(
-            Category(
-                id = id,
-                name = "Выпечка",
-                type = "ct00002",
-                image = image,
-            )
-        ).await()
-
-        id = "ca00010"
-        try {
-            image = storage.reference.child("category/$id.png").downloadUrl.await().toString() ?: ""
-        } catch (e: Exception) {
-
-        }
-        document = collection.document(id)
-        document.set(
-            Category(
-                id = id,
-                name = "Запеканки",
-                type = "ct00002",
-                image = image,
-            )
-        ).await()
-
-        id = "ca00011"
-        try {
-            image = storage.reference.child("category/$id.png").downloadUrl.await().toString() ?: ""
-        } catch (e: Exception) {
-
-        }
-        document = collection.document(id)
-        document.set(
-            Category(
-                id = id,
-                name = "Заготовки",
-                type = "ct00002",
-                image = image,
-            )
-        ).await()
-
-        id = "ca00012"
-        try {
-            image = storage.reference.child("category/$id.png").downloadUrl.await().toString() ?: ""
-        } catch (e: Exception) {
-
-        }
-        document = collection.document(id)
-        document.set(
-            Category(
-                id = id,
-                name = "Без мяса",
-                type = "ct00003",
-                image = image,
-            )
-        ).await()
-
-        id = "ca00013"
-        try {
-            image = storage.reference.child("category/$id.png").downloadUrl.await().toString() ?: ""
-        } catch (e: Exception) {
-
-        }
-        document = collection.document(id)
-        document.set(
-            Category(
-                id = id,
-                name = "Без сахара",
-                type = "ct00003",
-                image = image,
-            )
-        ).await()
-
-        id = "ca00014"
-        try {
-            image = storage.reference.child("category/$id.png").downloadUrl.await().toString() ?: ""
-        } catch (e: Exception) {
-
-        }
-        document = collection.document(id)
-        document.set(
-            Category(
-                id = id,
-                name = "Без лактозы",
-                type = "ct00003",
-                image = image,
-            )
-        ).await()
-
-        id = "ca00015"
-        try {
-            image = storage.reference.child("category/$id.png").downloadUrl.await().toString() ?: ""
-        } catch (e: Exception) {
-
-        }
-        document = collection.document(id)
-        document.set(
-            Category(
-                id = id,
-                name = "Без глютена",
-                type = "ct00003",
-                image = image,
-            )
-        ).await()
-
-        id = "ca00016"
-        try {
-            image = storage.reference.child("category/$id.png").downloadUrl.await().toString() ?: ""
-        } catch (e: Exception) {
-
-        }
-        document = collection.document(id)
-        document.set(
-            Category(
-                id = id,
-                name = "Без лука",
-                type = "ct00003",
-                image = image,
-            )
-        ).await()
-
-        id = "ca00017"
-        try {
-            image = storage.reference.child("category/$id.png").downloadUrl.await().toString() ?: ""
-        } catch (e: Exception) {
-
-        }
-        document = collection.document(id)
-        document.set(
-            Category(
-                id = id,
-                name = "Без свинины",
-                type = "ct00003",
-                image = image,
-            )
-        ).await()
-
-    }
-
 
     override fun onDestroy() {
         supportFragmentManager.unregisterFragmentLifecycleCallbacks(fragmentListener)

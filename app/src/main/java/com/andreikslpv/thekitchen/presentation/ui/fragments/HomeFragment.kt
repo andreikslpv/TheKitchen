@@ -14,6 +14,7 @@ import com.andreikslpv.thekitchen.presentation.ui.MainActivity
 import com.andreikslpv.thekitchen.presentation.ui.base.BaseFragment
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.CategoryRecyclerAdapter
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.ItemClickListener
+import com.andreikslpv.thekitchen.presentation.ui.recyclers.StoriesRecyclerAdapter
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.itemDecoration.TopSpacingItemDecoration
 import com.andreikslpv.thekitchen.presentation.utils.findTopNavController
 import com.andreikslpv.thekitchen.presentation.utils.makeToast
@@ -25,21 +26,23 @@ import com.andreikslpv.thekitchen.presentation.vm.HomeViewModel
  */
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
+    private lateinit var storiesAdapter: StoriesRecyclerAdapter
     private lateinit var categoryAdapter: CategoryRecyclerAdapter
+    private lateinit var timeAdapter: CategoryRecyclerAdapter
 
     private val viewModel by viewModels<HomeViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initCategoryListRecycler()
+        initRecyclers()
         initCollect()
         initProfileButton()
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun initCollect() {
-        viewModel.getCategoriesByType("ct00002").observe(viewLifecycleOwner) { response ->
+        viewModel.getCategoriesDish().observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Response.Loading -> binding.progressBar.show()
                 is Response.Success -> {
@@ -53,9 +56,43 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 }
             }
         }
+
+        viewModel.getCategoriesTime().observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Response.Loading -> binding.progressBar.show()
+                is Response.Success -> {
+                    timeAdapter.changeItems(response.data)
+                    timeAdapter.notifyDataSetChanged()
+                    binding.progressBar.hide()
+                }
+                is Response.Failure -> {
+                    response.errorMessage.makeToast(requireContext())
+                    binding.progressBar.hide()
+                }
+            }
+        }
     }
 
-    private fun initCategoryListRecycler() {
+    private fun initRecyclers() {
+        binding.homeRecyclerStories.apply {
+            storiesAdapter =
+                StoriesRecyclerAdapter(
+                    object : ItemClickListener {
+                        override fun click(id: String) {
+//                            viewLifecycleOwner.lifecycleScope.launch {
+//                                removePhotoFromFavoritesUseCase.execute(photo.id)
+//                            }
+                        }
+                    }
+                )
+            adapter = storiesAdapter
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            //Применяем декоратор для отступов
+            val decorator = TopSpacingItemDecoration(4)
+            addItemDecoration(decorator)
+        }
+
         binding.homeRecyclerCategory.apply {
             categoryAdapter =
                 CategoryRecyclerAdapter(
@@ -68,6 +105,25 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     }
                 )
             adapter = categoryAdapter
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            //Применяем декоратор для отступов
+            val decorator = TopSpacingItemDecoration(4)
+            addItemDecoration(decorator)
+        }
+
+        binding.homeRecyclerCategoryTime.apply {
+            timeAdapter =
+                CategoryRecyclerAdapter(
+                    object : ItemClickListener {
+                        override fun click(id: String) {
+//                            viewLifecycleOwner.lifecycleScope.launch {
+//                                removePhotoFromFavoritesUseCase.execute(photo.id)
+//                            }
+                        }
+                    }
+                )
+            adapter = timeAdapter
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             //Применяем декоратор для отступов

@@ -2,38 +2,25 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="@dimen/card_category_width"
-    android:layout_height="@dimen/card_category_height">
+    android:layout_width="@dimen/card_category_time_width"
+    android:layout_height="@dimen/card_category_width">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/itemContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardBackgroundColor="@android:color/transparent"
-        app:cardElevation="@dimen/card_elevation_no">
+        app:cardBackgroundColor="@color/purple_light"
+        app:cardCornerRadius="@dimen/card_corner_radius_time"
+        app:cardElevation="@dimen/card_elevation">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/itemBackground"
-                android:layout_width="@dimen/card_category_width"
-                android:layout_height="@dimen/card_category_width"
-                android:elevation="@dimen/card_elevation"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_card_category_left"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="ContentDescription"
-                tools:src="@tools:sample/avatars" />
-
-            <ImageView
                 android:id="@+id/itemImage"
-                android:layout_width="@dimen/image_category_dimen"
-                android:layout_height="@dimen/image_category_dimen"
-                android:layout_marginHorizontal="@dimen/image_category_margin"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/image_category_time_height"
                 android:elevation="@dimen/card_elevation_title"
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -46,12 +33,13 @@
                 android:id="@+id/itemTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/image_category_margin"
                 android:elevation="@dimen/card_elevation_title"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:layout_marginTop="@dimen/title_category_time_margin"
+                android:textColor="@color/white"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/itemImage"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="Title" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

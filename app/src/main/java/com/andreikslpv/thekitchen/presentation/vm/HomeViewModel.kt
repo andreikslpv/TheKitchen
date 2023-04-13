@@ -16,8 +16,13 @@ class HomeViewModel : ViewModel()  {
         App.instance.dagger.inject(this)
     }
 
-    fun getCategoriesByType(type: String) = liveData(Dispatchers.IO) {
-        repository.getCategoriesByType(type).collect { response ->
+    fun getCategoriesDish() = liveData(Dispatchers.IO) {
+        repository.getCategoriesByType("ct00002").collect { response ->
+            emit(response)
+        }
+    }
+    fun getCategoriesTime() = liveData(Dispatchers.IO) {
+        repository.getCategoriesByType("ct00001").collect { response ->
             emit(response)
         }
     }

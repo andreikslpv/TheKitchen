@@ -4,6 +4,7 @@
     <!-- elevation -->
     <dimen name="card_elevation">8dp</dimen>
     <dimen name="card_elevation_title">12dp</dimen>
+    <dimen name="card_elevation_no">0dp</dimen>
 
     <!-- for item category -->
     <dimen name="card_category_width">100dp</dimen>
@@ -12,7 +13,15 @@
     <dimen name="image_category_margin">8dp</dimen>
     <dimen name="background_category_margin_top">28dp</dimen>
 
+    <!-- for item category_time -->
+    <dimen name="card_category_time_width">102dp</dimen>
+    <dimen name="card_corner_radius_time">8dp</dimen>
+    <dimen name="image_category_time_height">72dp</dimen>
+    <dimen name="title_category_time_margin">68dp</dimen>
 
+    <!-- for item category_time -->
+    <dimen name="card_new_width">168dp</dimen>
+    <dimen name="card_new_height">120dp</dimen>
 
     <dimen name="angle_of_shape">45</dimen>
     <!-- for ProgressBar -->
@@ -26,10 +35,10 @@
     <!-- for RV and her item -->
     <dimen name="card_margin">8dp</dimen>
 
-    <dimen name="card_corner_radius">10dp</dimen>
+    <dimen name="card_corner_radius">8dp</dimen>
     <dimen name="card_dimen">150dp</dimen>
     <dimen name="FAB_dimen">24dp</dimen>
-    <dimen name="margin_of_RV">4dp</dimen>
+    <dimen name="margin_of_RV">16dp</dimen>
     <dimen name="item_padding">4dp</dimen>
 
     <dimen name="category_column_count">2</dimen>
@@ -38,7 +47,11 @@
 
     <dimen name="margin_of_search">8dp</dimen>
     <dimen name="margin_of_elements">8dp</dimen>
-    <dimen name="border">1dp</dimen>
-    <dimen name="button_width">288dp</dimen>
+
+    <!-- button dimens -->
+    <dimen name="button_border">1dp</dimen>
+    <dimen name="button_width">328dp</dimen>
+    <dimen name="button_height">48dp</dimen>
+    <dimen name="button_radius">30dp</dimen>
 
 </resources>

@@ -34,6 +34,34 @@
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/homeRecyclerStories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_of_RV"
+        android:background="@android:color/transparent"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homeAppBar"
+        tools:listitem="@layout/item_story" />
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/homeTitleNew"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/home_title_new"
+        android:elevation="@dimen/card_elevation"
+        android:layout_margin="@dimen/margin_of_RV"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homeRecyclerStories" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/homeRecyclerRecipe"
         android:layout_width="wrap_content"
@@ -43,8 +71,22 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/homeAppBar"
+        app:layout_constraintTop_toBottomOf="@+id/homeTitleNew"
         tools:listitem="@layout/item_recipe_preview" />
+
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/homeTitleCatalog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/home_title_catalog"
+        android:elevation="@dimen/card_elevation"
+        android:layout_margin="@dimen/margin_of_RV"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homeRecyclerRecipe" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/homeRecyclerCategory"
@@ -56,8 +98,37 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/homeRecyclerRecipe"
+        app:layout_constraintTop_toBottomOf="@+id/homeTitleCatalog"
         tools:listitem="@layout/item_category" />
+
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/homeTitleCatalogTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/home_title_catalog_time"
+        android:elevation="@dimen/card_elevation"
+        android:layout_margin="@dimen/margin_of_RV"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homeRecyclerCategory" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/homeRecyclerCategoryTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_of_RV"
+        android:background="@android:color/transparent"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homeTitleCatalogTime"
+        tools:listitem="@layout/item_category_time" />
+
+
 
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/progress_bar"

@@ -6,6 +6,7 @@
         <entry key="..\:/Users/Andrey/AndroidStudioProjects/TheKitchen/app/src/main/res/drawable-v23/background_search_view.xml" value="0.116" />
         <entry key="..\:/Users/Andrey/AndroidStudioProjects/TheKitchen/app/src/main/res/drawable-v23/splash_background.xml" value="0.116" />
         <entry key="..\:/Users/Andrey/AndroidStudioProjects/TheKitchen/app/src/main/res/drawable-v24/background_splash.xml" value="0.116" />
+        <entry key="..\:/Users/Andrey/AndroidStudioProjects/TheKitchen/app/src/main/res/drawable/background_item_category.xml" value="0.116" />
         <entry key="..\:/Users/Andrey/AndroidStudioProjects/TheKitchen/app/src/main/res/drawable/background_search_view.xml" value="0.116" />
         <entry key="..\:/Users/Andrey/AndroidStudioProjects/TheKitchen/app/src/main/res/drawable/fire_app_logo.xml" value="0.107" />
         <entry key="..\:/Users/Andrey/AndroidStudioProjects/TheKitchen/app/src/main/res/drawable/google_logo.xml" value="0.107" />
@@ -28,6 +29,10 @@
         <entry key="..\:/Users/Andrey/AndroidStudioProjects/TheKitchen/app/src/main/res/layout/fragment_sign_in.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Andrey/AndroidStudioProjects/TheKitchen/app/src/main/res/layout/fragment_tabs.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Andrey/AndroidStudioProjects/TheKitchen/app/src/main/res/layout/item_category.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Andrey/AndroidStudioProjects/TheKitchen/app/src/main/res/layout/item_category_time.xml" value="0.253125" />
+        <entry key="..\:/Users/Andrey/AndroidStudioProjects/TheKitchen/app/src/main/res/layout/item_recipe_preview.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Andrey/AndroidStudioProjects/TheKitchen/app/src/main/res/layout/item_sotry.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Andrey/AndroidStudioProjects/TheKitchen/app/src/main/res/layout/item_story.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Andrey/AndroidStudioProjects/TheKitchen/app/src/main/res/menu/menu_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Andrey/AndroidStudioProjects/TheKitchen/app/src/main/res/menu/menu_tabs.xml" value="0.25416666666666665" />
       </map>

@@ -5,7 +5,7 @@ import com.andreikslpv.thekitchen.databinding.ItemCategoryBinding
 import com.andreikslpv.thekitchen.domain.models.Category
 import com.bumptech.glide.Glide
 
-class CategoryViewHolder(val binding: ItemCategoryBinding) : RecyclerView.ViewHolder(binding.root) {
+class CategoryDishViewHolder(val binding: ItemCategoryBinding) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(category: Category) {
         binding.itemTitle.text = category.name

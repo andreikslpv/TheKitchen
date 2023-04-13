@@ -5,6 +5,6 @@ data class RecipeDetails(
     val description: String = "",
     val steps: ArrayList<Step> = arrayListOf(),
     val ingredients: ArrayList<Ingredient> = arrayListOf(),
-    val imageDetails: String = "",
     val source: String = "",
+    val imageDetails: String = "",
 )

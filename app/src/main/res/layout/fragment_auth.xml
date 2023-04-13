@@ -35,7 +35,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/googleSignInButton"
-        style="@style/RoundButton"
+        style="@style/RoundButtonTransparent"
         app:icon="@drawable/google_logo"
         app:iconGravity="textStart"
         android:text="@string/sign_in_with_google_button"
@@ -47,7 +47,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/anonymousButton"
-        style="@style/RoundButton"
+        style="@style/RoundButtonTransparent"
         android:text="@string/anonymous_button"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"

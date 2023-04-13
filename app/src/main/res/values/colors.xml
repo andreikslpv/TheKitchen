@@ -10,4 +10,9 @@
 
     <color name="mint">#FFD2F4D3</color>
     <color name="mint_light">#20D2F4D3</color>
+
+    <color name="purple_light">#9E95E6</color>
+    <color name="black_light">#404040</color>
+
+
 </resources>

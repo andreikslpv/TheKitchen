@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.TheKitchen" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/mint</item>
+        <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
@@ -23,16 +23,25 @@
         <item name="postSplashScreenTheme">@style/Theme.TheKitchen</item>
     </style>
 
-    <style name="RoundButton" parent="Widget.MaterialComponents.Button">
-        <item name="cornerRadius">30dp</item>
+    <style name="RoundButtonTransparent" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">@dimen/button_radius</item>
         <item name="android:textColor">@color/black</item>
         <item name="background">@android:color/transparent</item>
-        <item name="strokeWidth">@dimen/border</item>
-        <item name="strokeColor">@color/black</item>
+        <item name="strokeWidth">@dimen/button_border</item>
+        <item name="strokeColor">@color/black_light</item>
         <item name="android:layout_width">@dimen/button_width</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:elevation">8dp</item>
+        <item name="android:layout_height">@dimen/button_height</item>
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6</item>
-
     </style>
+
+
+    <style name="RoundButtonFill" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">@dimen/button_radius</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="background">@color/purple_light</item>
+        <item name="android:layout_width">@dimen/button_width</item>
+        <item name="android:layout_height">@dimen/button_height</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6</item>
+    </style>
+
 </resources>

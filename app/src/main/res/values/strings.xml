@@ -10,6 +10,11 @@
     //Toolbar menu
     <string name="profile">Профиль</string>
 
+    //Home titles
+    <string name="home_title_catalog">Каталог</string>
+    <string name="home_title_catalog_time">Быстрые рецепты</string>
+    <string name="home_title_new">Попробуйте новое</string>
+
     //Menu Items
     <string name="sign_out_item">Sign-out</string>
 
