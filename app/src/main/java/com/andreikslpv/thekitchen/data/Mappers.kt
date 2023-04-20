@@ -2,19 +2,17 @@ package com.andreikslpv.thekitchen.data
 
 import com.andreikslpv.thekitchen.data.models.CategoryLocal
 import com.andreikslpv.thekitchen.data.models.CategoryTypeLocal
-import com.andreikslpv.thekitchen.data.models.ProductLocal
 import com.andreikslpv.thekitchen.data.models.UnitLocal
 import com.andreikslpv.thekitchen.domain.BaseMapper
 import com.andreikslpv.thekitchen.domain.models.Category
-import com.andreikslpv.thekitchen.domain.models.CategoryType
-import com.andreikslpv.thekitchen.domain.models.Product
+import com.andreikslpv.thekitchen.domain.models.CategoryTypeDB
 import com.andreikslpv.thekitchen.domain.models.Unit
 
 object Mappers {
 
     object CategoryTypeToLocalListMapper :
-        BaseMapper<List<CategoryType>, List<CategoryTypeLocal>> {
-        override fun map(type: List<CategoryType>?): List<CategoryTypeLocal> {
+        BaseMapper<List<CategoryTypeDB>, List<CategoryTypeLocal>> {
+        override fun map(type: List<CategoryTypeDB>?): List<CategoryTypeLocal> {
             return type?.map {
                 CategoryTypeLocal(
                     id = it.id,

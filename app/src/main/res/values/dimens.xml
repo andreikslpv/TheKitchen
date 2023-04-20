@@ -4,14 +4,21 @@
     <!-- elevation -->
     <dimen name="card_elevation">8dp</dimen>
     <dimen name="card_elevation_title">12dp</dimen>
+
     <dimen name="card_elevation_no">0dp</dimen>
+    <dimen name="card_elevation_image">4dp</dimen>
+
+    <!-- for text -->
+    <dimen name="text_title">18sp</dimen>
+    <dimen name="text_title_category">14sp</dimen>
 
     <!-- for item category -->
-    <dimen name="card_category_width">100dp</dimen>
+    <dimen name="card_category_width">104dp</dimen>
     <dimen name="card_category_height">128dp</dimen>
     <dimen name="image_category_dimen">84dp</dimen>
     <dimen name="image_category_margin">8dp</dimen>
     <dimen name="background_category_margin_top">28dp</dimen>
+    <dimen name="background_category_height">96dp</dimen>
 
     <!-- for item category_time -->
     <dimen name="card_category_time_width">102dp</dimen>
@@ -19,9 +26,24 @@
     <dimen name="image_category_time_height">72dp</dimen>
     <dimen name="title_category_time_margin">68dp</dimen>
 
-    <!-- for item category_time -->
-    <dimen name="card_new_width">168dp</dimen>
+    <!-- margins -->
+    <dimen name="margin_basic">16dp</dimen>
+    <dimen name="margin_small">12dp</dimen>
+    <dimen name="margin_big">20dp</dimen>
+    <dimen name="main_radius_card">24dp</dimen>
+
+
+    <!-- for item recipe_new -->
+    <dimen name="card_new_width">216dp</dimen>
     <dimen name="card_new_height">120dp</dimen>
+    <dimen name="card_new_height_image">88dp</dimen>
+    <dimen name="card_new_corner_radius">20dp</dimen>
+    <dimen name="card_new_margin_text_top">4dp</dimen>
+    <dimen name="card_new_margin_text_start">8dp</dimen>
+
+    <!-- for SearchView -->
+    <dimen name="search_corner_radius">30dp</dimen>
+    <dimen name="search_height">40dp</dimen>
 
     <dimen name="angle_of_shape">45</dimen>
     <!-- for ProgressBar -->
@@ -31,17 +53,17 @@
     <!-- for FAB -->
     <dimen name="FAB_margin">8dp</dimen>
     <dimen name="FAB_elevation">12dp</dimen>
+    <dimen name="FAB_dimen">24dp</dimen>
 
     <!-- for RV and her item -->
     <dimen name="card_margin">8dp</dimen>
 
     <dimen name="card_corner_radius">8dp</dimen>
     <dimen name="card_dimen">150dp</dimen>
-    <dimen name="FAB_dimen">24dp</dimen>
-    <dimen name="margin_of_RV">16dp</dimen>
+
     <dimen name="item_padding">4dp</dimen>
 
-    <dimen name="category_column_count">2</dimen>
+    <dimen name="category_column_count">3</dimen>
 
 
 

@@ -1,5 +1,7 @@
 package com.andreikslpv.thekitchen.domain.models
 
+import com.google.firebase.firestore.Exclude
+
 data class RecipePreview(
     val id: String = "re00000",
     val name: String = "recipe_preview",
@@ -10,4 +12,6 @@ data class RecipePreview(
     val caloriesUnit: String = "un00002",
     val portions: Int = 0,
     val imagePreview: String = "",
+    @Exclude
+    val isFavorite: Boolean = false,
 )

@@ -6,7 +6,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
 
-class TopSpacingItemDecoration (private val paddingInDp: Int): RecyclerView.ItemDecoration() {
+class SpaceItemDecoration (private val paddingInDp: Int): RecyclerView.ItemDecoration() {
     private val Int.convertPx: Int
         get() = (this * Resources.getSystem().displayMetrics.density).toInt()
 
@@ -14,6 +14,7 @@ class TopSpacingItemDecoration (private val paddingInDp: Int): RecyclerView.Item
         super.getItemOffsets(outRect, view, parent, state)
         outRect.right = paddingInDp.convertPx
         outRect.left = paddingInDp.convertPx
+        outRect.bottom = paddingInDp.convertPx * 4
 
     }
 }

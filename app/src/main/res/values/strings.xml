@@ -4,6 +4,7 @@
     //Bottom menu
     <string name="home_title">Главная</string>
     <string name="catalog_title">Каталог</string>
+    <string name="search_title">Поиск</string>
     <string name="shopping_list_title">Список покупок</string>
     <string name="favorites_title">Избранное</string>
 

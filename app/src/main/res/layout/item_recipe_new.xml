@@ -2,8 +2,9 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="@dimen/card_category_width"
-    android:layout_height="@dimen/card_category_height">
+    android:layout_width="@dimen/card_new_width"
+    android:layout_height="@dimen/card_new_height"
+    android:background="@drawable/background_item_recipe_new">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/itemContainer"
@@ -17,22 +18,11 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/itemBackground"
-                android:layout_width="@dimen/card_category_width"
-                android:layout_height="@dimen/background_category_height"
-                android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="ContentDescription"
-                tools:src="@tools:sample/avatars" />
-
-            <ImageView
                 android:id="@+id/itemImage"
-                android:layout_width="@dimen/image_category_dimen"
-                android:layout_height="@dimen/image_category_dimen"
-                android:layout_marginHorizontal="@dimen/image_category_margin"
-                android:elevation="@dimen/card_elevation_image"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/card_new_height_image"
+                android:background="@drawable/background_item_recipe_new_image"
+                android:clipToOutline="true"
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -42,18 +32,34 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/itemTitle"
-                android:layout_width="wrap_content"
+                style="@style/TextTitleCategory.Start"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/image_category_margin"
-                style="@style/TextTitleCategory"
+                android:layout_marginStart="@dimen/card_new_margin_text_start"
+                android:layout_marginBottom="@dimen/card_new_margin_text_start"
+                android:ellipsize="end"
+                android:maxLines="1"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/itemImage"
                 tools:text="Title" />
+
+            <ImageView
+                android:id="@+id/itemButtonFavorites"
+                android:layout_width="@dimen/FAB_dimen"
+                android:layout_height="@dimen/FAB_dimen"
+                android:layout_marginTop="@dimen/FAB_margin"
+                android:layout_marginEnd="@dimen/FAB_margin"
+                android:background="@android:color/transparent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_favorites"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription"
+                tools:src="@tools:sample/avatars" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

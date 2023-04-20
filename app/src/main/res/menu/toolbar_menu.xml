@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/profileButton"
-        android:icon="@drawable/ic_profile"
+        android:icon="@drawable/ic_user_fill"
         android:title="@string/profile"
         app:showAsAction="ifRoom"
-        app:titleTextColor="?attr/itemTextColor" />
+         />
 </menu>

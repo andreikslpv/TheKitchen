@@ -2,6 +2,7 @@ package com.andreikslpv.thekitchen.di
 
 import com.andreikslpv.thekitchen.domain.RecipeRepository
 import com.andreikslpv.thekitchen.domain.SettingsRepository
+import com.andreikslpv.thekitchen.domain.usecases.GetRecipeNewUseCase
 import com.andreikslpv.thekitchen.domain.usecases.InitApplicationSettingsUseCase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dagger.Module
@@ -20,4 +21,13 @@ class DomainModule {
     ): InitApplicationSettingsUseCase {
         return InitApplicationSettingsUseCase(settingsRepository, recipeRepository, remoteConfig)
     }
+
+    @Provides
+    @Singleton
+    fun provideGetRecipeNewUseCase(
+        recipeRepository: RecipeRepository,
+    ): GetRecipeNewUseCase {
+        return GetRecipeNewUseCase(recipeRepository)
+    }
+
 }

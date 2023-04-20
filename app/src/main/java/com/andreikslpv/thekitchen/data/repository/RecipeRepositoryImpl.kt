@@ -6,7 +6,8 @@ import com.andreikslpv.thekitchen.data.dao.UpdateDao
 import com.andreikslpv.thekitchen.data.db.FirestoreConstants
 import com.andreikslpv.thekitchen.domain.RecipeRepository
 import com.andreikslpv.thekitchen.domain.models.Category
-import com.andreikslpv.thekitchen.domain.models.CategoryType
+import com.andreikslpv.thekitchen.domain.models.CategoryTypeDB
+import com.andreikslpv.thekitchen.domain.models.RecipePreview
 import com.andreikslpv.thekitchen.domain.models.Response
 import com.andreikslpv.thekitchen.presentation.utils.Constants
 import com.google.firebase.firestore.FirebaseFirestore
@@ -47,7 +48,7 @@ class RecipeRepositoryImpl @Inject constructor(
             val collection = database.collection(FirestoreConstants.PATH_CATEGORY_TYPE)
             val result = collection.get().await()
             val tempList = result.documents.mapNotNull {
-                it.toObject(CategoryType::class.java)
+                it.toObject(CategoryTypeDB::class.java)
             }
             updateDao.updateCategoryTypes(Mappers.CategoryTypeToLocalListMapper.map(tempList))
         }
@@ -63,4 +64,30 @@ class RecipeRepositoryImpl @Inject constructor(
             updateDao.updateCategories(Mappers.CategoryToLocalListMapper.map(tempList))
         }
     }
+
+    override suspend fun getRecipeNew(favorites: List<String>) = flow {
+        try {
+            emit(Response.Loading)
+            val collection = database.collection(FirestoreConstants.PATH_RECIPE_PREVIEW)
+            val result = collection
+                .whereNotIn("id", favorites)
+                .limit(5L)
+                .get()
+                .await()
+
+            val tempList = result.documents.mapNotNull {
+                it.toObject(RecipePreview::class.java)
+            }
+
+            emit(Response.Success(tempList))
+        } catch (e: Exception) {
+            emit(Response.Failure(e.message ?: Constants.ERROR_MESSAGE))
+        }
+    }
+
+    override fun setFavoriteStatus(user: String, id: String, status: Boolean) {
+        TODO("Not yet implemented")
+    }
+
+
 }

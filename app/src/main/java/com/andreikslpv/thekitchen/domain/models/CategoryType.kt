@@ -1,6 +1,7 @@
 package com.andreikslpv.thekitchen.domain.models
 
-data class CategoryType(
-    val id: String = "ct00000",
-    val name: String = "category_type",
-)
+enum class CategoryType(val value: String) {
+    TIME("ct00001"),
+    DISH("ct00002"),
+    EXCLUDE("ct00003"),
+}
