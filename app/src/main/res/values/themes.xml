@@ -31,19 +31,23 @@
         <item name="strokeColor">@color/black_light</item>
         <item name="android:layout_width">@dimen/button_width</item>
         <item name="android:layout_height">@dimen/button_height</item>
-        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6
-        </item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6</item>
     </style>
 
 
     <style name="RoundButtonFill" parent="Widget.MaterialComponents.Button">
         <item name="cornerRadius">@dimen/button_radius</item>
         <item name="android:textColor">@color/white</item>
-        <item name="background">@color/purple_light</item>
+        <item name="background">@color/purple</item>
         <item name="android:layout_width">@dimen/button_width</item>
         <item name="android:layout_height">@dimen/button_height</item>
-        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6
-        </item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6</item>
+    </style>
+
+    <!-- Тема для ExtendedFAB Reminder -->
+    <style name="ShapeAppearanceOverlayExtended" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/button_radius</item>
     </style>
 
 </resources>

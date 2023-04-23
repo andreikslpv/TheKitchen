@@ -27,4 +27,5 @@ interface AppComponent {
     fun inject(profileViewModel: ProfileViewModel)
     fun inject(homeViewModel: HomeViewModel)
     fun inject(catalogViewModel: CatalogViewModel)
+    fun inject(filtersViewModel: FiltersViewModel)
 }

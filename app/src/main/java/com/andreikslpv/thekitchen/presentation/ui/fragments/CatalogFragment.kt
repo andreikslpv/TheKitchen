@@ -5,9 +5,11 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.andreikslpv.thekitchen.R
 import com.andreikslpv.thekitchen.databinding.FragmentCatalogBinding
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
 import com.andreikslpv.thekitchen.presentation.ui.base.BaseFragment
@@ -40,10 +42,11 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
         initRecipeListRecycler()
         observeFilms()
         setupSwipeToRefresh()
+        initFiltersButton()
     }
 
     private fun initRecipeListRecycler() {
-        binding.catalogRecyclerRecipe.apply{
+        binding.catalogRecyclerRecipe.apply {
             recipePreviewAdapter = RecipePreviewPagingAdapter(
                 object : RecipeItemClickListener {
                     override fun click(recipePreview: RecipePreview) {
@@ -134,4 +137,10 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
         }
     }
 
+    private fun initFiltersButton() {
+        binding.catalogToolbar.menu.findItem(R.id.fitersButton).setOnMenuItemClickListener {
+            findNavController().navigate(R.id.filtersFragment)
+            true
+        }
+    }
 }

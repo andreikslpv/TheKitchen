@@ -62,6 +62,7 @@ dependencies {
 
     //Dagger
     implementation dagger
+    implementation 'androidx.core:core-ktx:1.10.0'
     kapt daggerCompiler
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.15.1'
@@ -69,7 +70,7 @@ dependencies {
     // Kotlin extensions for 'fragment' artifact
     implementation "androidx.fragment:fragment-ktx:1.5.7"
     //Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
     // livedata
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.1"

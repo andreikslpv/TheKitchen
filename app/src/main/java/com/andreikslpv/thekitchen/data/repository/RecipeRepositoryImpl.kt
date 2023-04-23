@@ -28,7 +28,6 @@ class RecipeRepositoryImpl @Inject constructor(
 ) : RecipeRepository {
 
     private val currentCategoryList = MutableStateFlow(emptyList<Category>())
-    private val currentCategories = MutableStateFlow<Response<List<Category>>>(Response.Loading)
 
     override suspend fun getCategoriesByType(type: String) = flow {
         try {
@@ -44,27 +43,6 @@ class RecipeRepositoryImpl @Inject constructor(
     override suspend fun getAllCategories() = currentCategoryList
 
     override fun updateLocalData(path: String) {
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val collection = database.collection(FirestoreConstants.PATH_CATEGORY)
-//            collection.addSnapshotListener { value, error ->
-//                CoroutineScope(Dispatchers.IO).launch {
-//                    currentCategories.emit(Response.Loading)
-//                    if (error != null) {
-//                        currentCategories.emit(
-//                            Response.Failure(
-//                                error.localizedMessage ?: Constants.ERROR_MESSAGE
-//                            )
-//                        )
-//                    } else {
-//                        currentCategoryList.emit(
-//                            value?.documents?.mapNotNull {
-//                                it.toObject(Category::class.java)
-//                            } ?: emptyList()
-//                        )
-//                    }
-//                }
-//            }
-//        }
         when (path) {
             FirestoreConstants.PATH_CATEGORY_TYPE -> updateCategoryTypes()
             FirestoreConstants.PATH_CATEGORY -> updateCategories()
