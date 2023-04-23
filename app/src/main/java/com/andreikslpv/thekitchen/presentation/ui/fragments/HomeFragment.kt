@@ -46,34 +46,78 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     @SuppressLint("NotifyDataSetChanged")
     private fun initCollect() {
-        viewModel.getCategoriesDish().observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Response.Loading -> binding.progressBar.show()
-                is Response.Success -> {
-                    categoryDishAdapter.changeItems(response.data)
-                    categoryDishAdapter.notifyDataSetChanged()
-                    binding.progressBar.hide()
-                }
-                is Response.Failure -> {
-                    response.errorMessage.makeToast(requireContext())
-                    binding.progressBar.hide()
-                }
-            }
-        }
+//        viewModel.getCategoriesDish().observe(viewLifecycleOwner) { response ->
+//            when (response) {
+//                is Response.Loading -> binding.progressBar.show()
+//                is Response.Success -> {
+//                    categoryDishAdapter.changeItems(response.data)
+//                    categoryDishAdapter.notifyDataSetChanged()
+//                    binding.progressBar.hide()
+//                }
+//                is Response.Failure -> {
+//                    response.errorMessage.makeToast(requireContext())
+//                    binding.progressBar.hide()
+//                }
+//            }
+//        }
+//
+//        viewModel.getCategoriesTime().observe(viewLifecycleOwner) { response ->
+//            when (response) {
+//                is Response.Loading -> binding.progressBar.show()
+//                is Response.Success -> {
+//                    categoryTimeAdapter.changeItems(response.data)
+//                    categoryTimeAdapter.notifyDataSetChanged()
+//                    binding.progressBar.hide()
+//                }
+//                is Response.Failure -> {
+//                    response.errorMessage.makeToast(requireContext())
+//                    binding.progressBar.hide()
+//                }
+//            }
+//        }
 
-        viewModel.getCategoriesTime().observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is Response.Loading -> binding.progressBar.show()
-                is Response.Success -> {
-                    categoryTimeAdapter.changeItems(response.data)
-                    categoryTimeAdapter.notifyDataSetChanged()
-                    binding.progressBar.hide()
+//        viewModel.getAllCategories().observe(viewLifecycleOwner) { response ->
+//            when (response) {
+//                is Response.Loading -> binding.progressBar.show()
+//                is Response.Success -> {
+//                    categoryDishAdapter.changeItems(
+//                        response.data.filter {
+//                            it.type == CategoryType.DISH.value
+//                        }
+//                    )
+//                    categoryDishAdapter.notifyDataSetChanged()
+//
+//                    categoryTimeAdapter.changeItems(
+//                        response.data.filter {
+//                            it.type == CategoryType.TIME.value
+//                        }
+//                    )
+//                    categoryTimeAdapter.notifyDataSetChanged()
+//
+//
+//                    binding.progressBar.hide()
+//                }
+//                is Response.Failure -> {
+//                    response.errorMessage.makeToast(requireContext())
+//                    binding.progressBar.hide()
+//                }
+//            }
+//        }
+
+        viewModel.getAllCategories().observe(viewLifecycleOwner) { response ->
+            categoryDishAdapter.changeItems(
+                response.filter {
+                    it.type == CategoryType.DISH.value
                 }
-                is Response.Failure -> {
-                    response.errorMessage.makeToast(requireContext())
-                    binding.progressBar.hide()
+            )
+            categoryDishAdapter.notifyDataSetChanged()
+
+            categoryTimeAdapter.changeItems(
+                response.filter {
+                    it.type == CategoryType.TIME.value
                 }
-            }
+            )
+            categoryTimeAdapter.notifyDataSetChanged()
         }
 
         viewModel.getRecipeNew().observe(viewLifecycleOwner) { response ->
@@ -84,6 +128,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     recipeNewAdapter.notifyDataSetChanged()
                     binding.progressBar.hide()
                 }
+
                 is Response.Failure -> {
                     response.errorMessage.makeToast(requireContext())
                     binding.progressBar.hide()

@@ -8,6 +8,7 @@ import com.andreikslpv.thekitchen.domain.models.CategoryType
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipeNewUseCase
 import com.andreikslpv.thekitchen.domain.usecases.InitApplicationSettingsUseCase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 class HomeViewModel : ViewModel()  {
@@ -30,6 +31,12 @@ class HomeViewModel : ViewModel()  {
 
     fun getCategoriesTime() = liveData(Dispatchers.IO) {
         repository.getCategoriesByType(CategoryType.TIME.value).collect { response ->
+            emit(response)
+        }
+    }
+
+    fun getAllCategories() = liveData(Dispatchers.IO) {
+        repository.getAllCategories().collect { response ->
             emit(response)
         }
     }

@@ -10,11 +10,19 @@
 
     //Toolbar menu
     <string name="profile">Профиль</string>
+    <string name="filters">Фильтры</string>
 
     //Home titles
     <string name="home_title_catalog">Каталог</string>
     <string name="home_title_catalog_time">Быстрые рецепты</string>
     <string name="home_title_new">Попробуйте новое</string>
+
+    //Recipe Preview
+    <string name="warning">Содержит исключенный ингредиент</string>
+    <string name="time">%d мин</string>
+    <string name="kkal">%d Ккал в порции</string>
+    <string name="retry_button">Нажмите для перезагрузки</string>
+
 
     //Menu Items
     <string name="sign_out_item">Sign-out</string>

@@ -14,4 +14,6 @@ data class RecipePreview(
     val imagePreview: String = "",
     @Exclude
     val isFavorite: Boolean = false,
+    @Exclude
+    val isContainExclude: Boolean = false,
 )

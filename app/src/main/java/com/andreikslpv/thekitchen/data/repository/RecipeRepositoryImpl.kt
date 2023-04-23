@@ -1,18 +1,21 @@
 package com.andreikslpv.thekitchen.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.andreikslpv.thekitchen.data.Mappers
 import com.andreikslpv.thekitchen.data.dao.CategoryDao
 import com.andreikslpv.thekitchen.data.dao.UpdateDao
+import com.andreikslpv.thekitchen.data.datasource.RecipePreviewDataSource
 import com.andreikslpv.thekitchen.data.db.FirestoreConstants
 import com.andreikslpv.thekitchen.domain.RecipeRepository
-import com.andreikslpv.thekitchen.domain.models.Category
-import com.andreikslpv.thekitchen.domain.models.CategoryTypeDB
-import com.andreikslpv.thekitchen.domain.models.RecipePreview
-import com.andreikslpv.thekitchen.domain.models.Response
+import com.andreikslpv.thekitchen.domain.models.*
 import com.andreikslpv.thekitchen.presentation.utils.Constants
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -23,6 +26,9 @@ class RecipeRepositoryImpl @Inject constructor(
     private val updateDao: UpdateDao,
     private val categoryDao: CategoryDao,
 ) : RecipeRepository {
+
+    private val currentCategoryList = MutableStateFlow(emptyList<Category>())
+    private val currentCategories = MutableStateFlow<Response<List<Category>>>(Response.Loading)
 
     override suspend fun getCategoriesByType(type: String) = flow {
         try {
@@ -35,7 +41,30 @@ class RecipeRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getAllCategories() = currentCategoryList
+
     override fun updateLocalData(path: String) {
+//        CoroutineScope(Dispatchers.IO).launch {
+//            val collection = database.collection(FirestoreConstants.PATH_CATEGORY)
+//            collection.addSnapshotListener { value, error ->
+//                CoroutineScope(Dispatchers.IO).launch {
+//                    currentCategories.emit(Response.Loading)
+//                    if (error != null) {
+//                        currentCategories.emit(
+//                            Response.Failure(
+//                                error.localizedMessage ?: Constants.ERROR_MESSAGE
+//                            )
+//                        )
+//                    } else {
+//                        currentCategoryList.emit(
+//                            value?.documents?.mapNotNull {
+//                                it.toObject(Category::class.java)
+//                            } ?: emptyList()
+//                        )
+//                    }
+//                }
+//            }
+//        }
         when (path) {
             FirestoreConstants.PATH_CATEGORY_TYPE -> updateCategoryTypes()
             FirestoreConstants.PATH_CATEGORY -> updateCategories()
@@ -61,7 +90,8 @@ class RecipeRepositoryImpl @Inject constructor(
             val tempList = result.documents.mapNotNull {
                 it.toObject(Category::class.java)
             }
-            updateDao.updateCategories(Mappers.CategoryToLocalListMapper.map(tempList))
+            currentCategoryList.emit(tempList)
+            //updateDao.updateCategories(Mappers.CategoryToLocalListMapper.map(tempList))
         }
     }
 
@@ -87,6 +117,17 @@ class RecipeRepositoryImpl @Inject constructor(
 
     override fun setFavoriteStatus(user: String, id: String, status: Boolean) {
         TODO("Not yet implemented")
+    }
+
+    override suspend fun getRecipePreview(filters: Filters): Flow<PagingData<RecipePreview>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 5,
+                enablePlaceholders = false,
+                initialLoadSize = 5
+            ),
+            pagingSourceFactory = { RecipePreviewDataSource(database, filters) }
+        ).flow
     }
 
 

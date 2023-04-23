@@ -11,6 +11,7 @@
     <!-- for text -->
     <dimen name="text_title">18sp</dimen>
     <dimen name="text_title_category">14sp</dimen>
+    <dimen name="text_warning">12sp</dimen>
 
     <!-- for item category -->
     <dimen name="card_category_width">104dp</dimen>
@@ -41,6 +42,15 @@
     <dimen name="card_new_margin_text_top">4dp</dimen>
     <dimen name="card_new_margin_text_start">8dp</dimen>
 
+    <!-- for item recipe_preview -->
+    <dimen name="card_preview_height_image">152dp</dimen>
+    <dimen name="card_preview_width_image">328dp</dimen>
+    <dimen name="card_preview_width_timer">72dp</dimen>
+    <dimen name="card_preview_corner_radius">20dp</dimen>
+    <dimen name="card_preview_margin_text">4dp</dimen>
+    <dimen name="card_preview_margin_image">8dp</dimen>
+    <dimen name="card_preview_margin_kkal">104dp</dimen>
+
     <!-- for SearchView -->
     <dimen name="search_corner_radius">30dp</dimen>
     <dimen name="search_height">40dp</dimen>
@@ -49,6 +59,7 @@
     <!-- for ProgressBar -->
     <dimen name="progress_bar_dimen">50dp</dimen>
     <dimen name="progress_bar_elevation">12dp</dimen>
+    <dimen name="progress_bar_size">32dp</dimen>
 
     <!-- for FAB -->
     <dimen name="FAB_margin">8dp</dimen>

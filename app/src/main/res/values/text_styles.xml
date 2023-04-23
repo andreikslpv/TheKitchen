@@ -18,5 +18,11 @@
         <item name="android:gravity">start</item>
     </style>
 
+    <style name="TextWarning">
+        <item name="android:textSize">@dimen/text_warning</item>
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:gravity">start</item>
+    </style>
+
 
 </resources>

@@ -4,10 +4,7 @@ package com.andreikslpv.thekitchen.di
  import com.andreikslpv.thekitchen.presentation.ui.MainActivity
  import com.andreikslpv.thekitchen.presentation.ui.fragments.AuthFragment
  import com.andreikslpv.thekitchen.presentation.ui.fragments.HomeFragment
- import com.andreikslpv.thekitchen.presentation.vm.AuthViewModel
- import com.andreikslpv.thekitchen.presentation.vm.HomeViewModel
- import com.andreikslpv.thekitchen.presentation.vm.MainViewModel
- import com.andreikslpv.thekitchen.presentation.vm.ProfileViewModel
+ import com.andreikslpv.thekitchen.presentation.vm.*
  import dagger.BindsInstance
  import dagger.Component
  import javax.inject.Singleton
@@ -29,4 +26,5 @@ interface AppComponent {
     fun inject(mainViewModel: MainViewModel)
     fun inject(profileViewModel: ProfileViewModel)
     fun inject(homeViewModel: HomeViewModel)
+    fun inject(catalogViewModel: CatalogViewModel)
 }

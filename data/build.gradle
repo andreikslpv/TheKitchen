@@ -28,18 +28,19 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    namespace 'com.andreikslpv.thekitchen.data'
 }
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.core:core-ktx:1.10.0'
     implementation project(path: ':domain')
     // Kotlin Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
     //Dagger
-    implementation 'com.google.dagger:dagger:2.44.2'
-    kapt 'com.google.dagger:dagger-compiler:2.44.2'
+    implementation 'com.google.dagger:dagger:2.45'
+    kapt 'com.google.dagger:dagger-compiler:2.45'
     // portable dependency injection annotations
     implementation 'javax.inject:javax.inject:1'
 

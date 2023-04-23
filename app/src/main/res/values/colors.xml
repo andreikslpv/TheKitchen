@@ -11,6 +11,8 @@
     <!-- project colors   -->
     <color name="black_light">#363636</color>
     <color name="background_main">#F2F5F9</color>
+    <color name="purple">#6E479F</color>
+    <color name="lime">#CEFE8F</color>
 
 
 
