@@ -36,7 +36,7 @@
     <dimen name="margin_control">40dp</dimen>
 
 
-    <dimen name="main_radius_card">24dp</dimen>
+    <dimen name="main_radius_card">28dp</dimen>
 
 
     <!-- for item recipe_new -->
@@ -68,6 +68,7 @@
 
     <!-- for chips -->
     <dimen name="chip_stroke_width">1dp</dimen>
+    <dimen name="chip_corner_radius">8dp</dimen>
 
     <!-- for FAB -->
     <dimen name="FAB_margin">8dp</dimen>

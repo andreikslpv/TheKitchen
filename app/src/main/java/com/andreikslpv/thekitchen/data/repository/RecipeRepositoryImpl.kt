@@ -6,10 +6,17 @@ import androidx.paging.PagingData
 import com.andreikslpv.thekitchen.data.Mappers
 import com.andreikslpv.thekitchen.data.dao.CategoryDao
 import com.andreikslpv.thekitchen.data.dao.UpdateDao
+import com.andreikslpv.thekitchen.data.datasource.PAGE_SIZE
 import com.andreikslpv.thekitchen.data.datasource.RecipePreviewDataSource
 import com.andreikslpv.thekitchen.data.db.FirestoreConstants
 import com.andreikslpv.thekitchen.domain.RecipeRepository
-import com.andreikslpv.thekitchen.domain.models.*
+import com.andreikslpv.thekitchen.domain.models.Category
+import com.andreikslpv.thekitchen.domain.models.CategoryType
+import com.andreikslpv.thekitchen.domain.models.CategoryTypeDB
+import com.andreikslpv.thekitchen.domain.models.Filters
+import com.andreikslpv.thekitchen.domain.models.FiltersSeparated
+import com.andreikslpv.thekitchen.domain.models.RecipePreview
+import com.andreikslpv.thekitchen.domain.models.Response
 import com.andreikslpv.thekitchen.presentation.utils.Constants
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
@@ -100,13 +107,51 @@ class RecipeRepositoryImpl @Inject constructor(
     override suspend fun getRecipePreview(filters: Filters): Flow<PagingData<RecipePreview>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 5,
+                pageSize = PAGE_SIZE,
                 enablePlaceholders = false,
-                initialLoadSize = 5
+                initialLoadSize = PAGE_SIZE
             ),
-            pagingSourceFactory = { RecipePreviewDataSource(database, filters) }
+            pagingSourceFactory = {
+                RecipePreviewDataSource(
+                    database,
+                    separateFiltersByCategory(filters)
+                )
+            }
         ).flow
     }
 
+    private fun separateFiltersByCategory(filters: Filters): FiltersSeparated {
+        val filtersSeparated = FiltersSeparated()
+        // Проходимся по всему списку выбранных рецептов
+        filters.getCategoriesList().forEach { filter ->
+            currentCategoryList.value.forEach { category ->
+                if (category.id == filter) {
 
+                    if (category.type == CategoryType.DISH.value)
+                        filtersSeparated.categoriesDish.add(filter)
+
+                    if (category.type == CategoryType.TIME.value) {
+                        when (filter) {
+                            "ca00001" -> filtersSeparated.categoriesTime = 30
+                            "ca00002" -> filtersSeparated.categoriesTime = 40
+                            "ca00003" -> filtersSeparated.categoriesTime = 60
+                            else -> {}
+                        }
+                    }
+
+                    if (category.type == CategoryType.EXCLUDE.value) {
+                        filtersSeparated.categoriesExclude.add(filter)
+                    }
+                }
+            }
+        }
+
+        //Если категории типа блюд не заданы, то для запроса в БД считаем что выбраны все типы блюд
+        if (filtersSeparated.categoriesDish.isEmpty())
+            filtersSeparated.categoriesDish = currentCategoryList.value
+                .filter { it.type == CategoryType.DISH.value }
+                .map { it.id } as ArrayList<String>
+
+        return filtersSeparated
+    }
 }

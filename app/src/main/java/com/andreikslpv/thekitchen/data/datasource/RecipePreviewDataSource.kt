@@ -3,62 +3,67 @@ package com.andreikslpv.thekitchen.data.datasource
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.andreikslpv.thekitchen.data.db.FirestoreConstants
-import com.andreikslpv.thekitchen.domain.models.Filters
+import com.andreikslpv.thekitchen.domain.models.FiltersSeparated
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
+const val PAGE_SIZE = 5
+
 class RecipePreviewDataSource @Inject constructor(
     private val database: FirebaseFirestore,
-    private val filters: Filters,
-) : PagingSource<String, RecipePreview>() {
-    private val defaultPage = RecipePreview().id
-    private val step = defaultPage
-    private val pageSize = 5
-    private val defaultOrderingBy = "id"
+    private val filters: FiltersSeparated,
+) : PagingSource<Int, RecipePreview>() {
+    private val defaultPage = 0
 
-    override fun getRefreshKey(state: PagingState<String, RecipePreview>) = defaultPage
+    override fun getRefreshKey(state: PagingState<Int, RecipePreview>): Int = defaultPage
 
-    override suspend fun load(params: LoadParams<String>): LoadResult<String, RecipePreview> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, RecipePreview> {
         try {
-            val pageNumber = params.key ?: step
             val collection = database.collection(FirestoreConstants.PATH_RECIPE_PREVIEW)
-            val query = if (filters.getCategories().isNotEmpty())
-                getQueryWithCategories(collection)
-            else getQueryWithoutCategories(collection)
+
+            val query = collection
+                .whereArrayContainsAny("categoriesDish", filters.categoriesDish)
+                .whereLessThanOrEqualTo("time", filters.categoriesTime)
 
             val result = query
-                .orderBy(defaultOrderingBy)
-                .startAfter(pageNumber)
-                .limit(pageSize.toLong())
                 .get()
                 .await()
 
-            val tempList = result.documents.mapNotNull {
-                it.toObject(RecipePreview::class.java)
-            }
+            val tempList = result.documents
+                .mapNotNull { it.toObject(RecipePreview::class.java) }
+                .filter { it.id != RecipePreview().id }
+
+            //println("AAA load: $tempList")
 
             return LoadResult.Page(
                 data = tempList,
                 prevKey = null,
-                nextKey = if (tempList.size >= pageSize) tempList.last().id else null
+                nextKey = null
             )
 
         } catch (e: Exception) {
+            println("AAA error: ${e.message}")
             return LoadResult.Error(e)
         }
     }
 
-    private fun getQueryWithCategories(collection: CollectionReference) =
-        collection.whereNotEqualTo(defaultOrderingBy, defaultPage)
-            .whereArrayContains("categories", filters.getCategories())
 
-    private fun getQueryWithoutCategories(collection: CollectionReference) =
-        collection.whereNotEqualTo(defaultOrderingBy, defaultPage)
-
-    private fun getQueryWithSearch(query: Query) = query.whereEqualTo("name", filters.query)
+//    private fun Query.getQueryWithExclude(): Query {
+//        val filter = arrayListOf<Filter>()
+//        // отфильтровываем категории ограничений
+//        val temp = filters.categoriesExclude.filter {
+//            it.type == CategoryType.EXCLUDE.value
+//        }
+//        // если категории ограничений есть, то добавляем их в фильтр И
+//        if (temp.isNotEmpty()) {
+//            temp.forEach {
+//                filter.add(equalTo(it.id, true))
+//            }
+//            this.where(and(*filter.toTypedArray()))
+//        }
+//        return this
+//    }
 
 }

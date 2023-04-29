@@ -7,6 +7,6 @@ fun String.makeToast(context: Context) {
     Toast.makeText(
         context,
         this,
-        Toast.LENGTH_SHORT
+        Toast.LENGTH_LONG
     ).show()
 }
