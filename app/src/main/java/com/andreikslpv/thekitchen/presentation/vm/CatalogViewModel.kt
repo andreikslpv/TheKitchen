@@ -5,6 +5,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.domain.RecipeRepository
+import com.andreikslpv.thekitchen.domain.models.Category
 import com.andreikslpv.thekitchen.domain.models.Filters
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -20,12 +21,19 @@ class CatalogViewModel: ViewModel()  {
 
     val recipes: Flow<PagingData<RecipePreview>>
 
-    private val filters = MutableLiveData(Filters())
+    private val _filters = MutableLiveData(Filters())
+    val filters: LiveData<Filters> = _filters
+
+    val categories = liveData {
+        repository.getAllCategories().collect { response ->
+            emit(response)
+        }
+    }
 
     init {
         App.instance.dagger.inject(this)
 
-        recipes = filters
+        recipes = _filters
             .asFlow()
             .flatMapLatest {
                 repository.getRecipePreview(it)
@@ -34,8 +42,27 @@ class CatalogViewModel: ViewModel()  {
             .cachedIn(viewModelScope)
     }
 
+    fun getCategoryById(id: String): Category? {
+        categories.value?.forEach {
+            if (it.id == id) return it
+        }
+        return null
+    }
+
+    fun addFilters(filtersArray: Array<String>?) {
+        filtersArray?.let {
+            _filters.value?.addCategories(it)
+            refresh()
+        }
+    }
+
+    fun removeFilter(category: String) {
+        _filters.value?.removeCategory(category)
+        refresh()
+    }
+
     fun refresh() {
-        this.filters.postValue(Filters(query="wefwef"))
+        _filters.postValue(_filters.value)
     }
 
 }

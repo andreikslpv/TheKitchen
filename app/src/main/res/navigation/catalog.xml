@@ -11,17 +11,29 @@
         android:label="fragment_catalog"
         tools:layout="@layout/fragment_catalog" >
         <action
-            android:id="@+id/action_catalogFragment2_to_filtersFragment"
+            android:id="@+id/action_catalogFragment2_to_filtersFragment2"
             app:destination="@id/filtersFragment" />
-        <action
-            android:id="@+id/action_catalogFragment2_to_recipeFragment2"
-            app:destination="@id/recipeFragment2" />
+        <argument
+            android:name="filters"
+            app:argType="string[]"
+            app:nullable="true"
+            android:defaultValue="@null" />
+
     </fragment>
     <fragment
         android:id="@+id/filtersFragment"
         android:name="com.andreikslpv.thekitchen.presentation.ui.fragments.FiltersFragment"
-        android:label="fragment_filters"
-        tools:layout="@layout/fragment_filters" />
+        android:label="@string/filters"
+        tools:layout="@layout/fragment_filters">
+        <argument
+            android:name="filters"
+            android:defaultValue="@null"
+            app:argType="string[]"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_filtersFragment_to_catalogFragment2"
+            app:destination="@id/catalogFragment2" />
+    </fragment>
     <fragment
         android:id="@+id/recipeFragment2"
         android:name="com.andreikslpv.thekitchen.presentation.ui.fragments.RecipeFragment"

@@ -6,11 +6,19 @@ import androidx.paging.PagingData
 import com.andreikslpv.thekitchen.data.Mappers
 import com.andreikslpv.thekitchen.data.dao.CategoryDao
 import com.andreikslpv.thekitchen.data.dao.UpdateDao
+import com.andreikslpv.thekitchen.data.datasource.PAGE_SIZE
 import com.andreikslpv.thekitchen.data.datasource.RecipePreviewDataSource
 import com.andreikslpv.thekitchen.data.db.FirestoreConstants
 import com.andreikslpv.thekitchen.domain.RecipeRepository
-import com.andreikslpv.thekitchen.domain.models.*
+import com.andreikslpv.thekitchen.domain.models.Category
+import com.andreikslpv.thekitchen.domain.models.CategoryType
+import com.andreikslpv.thekitchen.domain.models.CategoryTypeDB
+import com.andreikslpv.thekitchen.domain.models.Filters
+import com.andreikslpv.thekitchen.domain.models.FiltersSeparated
+import com.andreikslpv.thekitchen.domain.models.RecipePreview
+import com.andreikslpv.thekitchen.domain.models.Response
 import com.andreikslpv.thekitchen.presentation.utils.Constants
+import com.andreikslpv.thekitchen.presentation.utils.getOnlyDigital
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +36,6 @@ class RecipeRepositoryImpl @Inject constructor(
 ) : RecipeRepository {
 
     private val currentCategoryList = MutableStateFlow(emptyList<Category>())
-    private val currentCategories = MutableStateFlow<Response<List<Category>>>(Response.Loading)
 
     override suspend fun getCategoriesByType(type: String) = flow {
         try {
@@ -44,27 +51,6 @@ class RecipeRepositoryImpl @Inject constructor(
     override suspend fun getAllCategories() = currentCategoryList
 
     override fun updateLocalData(path: String) {
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val collection = database.collection(FirestoreConstants.PATH_CATEGORY)
-//            collection.addSnapshotListener { value, error ->
-//                CoroutineScope(Dispatchers.IO).launch {
-//                    currentCategories.emit(Response.Loading)
-//                    if (error != null) {
-//                        currentCategories.emit(
-//                            Response.Failure(
-//                                error.localizedMessage ?: Constants.ERROR_MESSAGE
-//                            )
-//                        )
-//                    } else {
-//                        currentCategoryList.emit(
-//                            value?.documents?.mapNotNull {
-//                                it.toObject(Category::class.java)
-//                            } ?: emptyList()
-//                        )
-//                    }
-//                }
-//            }
-//        }
         when (path) {
             FirestoreConstants.PATH_CATEGORY_TYPE -> updateCategoryTypes()
             FirestoreConstants.PATH_CATEGORY -> updateCategories()
@@ -122,13 +108,51 @@ class RecipeRepositoryImpl @Inject constructor(
     override suspend fun getRecipePreview(filters: Filters): Flow<PagingData<RecipePreview>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 5,
+                pageSize = PAGE_SIZE,
                 enablePlaceholders = false,
-                initialLoadSize = 5
+                initialLoadSize = PAGE_SIZE
             ),
-            pagingSourceFactory = { RecipePreviewDataSource(database, filters) }
+            pagingSourceFactory = {
+                RecipePreviewDataSource(
+                    database,
+                    separateFiltersByCategory(filters)
+                )
+            }
         ).flow
     }
 
+    private fun separateFiltersByCategory(filters: Filters): FiltersSeparated {
+        val filtersSeparated = FiltersSeparated()
+        // Проходимся по всему списку выбранных рецептов
+        filters.getCategoriesList().forEach { filter ->
+            currentCategoryList.value.forEach { category ->
+                if (category.id == filter) {
 
+                    if (category.type == CategoryType.DISH.value)
+                        filtersSeparated.categoriesDish.add(filter)
+
+                    if (category.type == CategoryType.TIME.value) {
+                        filtersSeparated.timeLimit = getTimeFromCategoryName(category.name)
+                    }
+
+                    if (category.type == CategoryType.EXCLUDE.value) {
+                        filtersSeparated.categoriesExclude.add(filter)
+                    }
+                }
+            }
+        }
+
+        //Если категории типа блюд не заданы, то для запроса в БД считаем что выбраны все типы блюд
+        if (filtersSeparated.categoriesDish.isEmpty())
+            filtersSeparated.categoriesDish = currentCategoryList.value
+                .filter { it.type == CategoryType.DISH.value }
+                .map { it.id } as ArrayList<String>
+
+        return filtersSeparated
+    }
+
+    private fun getTimeFromCategoryName(name: String): Int {
+        val result = name.getOnlyDigital()
+        return if (result > 0) result else FiltersSeparated().timeLimit
+    }
 }

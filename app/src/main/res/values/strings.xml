@@ -11,6 +11,7 @@
     //Toolbar menu
     <string name="profile">Профиль</string>
     <string name="filters">Фильтры</string>
+    <string name="erase">Сбросить</string>
 
     //Home titles
     <string name="home_title_catalog">Каталог</string>
@@ -22,6 +23,12 @@
     <string name="time">%d мин</string>
     <string name="kkal">%d Ккал в порции</string>
     <string name="retry_button">Нажмите для перезагрузки</string>
+
+    //Filters titles
+    <string name="filters_title_time">Время готовки</string>
+    <string name="filters_title_dish">Категории</string>
+    <string name="filters_title_exclude">Ограничения</string>
+    <string name="filters_applay_button">Применить</string>
 
 
     //Menu Items

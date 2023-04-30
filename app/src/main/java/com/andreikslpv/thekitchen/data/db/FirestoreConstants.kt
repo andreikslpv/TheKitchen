@@ -8,4 +8,5 @@ object FirestoreConstants {
     const val PATH_RECIPE_PREVIEW = "recipe_preview"
     const val PATH_RECIPE_DETAILS = "recipe_details"
     const val PATH_UNIT = "unit"
+    const val PATH_EXCLUDE = "exclude"
 }

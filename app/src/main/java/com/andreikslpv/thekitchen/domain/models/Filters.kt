@@ -4,18 +4,24 @@ data class Filters(
     val query: String = "",
     private val categories: ArrayList<String> = arrayListOf(),
 ) {
+
+    fun addCategories(categoryArray: Array<String>) {
+        categories.clear()
+        categories.addAll(categoryArray)
+    }
+
     fun addCategory(category: String) {
         if (categories.contains(category)) return
         else categories.add(category)
-        println("I/o adding: $categories")
     }
 
     fun removeCategory(category: String) {
         if (!categories.contains(category)) return
         else categories.remove(category)
-        println("I/o removing: $categories")
     }
 
-    fun getCategories() = categories
+    fun getCategoriesList() = categories
+
+    fun getCategoriesArray() = categories.toTypedArray()
 }
 

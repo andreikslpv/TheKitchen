@@ -4,14 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.domain.RecipeRepository
-import com.andreikslpv.thekitchen.domain.models.CategoryType
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipeNewUseCase
-import com.andreikslpv.thekitchen.domain.usecases.InitApplicationSettingsUseCase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
-class HomeViewModel : ViewModel()  {
+class HomeViewModel : ViewModel() {
 
     @Inject
     lateinit var repository: RecipeRepository
@@ -21,18 +18,6 @@ class HomeViewModel : ViewModel()  {
 
     init {
         App.instance.dagger.inject(this)
-    }
-
-    fun getCategoriesDish() = liveData(Dispatchers.IO) {
-        repository.getCategoriesByType(CategoryType.DISH.value).collect { response ->
-            emit(response)
-        }
-    }
-
-    fun getCategoriesTime() = liveData(Dispatchers.IO) {
-        repository.getCategoriesByType(CategoryType.TIME.value).collect { response ->
-            emit(response)
-        }
     }
 
     fun getAllCategories() = liveData(Dispatchers.IO) {
