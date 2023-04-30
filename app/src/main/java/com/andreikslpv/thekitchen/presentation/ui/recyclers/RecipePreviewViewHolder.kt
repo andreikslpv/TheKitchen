@@ -13,6 +13,7 @@ class RecipePreviewViewHolder(val binding: ItemRecipePreviewBinding) :
 
     fun bind(recipe: RecipePreview) {
         binding.itemTitle.text = recipe.name
+        binding.itemWarning.visible(recipe.isContainExclude)
         Glide.with(itemView)
             .load(recipe.imagePreview)
             .centerCrop()

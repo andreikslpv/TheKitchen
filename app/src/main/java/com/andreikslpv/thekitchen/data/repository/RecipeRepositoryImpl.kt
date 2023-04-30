@@ -18,6 +18,7 @@ import com.andreikslpv.thekitchen.domain.models.FiltersSeparated
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
 import com.andreikslpv.thekitchen.domain.models.Response
 import com.andreikslpv.thekitchen.presentation.utils.Constants
+import com.andreikslpv.thekitchen.presentation.utils.getOnlyDigital
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -131,12 +132,7 @@ class RecipeRepositoryImpl @Inject constructor(
                         filtersSeparated.categoriesDish.add(filter)
 
                     if (category.type == CategoryType.TIME.value) {
-                        when (filter) {
-                            "ca00001" -> filtersSeparated.categoriesTime = 30
-                            "ca00002" -> filtersSeparated.categoriesTime = 40
-                            "ca00003" -> filtersSeparated.categoriesTime = 60
-                            else -> {}
-                        }
+                        filtersSeparated.timeLimit = getTimeFromCategoryName(category.name)
                     }
 
                     if (category.type == CategoryType.EXCLUDE.value) {
@@ -153,5 +149,10 @@ class RecipeRepositoryImpl @Inject constructor(
                 .map { it.id } as ArrayList<String>
 
         return filtersSeparated
+    }
+
+    private fun getTimeFromCategoryName(name: String): Int {
+        val result = name.getOnlyDigital()
+        return if (result > 0) result else FiltersSeparated().timeLimit
     }
 }

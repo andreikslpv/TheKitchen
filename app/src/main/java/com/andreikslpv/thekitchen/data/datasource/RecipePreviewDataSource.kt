@@ -23,19 +23,22 @@ class RecipePreviewDataSource @Inject constructor(
         try {
             val collection = database.collection(FirestoreConstants.PATH_RECIPE_PREVIEW)
 
-            val query = collection
+            val result = collection
                 .whereArrayContainsAny("categoriesDish", filters.categoriesDish)
-                .whereLessThanOrEqualTo("time", filters.categoriesTime)
-
-            val result = query
+                .whereLessThanOrEqualTo("time", filters.timeLimit)
                 .get()
                 .await()
 
             val tempList = result.documents
                 .mapNotNull { it.toObject(RecipePreview::class.java) }
                 .filter { it.id != RecipePreview().id }
-
-            //println("AAA load: $tempList")
+                .map {
+                    if (filters.categoriesExclude.isNotEmpty())
+                        if (!it.categoriesExclude.containsAll(filters.categoriesExclude))
+                            it.isContainExclude = true
+                    it
+                }
+                .sortedBy { it.isContainExclude }
 
             return LoadResult.Page(
                 data = tempList,
@@ -48,22 +51,5 @@ class RecipePreviewDataSource @Inject constructor(
             return LoadResult.Error(e)
         }
     }
-
-
-//    private fun Query.getQueryWithExclude(): Query {
-//        val filter = arrayListOf<Filter>()
-//        // отфильтровываем категории ограничений
-//        val temp = filters.categoriesExclude.filter {
-//            it.type == CategoryType.EXCLUDE.value
-//        }
-//        // если категории ограничений есть, то добавляем их в фильтр И
-//        if (temp.isNotEmpty()) {
-//            temp.forEach {
-//                filter.add(equalTo(it.id, true))
-//            }
-//            this.where(and(*filter.toTypedArray()))
-//        }
-//        return this
-//    }
 
 }
