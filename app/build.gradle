@@ -59,10 +59,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-config-ktx'
     implementation 'com.google.firebase:firebase-storage-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
-
     //Dagger
     implementation dagger
-    implementation 'androidx.core:core-ktx:1.10.0'
     kapt daggerCompiler
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.15.1'

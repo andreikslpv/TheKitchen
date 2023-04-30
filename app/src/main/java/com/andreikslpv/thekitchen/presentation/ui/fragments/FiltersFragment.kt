@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.ui.setupWithNavController
 import com.andreikslpv.thekitchen.R
 import com.andreikslpv.thekitchen.databinding.FragmentFiltersBinding
 import com.andreikslpv.thekitchen.domain.models.Category
@@ -29,6 +30,8 @@ class FiltersFragment : BaseFragment<FragmentFiltersBinding>(FragmentFiltersBind
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.filtersToolbar.setupWithNavController(findNavController())
 
         initCollectCategoriesList()
         initCollectChoosenFilter()
