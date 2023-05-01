@@ -5,7 +5,6 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import androidx.paging.PagingData
@@ -191,10 +190,10 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
     private fun initFiltersButton() {
         binding.catalogToolbar.menu.findItem(R.id.fitersButton).setOnMenuItemClickListener {
             // запускаем Filters и передаем в него список уже установленных фильтров
-            val direction = CatalogFragmentDirections.actionCatalogFragment2ToFiltersFragment2(
-                viewModel.filters.value?.getCategoriesArray()
-            )
-            findNavController().navigate(direction)
+//            val direction = CatalogFragmentDirections.actionCatalogFragment2ToFiltersFragment2(
+//                viewModel.filters.value?.getCategoriesArray()
+//            )
+//            findNavController().navigate(direction)
             true
         }
     }

@@ -44,4 +44,12 @@ class RecipeNewRecyclerAdapter(
         diffResult.dispatchUpdatesTo(this)
     }
 
+    fun changeFavorites(favorites: List<String>) {
+        val newList = items.map {
+            it.isFavorite = favorites.contains(it.id)
+            it
+        }
+        changeItems(newList)
+    }
+
 }

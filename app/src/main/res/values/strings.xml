@@ -17,6 +17,8 @@
     <string name="home_title_catalog">Каталог</string>
     <string name="home_title_catalog_time">Быстрые рецепты</string>
     <string name="home_title_new">Попробуйте новое</string>
+    <string name="home_snackbar_text">Добавление рецептов в Избранное доступно только для авторизованных пользователей</string>
+    <string name="home_snackbar_action">Авторизоваться</string>
 
     //Recipe Preview
     <string name="warning">Содержит исключенный ингредиент</string>

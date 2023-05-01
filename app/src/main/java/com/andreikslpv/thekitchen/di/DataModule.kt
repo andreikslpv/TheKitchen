@@ -6,8 +6,10 @@ import com.andreikslpv.thekitchen.data.dao.UpdateDao
 import com.andreikslpv.thekitchen.data.repository.AuthRepository
 import com.andreikslpv.thekitchen.data.repository.RecipeRepositoryImpl
 import com.andreikslpv.thekitchen.data.repository.SettingsRepositoryImpl
+import com.andreikslpv.thekitchen.data.repository.UserRepositoryImpl
 import com.andreikslpv.thekitchen.domain.RecipeRepository
 import com.andreikslpv.thekitchen.domain.SettingsRepository
+import com.andreikslpv.thekitchen.domain.UserRepository
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -25,6 +27,14 @@ class DataModule {
         googleSignInClient: GoogleSignInClient
     ): AuthRepository {
         return AuthRepository(auth, googleSignInClient)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserRepository(
+        database: FirebaseFirestore,
+    ): UserRepository {
+        return UserRepositoryImpl(database)
     }
 
     @Provides

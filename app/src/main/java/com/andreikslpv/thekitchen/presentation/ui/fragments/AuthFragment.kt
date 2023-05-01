@@ -72,11 +72,37 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>(FragmentAuthBinding::infl
             when (response) {
                 is Response.Loading -> binding.progressBar.show()
                 is Response.Success -> {
-                    startTabsFragment()
-                    binding.progressBar.hide()
+//                    startTabsFragment()
+//                    binding.progressBar.hide()
+
+
+                    val isNewUser = response.data
+                    if (isNewUser) {
+                        createUser()
+                    } else {
+                        startTabsFragment()
+                        binding.progressBar.hide()
+                    }
                 }
                 is Response.Failure -> {
                     print(response.errorMessage)
+                    binding.progressBar.hide()
+                }
+            }
+        }
+    }
+
+    private fun createUser() {
+        viewModel.createUser().observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Response.Loading -> binding.progressBar.show()
+                is Response.Success -> {
+                    startTabsFragment()
+                    binding.progressBar.hide()
+                }
+
+                is Response.Failure -> {
+                    println("AAA createUser ${response.errorMessage}")
                     binding.progressBar.hide()
                 }
             }

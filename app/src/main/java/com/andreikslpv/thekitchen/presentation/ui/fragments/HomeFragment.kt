@@ -13,7 +13,6 @@ import com.andreikslpv.thekitchen.databinding.FragmentHomeBinding
 import com.andreikslpv.thekitchen.domain.models.CategoryType
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
 import com.andreikslpv.thekitchen.domain.models.Response
-import com.andreikslpv.thekitchen.presentation.ui.MainActivity
 import com.andreikslpv.thekitchen.presentation.ui.base.BaseFragment
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.CategoryRecyclerAdapter
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.ItemClickListener
@@ -23,6 +22,7 @@ import com.andreikslpv.thekitchen.presentation.ui.recyclers.itemDecoration.Space
 import com.andreikslpv.thekitchen.presentation.utils.findTopNavController
 import com.andreikslpv.thekitchen.presentation.utils.makeToast
 import com.andreikslpv.thekitchen.presentation.vm.HomeViewModel
+import com.google.android.material.snackbar.Snackbar
 
 /**
  * A simple [Fragment] subclass.
@@ -77,27 +77,39 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 }
             }
         }
+
+        viewModel.currentUserFromDb.observe(viewLifecycleOwner) { response ->
+            binding.progressBar.show()
+            recipeNewAdapter.changeFavorites(response.favorites.toList())
+            recipeNewAdapter.notifyDataSetChanged()
+            binding.progressBar.hide()
+        }
     }
 
     private fun initRecyclers() {
         binding.homeRecyclerRecipe.apply {
-            recipeNewAdapter =
-                RecipeNewRecyclerAdapter(
-                    object : RecipeItemClickListener {
-                        override fun click(recipePreview: RecipePreview) {
+            recipeNewAdapter = RecipeNewRecyclerAdapter(
+                object : RecipeItemClickListener {
+                    override fun click(recipePreview: RecipePreview) {
 //                            viewLifecycleOwner.lifecycleScope.launch {
 //                                removePhotoFromFavoritesUseCase.execute(photo.id)
 //                            }
-                        }
-                    },
-                    object : ItemClickListener {
-                        override fun click(id: String) {
-//                            viewLifecycleOwner.lifecycleScope.launch {
-//                                removePhotoFromFavoritesUseCase.execute(photo.id)
-//                            }
-                        }
                     }
-                )
+                },
+                object : ItemClickListener {
+                    override fun click(id: String) {
+                        if (viewModel.currentUserFromAuth != null)
+                            viewModel.changeFavoritesStatus(id)
+                        else Snackbar.make(
+                            binding.root,
+                            R.string.home_snackbar_text,
+                            Snackbar.LENGTH_LONG
+                        )
+                            .setAction(R.string.home_snackbar_action) { goToAuthFragment() }
+                            .show()
+                    }
+                }
+            )
             adapter = recipeNewAdapter
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -107,17 +119,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
 
         binding.homeRecyclerCategory.apply {
-            categoryDishAdapter =
-                CategoryRecyclerAdapter(
-                    object : ItemClickListener {
-                        override fun click(id: String) {
+            categoryDishAdapter = CategoryRecyclerAdapter(
+                object : ItemClickListener {
+                    override fun click(id: String) {
 //                            viewLifecycleOwner.lifecycleScope.launch {
 //                                removePhotoFromFavoritesUseCase.execute(photo.id)
 //                            }
-                        }
-                    },
-                    CategoryType.DISH
-                )
+                    }
+                },
+                CategoryType.DISH
+            )
             adapter = categoryDishAdapter
             layoutManager = GridLayoutManager(requireContext(), 3)
             //Применяем декоратор для отступов
@@ -126,17 +137,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         }
 
         binding.homeRecyclerCategoryTime.apply {
-            categoryTimeAdapter =
-                CategoryRecyclerAdapter(
-                    object : ItemClickListener {
-                        override fun click(id: String) {
+            categoryTimeAdapter = CategoryRecyclerAdapter(
+                object : ItemClickListener {
+                    override fun click(id: String) {
 //                            viewLifecycleOwner.lifecycleScope.launch {
 //                                removePhotoFromFavoritesUseCase.execute(photo.id)
 //                            }
-                        }
-                    },
-                    CategoryType.TIME
-                )
+                    }
+                },
+                CategoryType.TIME
+            )
             adapter = categoryTimeAdapter
             layoutManager = GridLayoutManager(requireContext(), 3)
             //Применяем декоратор для отступов
@@ -146,17 +156,27 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     private fun initProfileButton() {
-        if ((requireActivity() as MainActivity).isSignedIn())
+        if (viewModel.currentUserFromAuth != null)
             binding.homeToolbar.menu.findItem(R.id.profileButton).setOnMenuItemClickListener {
                 // для запуска экранов верхнего уровня (graph_main) используем extension
                 findTopNavController().navigate(R.id.profileFragment)
                 true
             }
-        else
-            findTopNavController().navigate(R.id.authFragment, null, navOptions {
-                popUpTo(R.id.tabsFragment) {
-                    inclusive = true
-                }
-            })
+        else goToAuthFragment()
+    }
+
+    private fun goToAuthFragment() {
+        findTopNavController().navigate(R.id.authFragment, null, navOptions {
+            popUpTo(R.id.tabsFragment) {
+                inclusive = true
+            }
+        })
+    }
+
+    private fun goToCatalogFragment() {
+//        val direction = FiltersFragmentDirections.actionFiltersFragmentToCatalogFragment2(
+//            viewModel.filters.value?.getCategoriesArray()
+//        )
+//        findNavController().navigate(direction)
     }
 }

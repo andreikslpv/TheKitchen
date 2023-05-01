@@ -13,7 +13,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.R
-import com.andreikslpv.thekitchen.admin.Categories
 import com.andreikslpv.thekitchen.databinding.ActivityMainBinding
 import com.andreikslpv.thekitchen.domain.usecases.InitApplicationSettingsUseCase
 import com.andreikslpv.thekitchen.presentation.ui.fragments.TabsFragment

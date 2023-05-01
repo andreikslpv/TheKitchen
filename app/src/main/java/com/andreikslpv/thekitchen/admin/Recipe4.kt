@@ -101,7 +101,6 @@ object Recipe4 {
         recipePreview = RecipePreview(
             id = id,
             name = "Грибной суп-пюре из шампиньонов со сливками",
-            categories = arrayListOf("ca00001", "ca00002", "ca00003", "ca00004", "ca00012", "ca00013", "ca00015", "ca00017"),
             categoriesExclude = arrayListOf("ca00012", "ca00013", "ca00015", "ca00017"),
             categoriesDish = arrayListOf("ca00004"),
             time = 30,
@@ -190,7 +189,6 @@ object Recipe4 {
         recipePreview = RecipePreview(
             id = id,
             name = "Суп с фрикадельками и шпинатом",
-            categories = arrayListOf("ca00003", "ca00004", "ca00013", "ca00014", "ca00015", "ca00017"),
             categoriesExclude = arrayListOf("ca00013", "ca00014", "ca00015", "ca00017"),
             categoriesDish = arrayListOf("ca00004"),
             time = 60,
@@ -293,7 +291,6 @@ object Recipe4 {
         recipePreview = RecipePreview(
             id = id,
             name = "Уха по-фински (Финский рыбный суп Лохикейтто)",
-            categories = arrayListOf("ca00003", "ca00004", "ca00012", "ca00013", "ca00015", "ca00017"),
             categoriesExclude = arrayListOf("ca00012", "ca00013", "ca00015", "ca00017"),
             categoriesDish = arrayListOf("ca00004"),
             time = 60,
@@ -399,7 +396,6 @@ object Recipe4 {
         recipePreview = RecipePreview(
             id = id,
             name = "Щи из свежей капусты со свининой",
-            categories = arrayListOf("ca00004", "ca00013", "ca00014", "ca00015"),
             categoriesExclude = arrayListOf("ca00013", "ca00014", "ca00015"),
             categoriesDish = arrayListOf("ca00004"),
             time = 120,
@@ -507,7 +503,6 @@ object Recipe4 {
         recipePreview = RecipePreview(
             id = id,
             name = "Щи из квашеной капусты",
-            categories = arrayListOf("ca00004", "ca00013", "ca00014", "ca00015"),
             categoriesExclude = arrayListOf("ca00013", "ca00014", "ca00015"),
             categoriesDish = arrayListOf("ca00004"),
             time = 150,
@@ -584,7 +579,6 @@ object Recipe4 {
         recipePreview = RecipePreview(
             id = id,
             name = "Суп-пюре из брокколи",
-            categories = arrayListOf("ca00003", "ca00004", "ca00012", "ca00013", "ca00015", "ca00017"),
             categoriesExclude = arrayListOf("ca00012", "ca00013", "ca00015", "ca00017"),
             categoriesDish = arrayListOf("ca00004"),
             time = 60,
@@ -667,7 +661,6 @@ object Recipe4 {
         recipePreview = RecipePreview(
             id = id,
             name = "Рыбный суп-пюре со скумбрией",
-            categories = arrayListOf("ca00002", "ca00003", "ca00004", "ca00012", "ca00013", "ca00015", "ca00017"),
             categoriesExclude = arrayListOf("ca00012", "ca00013", "ca00015", "ca00017"),
             categoriesDish = arrayListOf("ca00004"),
             time = 40,
@@ -750,7 +743,6 @@ object Recipe4 {
         recipePreview = RecipePreview(
             id = id,
             name = "Окрошка с колбасой на кефире",
-            categories = arrayListOf("ca00003", "ca00004", "ca00013", "ca00015"),
             categoriesExclude = arrayListOf("ca00013", "ca00015"),
             categoriesDish = arrayListOf("ca00004"),
             time = 60,
@@ -840,7 +832,6 @@ object Recipe4 {
         recipePreview = RecipePreview(
             id = id,
             name = "Суп с тушенкой",
-            categories = arrayListOf("ca00003", "ca00004", "ca00013", "ca00014", "ca00015", "ca00017"),
             categoriesExclude = arrayListOf("ca00013", "ca00014", "ca00015", "ca00017"),
             categoriesDish = arrayListOf("ca00004"),
             time = 60,
@@ -958,7 +949,6 @@ object Recipe4 {
         recipePreview = RecipePreview(
             id = id,
             name = "Суп Харчо",
-            categories = arrayListOf("ca00004", "ca00013", "ca00014", "ca00015", "ca00017"),
             categoriesExclude = arrayListOf("ca00013", "ca00014", "ca00015", "ca00017"),
             categoriesDish = arrayListOf("ca00004"),
             time = 180,
