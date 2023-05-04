@@ -13,6 +13,7 @@ import com.andreikslpv.thekitchen.databinding.FragmentHomeBinding
 import com.andreikslpv.thekitchen.domain.models.CategoryType
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
 import com.andreikslpv.thekitchen.domain.models.Response
+import com.andreikslpv.thekitchen.presentation.ui.MainActivity
 import com.andreikslpv.thekitchen.presentation.ui.base.BaseFragment
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.CategoryRecyclerAdapter
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.ItemClickListener
@@ -35,6 +36,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private lateinit var recipeNewAdapter: RecipeNewRecyclerAdapter
 
     private val viewModel by viewModels<HomeViewModel>()
+
+//    private val args:  by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -122,9 +125,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             categoryDishAdapter = CategoryRecyclerAdapter(
                 object : ItemClickListener {
                     override fun click(id: String) {
-//                            viewLifecycleOwner.lifecycleScope.launch {
-//                                removePhotoFromFavoritesUseCase.execute(photo.id)
-//                            }
+                        goToCatalogFragment(id)
                     }
                 },
                 CategoryType.DISH
@@ -140,9 +141,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             categoryTimeAdapter = CategoryRecyclerAdapter(
                 object : ItemClickListener {
                     override fun click(id: String) {
-//                            viewLifecycleOwner.lifecycleScope.launch {
-//                                removePhotoFromFavoritesUseCase.execute(photo.id)
-//                            }
+                        goToCatalogFragment(id)
                     }
                 },
                 CategoryType.TIME
@@ -173,10 +172,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         })
     }
 
-    private fun goToCatalogFragment() {
-//        val direction = FiltersFragmentDirections.actionFiltersFragmentToCatalogFragment2(
-//            viewModel.filters.value?.getCategoriesArray()
-//        )
-//        findNavController().navigate(direction)
+    private fun goToCatalogFragment(id: String) {
+        val fragment = requireParentFragment().parentFragment
+        if (fragment is TabsFragment) {
+            fragment.goToCatalog()
+            (requireActivity() as MainActivity).setCategoryFromHome(id)
+        }
     }
 }

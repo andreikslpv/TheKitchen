@@ -5,26 +5,32 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.navOptions
 import androidx.paging.LoadState
 import androidx.paging.PagingData
+import androidx.paging.map
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.andreikslpv.thekitchen.R
 import com.andreikslpv.thekitchen.databinding.FragmentCatalogBinding
 import com.andreikslpv.thekitchen.domain.models.Category
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
+import com.andreikslpv.thekitchen.presentation.ui.MainActivity
 import com.andreikslpv.thekitchen.presentation.ui.base.BaseFragment
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.ItemClickListener
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.RecipeItemClickListener
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.RecipePreviewLoadStateAdapter
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.RecipePreviewPagingAdapter
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.itemDecoration.SpaceItemDecoration
+import com.andreikslpv.thekitchen.presentation.utils.findTopNavController
 import com.andreikslpv.thekitchen.presentation.utils.makeToast
 import com.andreikslpv.thekitchen.presentation.utils.simpleScan
 import com.andreikslpv.thekitchen.presentation.utils.visible
 import com.andreikslpv.thekitchen.presentation.vm.CatalogViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.shape.ShapeAppearanceModel
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
@@ -47,13 +53,22 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
         viewModel.categories.observe(viewLifecycleOwner) {}
         initRecipeListRecycler()
         initCollectRecipe()
-        viewModel.addFilters(args.filters)
+        initCollectFavorites()
+        setFiltersWhenStarting()
         initCollectFilter()
         setupSwipeToRefresh()
         initFiltersButton()
     }
 
-        private fun initCollectFilter() {
+    private fun setFiltersWhenStarting() {
+        val temp = (requireActivity() as MainActivity).getAndEraseCategoryFromHome()
+        if (temp.isNotBlank())
+            viewModel.addFilters(arrayOf(temp))
+        else
+            viewModel.addFilters(args.filters)
+    }
+
+    private fun initCollectFilter() {
         viewModel.filters.observe(viewLifecycleOwner) { filters ->
             binding.catalogFilters.removeAllViews()
             filters.getCategoriesList().forEach { item ->
@@ -101,9 +116,15 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
                 },
                 object : ItemClickListener {
                     override fun click(id: String) {
-//                            viewLifecycleOwner.lifecycleScope.launch {
-//                                removePhotoFromFavoritesUseCase.execute(photo.id)
-//                            }
+                        if (viewModel.currentUserFromAuth != null)
+                            viewModel.changeFavoritesStatus(id)
+                        else Snackbar.make(
+                            binding.root,
+                            R.string.home_snackbar_text,
+                            Snackbar.LENGTH_LONG
+                        )
+                            .setAction(R.string.home_snackbar_action) { goToAuthFragment() }
+                            .show()
                     }
                 }
             )
@@ -123,9 +144,22 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
         handleScrollingToTopWhenSearching()
     }
 
+    private fun initCollectFavorites() {
+        viewModel.currentUserFromDb.observe(viewLifecycleOwner) {
+            binding.catalogProgressBar.visible(true)
+            viewModel.refresh()
+            binding.catalogProgressBar.visible(false)
+        }
+    }
+
     private fun initCollectRecipe() {
         this.lifecycleScope.launch {
             viewModel.recipes.collectLatest { pagedData ->
+                viewModel.currentUserFromDb.value?.favorites?.let { favorites ->
+                    pagedData.map { recipe ->
+                        recipe.isFavorite = favorites.contains(recipe.id)
+                    }
+                }
                 recipePreviewAdapter.submitData(pagedData)
             }
         }
@@ -190,11 +224,19 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
     private fun initFiltersButton() {
         binding.catalogToolbar.menu.findItem(R.id.fitersButton).setOnMenuItemClickListener {
             // запускаем Filters и передаем в него список уже установленных фильтров
-//            val direction = CatalogFragmentDirections.actionCatalogFragment2ToFiltersFragment2(
-//                viewModel.filters.value?.getCategoriesArray()
-//            )
-//            findNavController().navigate(direction)
+            val direction = CatalogFragmentDirections.actionCatalogFragmentToFiltersFragment(
+                viewModel.filters.value?.getCategoriesArray()
+            )
+            findNavController().navigate(direction)
             true
         }
+    }
+
+    private fun goToAuthFragment() {
+        findTopNavController().navigate(R.id.authFragment, null, navOptions {
+            popUpTo(R.id.tabsFragment) {
+                inclusive = true
+            }
+        })
     }
 }

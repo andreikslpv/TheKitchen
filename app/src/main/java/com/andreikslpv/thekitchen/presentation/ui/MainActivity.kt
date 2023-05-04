@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.andreikslpv.thekitchen.App
@@ -103,6 +104,14 @@ class MainActivity : AppCompatActivity() {
         } else {
             navController?.popBackStack()
         }
+    }
+
+    fun setCategoryFromHome(categoryId: String) {
+        viewModel.setCategoryFromHome(categoryId)
+    }
+
+    fun getAndEraseCategoryFromHome(): String {
+        return viewModel.getAndEraseCategoryFromHome()
     }
 
     private fun initApplicationSettings() {

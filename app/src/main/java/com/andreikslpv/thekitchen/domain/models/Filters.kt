@@ -3,6 +3,7 @@ package com.andreikslpv.thekitchen.domain.models
 data class Filters(
     val query: String = "",
     private val categories: ArrayList<String> = arrayListOf(),
+    private val favorites: ArrayList<String> = arrayListOf(),
 ) {
 
     fun addCategories(categoryArray: Array<String>) {

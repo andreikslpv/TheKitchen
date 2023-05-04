@@ -2,7 +2,7 @@ package com.andreikslpv.thekitchen.domain
 
 import androidx.paging.PagingData
 import com.andreikslpv.thekitchen.domain.models.Category
-import com.andreikslpv.thekitchen.domain.models.Filters
+import com.andreikslpv.thekitchen.domain.models.FiltersSeparated
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
 import com.andreikslpv.thekitchen.domain.models.Response
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +18,5 @@ interface RecipeRepository {
 
     suspend fun getRecipeNew(favorites: List<String>): Flow<Response<List<RecipePreview>>>
 
-    fun setFavoriteStatus(user: String, id: String, status: Boolean)
-
-    suspend fun getRecipePreview(filters: Filters): Flow<PagingData<RecipePreview>>
+    suspend fun getRecipePreview(filters: FiltersSeparated): Flow<PagingData<RecipePreview>>
 }
