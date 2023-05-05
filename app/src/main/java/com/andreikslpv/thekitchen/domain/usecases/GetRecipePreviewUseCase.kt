@@ -2,7 +2,6 @@ package com.andreikslpv.thekitchen.domain.usecases
 
 import androidx.paging.PagingData
 import com.andreikslpv.thekitchen.domain.RecipeRepository
-import com.andreikslpv.thekitchen.domain.UserRepository
 import com.andreikslpv.thekitchen.domain.models.CategoryType
 import com.andreikslpv.thekitchen.domain.models.Filters
 import com.andreikslpv.thekitchen.domain.models.FiltersSeparated
@@ -11,7 +10,6 @@ import kotlinx.coroutines.flow.Flow
 
 class GetRecipePreviewUseCase(
     private val recipeRepository: RecipeRepository,
-    private val userRepository: UserRepository,
 ) {
     suspend fun execute(filters: Filters): Flow<PagingData<RecipePreview>> {
         val filtersSeparated = FiltersSeparated()

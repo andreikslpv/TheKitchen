@@ -108,7 +108,7 @@ class RecipeRepositoryImpl @Inject constructor(
             pagingSourceFactory = {
                 RecipePreviewDataSource(
                     database,
-                    filters
+                    filters,
                 )
             }
         ).flow

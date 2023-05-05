@@ -11,10 +11,14 @@ import com.andreikslpv.thekitchen.domain.models.Category
 import com.andreikslpv.thekitchen.domain.models.Filters
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipePreviewUseCase
+import com.andreikslpv.thekitchen.domain.usecases.GetUserFromDbUseCase
+import com.andreikslpv.thekitchen.domain.usecases.TryToChangeFavoritesStatusUseCase
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -32,6 +36,12 @@ class CatalogViewModel : ViewModel() {
     @Inject
     lateinit var getRecipePreviewUseCase: GetRecipePreviewUseCase
 
+    @Inject
+    lateinit var getUserFromDbUseCase: GetUserFromDbUseCase
+
+    @Inject
+    lateinit var tryToChangeFavoritesStatusUseCase: TryToChangeFavoritesStatusUseCase
+
     val recipes: Flow<PagingData<RecipePreview>>
 
     private val _filters = MutableLiveData(Filters())
@@ -40,18 +50,6 @@ class CatalogViewModel : ViewModel() {
     val categories = liveData {
         repository.getAllCategories().collect { response ->
             emit(response)
-        }
-    }
-
-    val currentUserFromAuth by lazy {
-        authRepository.getCurrentUser()
-    }
-
-    val currentUserFromDb = liveData(Dispatchers.IO) {
-        authRepository.getCurrentUser()?.let {
-            userRepository.getCurrentUser(it.uid).collect { response ->
-                emit(response)
-            }
         }
     }
 
@@ -65,6 +63,12 @@ class CatalogViewModel : ViewModel() {
             }
             // кешируем прлучившийся flow, чтобы на него можно было подписаться несколько раз
             .cachedIn(viewModelScope)
+
+        // начинаем отслеживать данные пользователя в бд
+        CoroutineScope(Dispatchers.IO).launch {
+            getUserFromDbUseCase.execute().collect{}
+        }
+
     }
 
     fun getCategoryById(id: String): Category? {
@@ -90,14 +94,8 @@ class CatalogViewModel : ViewModel() {
         _filters.postValue(_filters.value)
     }
 
-    fun changeFavoritesStatus(recipeId: String) = authRepository.getCurrentUser()
-        ?.let { user ->
-            currentUserFromDb.value?.favorites?.let { favorites ->
-                if (favorites.contains(recipeId))
-                    userRepository.removeFromFavorites(user.uid, recipeId)
-                else
-                    userRepository.addToFavorites(user.uid, recipeId)
-            }
-        }
+    fun tryToChangeFavoritesStatus(recipeId: String): Boolean {
+        return tryToChangeFavoritesStatusUseCase.execute(recipeId)
+    }
 
 }

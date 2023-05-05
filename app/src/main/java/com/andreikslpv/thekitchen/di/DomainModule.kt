@@ -1,11 +1,14 @@
 package com.andreikslpv.thekitchen.di
 
+import com.andreikslpv.thekitchen.data.repository.AuthRepository
 import com.andreikslpv.thekitchen.domain.RecipeRepository
 import com.andreikslpv.thekitchen.domain.SettingsRepository
 import com.andreikslpv.thekitchen.domain.UserRepository
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipeNewUseCase
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipePreviewUseCase
+import com.andreikslpv.thekitchen.domain.usecases.GetUserFromDbUseCase
 import com.andreikslpv.thekitchen.domain.usecases.InitApplicationSettingsUseCase
+import com.andreikslpv.thekitchen.domain.usecases.TryToChangeFavoritesStatusUseCase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dagger.Module
 import dagger.Provides
@@ -36,9 +39,26 @@ class DomainModule {
     @Singleton
     fun provideGetRecipePreviewUseCase(
         recipeRepository: RecipeRepository,
-        userRepository: UserRepository
     ): GetRecipePreviewUseCase {
-        return GetRecipePreviewUseCase(recipeRepository, userRepository)
+        return GetRecipePreviewUseCase(recipeRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetUserFromDbUseCase(
+        userRepository: UserRepository,
+        authRepository: AuthRepository,
+    ): GetUserFromDbUseCase {
+        return GetUserFromDbUseCase(userRepository, authRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTryToChangeFavoritesStatusUseCase(
+        userRepository: UserRepository,
+        authRepository: AuthRepository,
+    ): TryToChangeFavoritesStatusUseCase {
+        return TryToChangeFavoritesStatusUseCase(userRepository, authRepository)
     }
 
 }

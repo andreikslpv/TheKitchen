@@ -30,6 +30,7 @@ class RecipePreviewDataSource @Inject constructor(
                 .await()
 
             val tempList = result.documents
+                .asSequence()
                 .mapNotNull { it.toObject(RecipePreview::class.java) }
                 .filter { it.id != RecipePreview().id }
                 .map {
@@ -39,6 +40,7 @@ class RecipePreviewDataSource @Inject constructor(
                     it
                 }
                 .sortedBy { it.isContainExclude }
+                .toList()
 
             return LoadResult.Page(
                 data = tempList,

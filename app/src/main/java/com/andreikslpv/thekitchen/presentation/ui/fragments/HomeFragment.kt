@@ -37,7 +37,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     private val viewModel by viewModels<HomeViewModel>()
 
-//    private val args:  by navArgs()
+    private val decorator = SpaceItemDecoration(
+        paddingBottomInDp = 16,
+        paddingRightInDp = 4,
+        paddingLeftInDp = 4,
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -80,13 +84,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 }
             }
         }
-
-        viewModel.currentUserFromDb.observe(viewLifecycleOwner) { response ->
-            binding.progressBar.show()
-            recipeNewAdapter.changeFavorites(response.favorites.toList())
-            recipeNewAdapter.notifyDataSetChanged()
-            binding.progressBar.hide()
-        }
     }
 
     private fun initRecyclers() {
@@ -101,15 +98,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 },
                 object : ItemClickListener {
                     override fun click(id: String) {
-                        if (viewModel.currentUserFromAuth != null)
-                            viewModel.changeFavoritesStatus(id)
-                        else Snackbar.make(
-                            binding.root,
-                            R.string.home_snackbar_text,
-                            Snackbar.LENGTH_LONG
-                        )
-                            .setAction(R.string.home_snackbar_action) { goToAuthFragment() }
-                            .show()
+                        val result = viewModel.tryToChangeFavoritesStatus(id)
+                        if (!result) Snackbar.make(
+                            binding.root, R.string.home_snackbar_text, Snackbar.LENGTH_LONG
+                        ).setAction(R.string.home_snackbar_action) { goToAuthFragment() }.show()
                     }
                 }
             )
@@ -117,7 +109,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             //Применяем декоратор для отступов
-            val decorator = SpaceItemDecoration(4)
             addItemDecoration(decorator)
         }
 
@@ -133,7 +124,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             adapter = categoryDishAdapter
             layoutManager = GridLayoutManager(requireContext(), 3)
             //Применяем декоратор для отступов
-            val decorator = SpaceItemDecoration(4)
             addItemDecoration(decorator)
         }
 
@@ -149,7 +139,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             adapter = categoryTimeAdapter
             layoutManager = GridLayoutManager(requireContext(), 3)
             //Применяем декоратор для отступов
-            val decorator = SpaceItemDecoration(4)
             addItemDecoration(decorator)
         }
     }

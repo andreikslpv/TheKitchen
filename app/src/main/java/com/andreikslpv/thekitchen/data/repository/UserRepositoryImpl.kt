@@ -8,6 +8,7 @@ import com.andreikslpv.thekitchen.presentation.utils.Constants
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
@@ -16,6 +17,9 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
     private val database: FirebaseFirestore,
 ) : UserRepository {
+
+   private val favorites = MutableStateFlow(emptyList<String>())
+   private val history = MutableStateFlow(emptyList<String>())
 
     override suspend fun createUser(user: User) = flow {
         try {
@@ -32,12 +36,21 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun getCurrentUser(uid: String) = callbackFlow {
         val favorites = database.collection(FirestoreConstants.PATH_USERS).document(uid)
             .addSnapshotListener { value, error ->
-                if (error == null && value != null)
-                    trySend(value.toObject(User::class.java)!!)
+                if (error == null && value != null) {
+                    val user = value.toObject(User::class.java)!!
+                    trySend(user)
+                    println("AAA getCurrentUser $user")
+                    favorites.tryEmit(user.favorites)
+                    history.tryEmit(user.viewed)
+                }
             }
         awaitClose {
             favorites.remove()
         }
+    }
+
+    override fun getFavorites(): MutableStateFlow<List<String>> {
+        return favorites
     }
 
     override fun addToFavorites(uid: String, recipeId: String) {
@@ -48,6 +61,10 @@ class UserRepositoryImpl @Inject constructor(
     override fun removeFromFavorites(uid: String, recipeId: String) {
         val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
         user.update("favorites", FieldValue.arrayRemove(recipeId))
+    }
+
+    override fun getHistory(): MutableStateFlow<List<String>> {
+        return history
     }
 
 

@@ -10,7 +10,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.navigation.navOptions
 import androidx.paging.LoadState
 import androidx.paging.PagingData
-import androidx.paging.map
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.andreikslpv.thekitchen.R
 import com.andreikslpv.thekitchen.databinding.FragmentCatalogBinding
@@ -53,7 +52,6 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
         viewModel.categories.observe(viewLifecycleOwner) {}
         initRecipeListRecycler()
         initCollectRecipe()
-        initCollectFavorites()
         setFiltersWhenStarting()
         initCollectFilter()
         setupSwipeToRefresh()
@@ -62,10 +60,8 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
 
     private fun setFiltersWhenStarting() {
         val temp = (requireActivity() as MainActivity).getAndEraseCategoryFromHome()
-        if (temp.isNotBlank())
-            viewModel.addFilters(arrayOf(temp))
-        else
-            viewModel.addFilters(args.filters)
+        if (temp.isNotBlank()) viewModel.addFilters(arrayOf(temp))
+        else viewModel.addFilters(args.filters)
     }
 
     private fun initCollectFilter() {
@@ -76,8 +72,7 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
                 category?.let {
                     binding.catalogFilters.addView(
                         getChipsWithAttributes(
-                            Chip(binding.catalogFilters.context),
-                            it
+                            Chip(binding.catalogFilters.context), it
                         )
                     )
                 }
@@ -92,8 +87,7 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
         chip.tag = category.id
         chip.isCheckable = true
         chip.shapeAppearanceModel = ShapeAppearanceModel().toBuilder()
-            .setAllCornerSizes(resources.getDimension(R.dimen.chip_corner_radius))
-            .build()
+            .setAllCornerSizes(resources.getDimension(R.dimen.chip_corner_radius)).build()
         chip.setChipBackgroundColorResource(R.color.lime)
         chip.isCheckedIconVisible = false
 
@@ -106,37 +100,30 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
 
     private fun initRecipeListRecycler() {
         binding.catalogRecyclerRecipe.apply {
-            recipePreviewAdapter = RecipePreviewPagingAdapter(
-                object : RecipeItemClickListener {
-                    override fun click(recipePreview: RecipePreview) {
+            recipePreviewAdapter = RecipePreviewPagingAdapter(object : RecipeItemClickListener {
+                override fun click(recipePreview: RecipePreview) {
 //                            viewLifecycleOwner.lifecycleScope.launch {
 //                                removePhotoFromFavoritesUseCase.execute(photo.id)
 //                            }
-                    }
-                },
-                object : ItemClickListener {
-                    override fun click(id: String) {
-                        if (viewModel.currentUserFromAuth != null)
-                            viewModel.changeFavoritesStatus(id)
-                        else Snackbar.make(
-                            binding.root,
-                            R.string.home_snackbar_text,
-                            Snackbar.LENGTH_LONG
-                        )
-                            .setAction(R.string.home_snackbar_action) { goToAuthFragment() }
-                            .show()
-                    }
                 }
-            )
+            }, object : ItemClickListener {
+                override fun click(id: String) {
+                    val result = viewModel.tryToChangeFavoritesStatus(id)
+                    if (!result) Snackbar.make(
+                        binding.root, R.string.home_snackbar_text, Snackbar.LENGTH_LONG
+                    ).setAction(R.string.home_snackbar_action) { goToAuthFragment() }.show()
+                }
+            })
             layoutManager = LinearLayoutManager(requireContext())
             //binding.selectionsRecycler.setHasFixedSize(true)
 
-            adapter = recipePreviewAdapter.withLoadStateHeaderAndFooter(
-                header = RecipePreviewLoadStateAdapter { recipePreviewAdapter.retry() },
-                footer = RecipePreviewLoadStateAdapter { recipePreviewAdapter.retry() }
-            )
+            adapter =
+                recipePreviewAdapter.withLoadStateHeaderAndFooter(header = RecipePreviewLoadStateAdapter { recipePreviewAdapter.retry() },
+                    footer = RecipePreviewLoadStateAdapter { recipePreviewAdapter.retry() })
             //Применяем декоратор для отступов
-            val decorator = SpaceItemDecoration(4)
+            val decorator = SpaceItemDecoration(
+                paddingBottomInDp = 16,
+            )
             addItemDecoration(decorator)
         }
 
@@ -144,22 +131,9 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
         handleScrollingToTopWhenSearching()
     }
 
-    private fun initCollectFavorites() {
-        viewModel.currentUserFromDb.observe(viewLifecycleOwner) {
-            binding.catalogProgressBar.visible(true)
-            viewModel.refresh()
-            binding.catalogProgressBar.visible(false)
-        }
-    }
-
     private fun initCollectRecipe() {
         this.lifecycleScope.launch {
             viewModel.recipes.collectLatest { pagedData ->
-                viewModel.currentUserFromDb.value?.favorites?.let { favorites ->
-                    pagedData.map { recipe ->
-                        recipe.isFavorite = favorites.contains(recipe.id)
-                    }
-                }
                 recipePreviewAdapter.submitData(pagedData)
             }
         }
@@ -195,20 +169,17 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
     }
 
     // Когда пользователь меняет поисковой запрос, то отслеживаем этот момент и прокручиваем в начало списка
-    private fun handleScrollingToTopWhenSearching() =
-        this.lifecycleScope.launch {
-            getRefreshLoadStateFlow()
-                .simpleScan(count = 2)
-                .collectLatest { (previousState, currentState) ->
-                    if (previousState is LoadState.Loading && currentState is LoadState.NotLoading) {
-                        binding.catalogRecyclerRecipe.scrollToPosition(0)
-                    }
+    private fun handleScrollingToTopWhenSearching() = this.lifecycleScope.launch {
+        getRefreshLoadStateFlow().simpleScan(count = 2)
+            .collectLatest { (previousState, currentState) ->
+                if (previousState is LoadState.Loading && currentState is LoadState.NotLoading) {
+                    binding.catalogRecyclerRecipe.scrollToPosition(0)
                 }
-        }
+            }
+    }
 
     private fun getRefreshLoadStateFlow(): Flow<LoadState> {
-        return recipePreviewAdapter.loadStateFlow
-            .map { it.refresh }
+        return recipePreviewAdapter.loadStateFlow.map { it.refresh }
     }
 
     private fun setupSwipeToRefresh() {
