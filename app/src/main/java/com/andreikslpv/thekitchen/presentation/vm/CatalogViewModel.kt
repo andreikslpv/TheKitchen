@@ -25,7 +25,7 @@ import javax.inject.Inject
 class CatalogViewModel : ViewModel() {
 
     @Inject
-    lateinit var repository: RecipeRepository
+    lateinit var recipeRepository: RecipeRepository
 
     @Inject
     lateinit var userRepository: UserRepository
@@ -48,7 +48,7 @@ class CatalogViewModel : ViewModel() {
     val filters: LiveData<Filters> = _filters
 
     val categories = liveData {
-        repository.getAllCategories().collect { response ->
+        recipeRepository.getAllCategories().collect { response ->
             emit(response)
         }
     }

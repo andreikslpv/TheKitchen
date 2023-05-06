@@ -17,6 +17,8 @@ interface UserRepository {
 
     fun removeFromFavorites(uid: String, recipeId: String)
 
+    fun removeAllFromFavorites(uid: String)
+
     fun getHistory(): MutableStateFlow<List<String>>
 
 }

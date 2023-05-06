@@ -9,8 +9,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-const val PAGE_SIZE = 5
-
 class RecipePreviewDataSource @Inject constructor(
     private val database: FirebaseFirestore,
     private val filters: FiltersSeparated,

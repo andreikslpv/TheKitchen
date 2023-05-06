@@ -63,6 +63,11 @@ class UserRepositoryImpl @Inject constructor(
         user.update("favorites", FieldValue.arrayRemove(recipeId))
     }
 
+    override fun removeAllFromFavorites(uid: String) {
+        val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
+        user.update("favorites", arrayListOf<String>())
+    }
+
     override fun getHistory(): MutableStateFlow<List<String>> {
         return history
     }

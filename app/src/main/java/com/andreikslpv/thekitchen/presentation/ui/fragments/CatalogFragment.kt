@@ -17,6 +17,7 @@ import com.andreikslpv.thekitchen.domain.models.Category
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
 import com.andreikslpv.thekitchen.presentation.ui.MainActivity
 import com.andreikslpv.thekitchen.presentation.ui.base.BaseFragment
+import com.andreikslpv.thekitchen.presentation.ui.models.RecipePreviewType
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.ItemClickListener
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.RecipeItemClickListener
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.RecipePreviewLoadStateAdapter
@@ -113,7 +114,8 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
                         binding.root, R.string.home_snackbar_text, Snackbar.LENGTH_LONG
                     ).setAction(R.string.home_snackbar_action) { goToAuthFragment() }.show()
                 }
-            })
+            },
+            RecipePreviewType.CATALOG)
             layoutManager = LinearLayoutManager(requireContext())
             //binding.selectionsRecycler.setHasFixedSize(true)
 

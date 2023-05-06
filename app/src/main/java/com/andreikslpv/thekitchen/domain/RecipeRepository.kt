@@ -19,4 +19,6 @@ interface RecipeRepository {
     suspend fun getRecipeNew(favorites: List<String>): Flow<Response<List<RecipePreview>>>
 
     suspend fun getRecipePreview(filters: FiltersSeparated): Flow<PagingData<RecipePreview>>
+
+    suspend fun getRecipeFavorites(favorites: List<String>): Flow<PagingData<RecipePreview>>
 }

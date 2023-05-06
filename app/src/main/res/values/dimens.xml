@@ -32,8 +32,10 @@
     <dimen name="margin_basic">16dp</dimen>
     <dimen name="margin_small">12dp</dimen>
     <dimen name="margin_big">20dp</dimen>
-    <dimen name="margin_very_big">24dp</dimen>
-    <dimen name="margin_control">40dp</dimen>
+    <dimen name="margin_big_24">24dp</dimen>
+    <dimen name="margin_big_32">32dp</dimen>
+    <dimen name="margin_big_40">40dp</dimen>
+    <dimen name="margin_big_48">80dp</dimen>
 
 
     <dimen name="main_radius_card">28dp</dimen>

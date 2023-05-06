@@ -1,21 +1,19 @@
 package com.andreikslpv.thekitchen.presentation.ui.recyclers
 
-import androidx.recyclerview.widget.RecyclerView
 import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.R
 import com.andreikslpv.thekitchen.databinding.ItemRecipePreviewBinding
 import com.andreikslpv.thekitchen.domain.UserRepository
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
+import com.andreikslpv.thekitchen.presentation.ui.base.BaseRecipeViewHolder
 import com.andreikslpv.thekitchen.presentation.utils.visible
-import com.bumptech.glide.Glide
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.roundToInt
 
-class RecipePreviewViewHolder(val binding: ItemRecipePreviewBinding) :
-    RecyclerView.ViewHolder(binding.root) {
+class RecipeCatalogViewHolder(override val binding: ItemRecipePreviewBinding) :
+    BaseRecipeViewHolder(binding) {
 
     @Inject
     lateinit var userRepository: UserRepository
@@ -24,18 +22,8 @@ class RecipePreviewViewHolder(val binding: ItemRecipePreviewBinding) :
         App.instance.dagger.inject(this)
     }
 
-    fun bind(recipe: RecipePreview) {
-        binding.itemTitle.text = recipe.name
-        binding.itemWarning.visible(recipe.isContainExclude)
-        Glide.with(itemView)
-            .load(recipe.imagePreview)
-            .centerCrop()
-            .into(binding.itemImage)
-        binding.itemTimerValue.text = binding.root.context.getString(R.string.time, recipe.time)
-        val kKal = recipe.caloriesCount.toDouble()
-        val portionCount = recipe.portions
-        val result = (kKal / portionCount).roundToInt()
-        binding.itemKkalValue.text = binding.root.context.getString(R.string.kkal, result)
+    override fun bind(recipe: RecipePreview) {
+        super.bind(recipe)
         CoroutineScope(Dispatchers.Main).launch {
             userRepository.getFavorites().collect {
                 if (it.contains(recipe.id))

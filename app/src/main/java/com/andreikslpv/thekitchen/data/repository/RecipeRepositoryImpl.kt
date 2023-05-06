@@ -6,7 +6,7 @@ import androidx.paging.PagingData
 import com.andreikslpv.thekitchen.data.Mappers
 import com.andreikslpv.thekitchen.data.dao.CategoryDao
 import com.andreikslpv.thekitchen.data.dao.UpdateDao
-import com.andreikslpv.thekitchen.data.datasource.PAGE_SIZE
+import com.andreikslpv.thekitchen.data.datasource.RecipeFavoritesDataSource
 import com.andreikslpv.thekitchen.data.datasource.RecipePreviewDataSource
 import com.andreikslpv.thekitchen.data.db.FirestoreConstants
 import com.andreikslpv.thekitchen.domain.RecipeRepository
@@ -26,6 +26,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
+const val PAGE_SIZE = 5
 class RecipeRepositoryImpl @Inject constructor(
     private val database: FirebaseFirestore,
     private val updateDao: UpdateDao,
@@ -109,6 +110,22 @@ class RecipeRepositoryImpl @Inject constructor(
                 RecipePreviewDataSource(
                     database,
                     filters,
+                )
+            }
+        ).flow
+    }
+
+    override suspend fun getRecipeFavorites(favorites: List<String>): Flow<PagingData<RecipePreview>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                enablePlaceholders = false,
+                initialLoadSize = PAGE_SIZE
+            ),
+            pagingSourceFactory = {
+                RecipeFavoritesDataSource(
+                    database,
+                    favorites,
                 )
             }
         ).flow

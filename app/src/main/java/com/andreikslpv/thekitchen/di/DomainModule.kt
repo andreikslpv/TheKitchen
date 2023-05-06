@@ -9,6 +9,8 @@ import com.andreikslpv.thekitchen.domain.usecases.GetRecipePreviewUseCase
 import com.andreikslpv.thekitchen.domain.usecases.GetUserFromDbUseCase
 import com.andreikslpv.thekitchen.domain.usecases.InitApplicationSettingsUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeFavoritesStatusUseCase
+import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveAllFromFavoritesUseCase
+import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveFromFavoritesUseCase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dagger.Module
 import dagger.Provides
@@ -59,6 +61,24 @@ class DomainModule {
         authRepository: AuthRepository,
     ): TryToChangeFavoritesStatusUseCase {
         return TryToChangeFavoritesStatusUseCase(userRepository, authRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTryToRemoveFromFavoritesUseCase(
+        userRepository: UserRepository,
+        authRepository: AuthRepository,
+    ): TryToRemoveFromFavoritesUseCase {
+        return TryToRemoveFromFavoritesUseCase(userRepository, authRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTryToRemoveAllFromFavoritesUseCase(
+        userRepository: UserRepository,
+        authRepository: AuthRepository,
+    ): TryToRemoveAllFromFavoritesUseCase {
+        return TryToRemoveAllFromFavoritesUseCase(userRepository, authRepository)
     }
 
 }
