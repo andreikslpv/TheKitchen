@@ -9,10 +9,12 @@
     <color name="white">#FFFFFFFF</color>
 
     <!-- project colors   -->
-    <color name="black_light">#363636</color>
+    <color name="text_card_title">#363636</color>
+    <color name="text_menu_title">#757070</color>
     <color name="background_main">#F2F5F9</color>
     <color name="purple">#6E479F</color>
     <color name="lime">#CEFE8F</color>
+    <color name="icon_toolbar">#363636</color>
 
 
 

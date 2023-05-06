@@ -15,14 +15,9 @@ import javax.inject.Inject
 class AuthRepository @Inject constructor(
     private val auth: FirebaseAuth,
     private val googleSignInClient: GoogleSignInClient,
-    //private val database: FirebaseDatabase
 ) {
 
     val isUserAuthenticatedInFirebase get() = auth.currentUser != null
-
-    init {
-        //database.setPersistenceEnabled(true)
-    }
 
     suspend fun firebaseSignInWithGoogle(idToken: String) = flow {
         try {
@@ -62,38 +57,4 @@ class AuthRepository @Inject constructor(
 
     fun getCurrentUser() = auth.currentUser
 
-//    suspend fun createUserInFirestore() = flow {
-//        try {
-//            emit(Response.Loading)
-//            auth.currentUser?.apply {
-//                val ref = database.getReference(DbConstants.PATH_USERS)
-//                val subref = ref.child(uid)
-//                subref.setValue(
-//                    User(
-//                        uid,
-//                        displayName ?: "",
-//                        email ?: "",
-//                        photoUrl?.toString() ?: "",
-//                        System.currentTimeMillis()
-//                    )
-//                ).await().also {
-//                    emit(Response.Success(it))
-//                }
-//                val subref2 = ref.child("uid2")
-//                subref2.setValue(
-//                    User(
-//                        uid,
-//                        displayName ?: "",
-//                        email ?: "",
-//                        photoUrl?.toString() ?: "",
-//                        System.currentTimeMillis()
-//                    )
-//                ).await().also {
-//                    emit(Response.Success(it))
-//                }
-//            }
-//        } catch (e: Exception) {
-//            emit(Response.Failure(e.message ?: ERROR_MESSAGE))
-//        }
-//    }
 }

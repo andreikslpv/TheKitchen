@@ -1,19 +1,19 @@
 package com.andreikslpv.thekitchen.presentation.ui.recyclers
 
-import androidx.recyclerview.widget.RecyclerView
 import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.R
-import com.andreikslpv.thekitchen.databinding.ItemRecipeNewBinding
+import com.andreikslpv.thekitchen.databinding.ItemRecipePreviewBinding
 import com.andreikslpv.thekitchen.domain.UserRepository
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
-import com.bumptech.glide.Glide
+import com.andreikslpv.thekitchen.presentation.ui.base.BaseRecipeViewHolder
+import com.andreikslpv.thekitchen.presentation.utils.visible
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class RecipeNewViewHolder(val binding: ItemRecipeNewBinding) :
-    RecyclerView.ViewHolder(binding.root) {
+class RecipeCatalogViewHolder(override val binding: ItemRecipePreviewBinding) :
+    BaseRecipeViewHolder(binding) {
 
     @Inject
     lateinit var userRepository: UserRepository
@@ -22,12 +22,8 @@ class RecipeNewViewHolder(val binding: ItemRecipeNewBinding) :
         App.instance.dagger.inject(this)
     }
 
-    fun bind(recipe: RecipePreview) {
-        binding.itemTitle.text = recipe.name
-        Glide.with(itemView)
-            .load(recipe.imagePreview)
-            .centerCrop()
-            .into(binding.itemImage)
+    override fun bind(recipe: RecipePreview) {
+        super.bind(recipe)
         CoroutineScope(Dispatchers.Main).launch {
             userRepository.getFavorites().collect {
                 if (it.contains(recipe.id))
@@ -36,5 +32,9 @@ class RecipeNewViewHolder(val binding: ItemRecipeNewBinding) :
                     binding.itemButtonFavorites.setImageResource(R.drawable.ic_favorites)
             }
         }
+        if (recipe.isContainExclude)
+            binding.itemWarning.visible(true)
+        else
+            binding.itemWarning.visible(false)
     }
 }

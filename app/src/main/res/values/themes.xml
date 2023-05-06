@@ -28,7 +28,7 @@
         <item name="android:textColor">@color/black</item>
         <item name="background">@android:color/transparent</item>
         <item name="strokeWidth">@dimen/button_border</item>
-        <item name="strokeColor">@color/black_light</item>
+        <item name="strokeColor">@color/text_card_title</item>
         <item name="android:layout_width">@dimen/button_width</item>
         <item name="android:layout_height">@dimen/button_height</item>
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6</item>

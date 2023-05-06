@@ -1,9 +1,11 @@
 package com.andreikslpv.thekitchen.domain.models
 
 data class User(
-    val uid: String = "",
-    val displayName: String = "",
-    val email: String = "",
-    val photoUrl: String = "",
-    val createdAt: Long = 0L,
-    )
+    var uid: String = "",
+    var displayName: String? = "",
+    var email: String? = "",
+    var photoUrl: String? = "",
+    var createdAt: Long = 0L,
+    val favorites: ArrayList<String> = arrayListOf(),
+    val viewed: ArrayList<String> = arrayListOf(),
+)

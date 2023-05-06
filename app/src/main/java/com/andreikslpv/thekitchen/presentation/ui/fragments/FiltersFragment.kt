@@ -138,7 +138,7 @@ class FiltersFragment : BaseFragment<FragmentFiltersBinding>(FragmentFiltersBind
     private fun initApplayButton() {
         binding.filtersApplayButton.setOnClickListener {
             // возвращаемся в Catalog и передаем в него список установленных фильтров
-            val direction = FiltersFragmentDirections.actionFiltersFragmentToCatalogFragment2(
+            val direction = FiltersFragmentDirections.actionFiltersFragmentToCatalogFragment(
                 viewModel.filters.value?.getCategoriesArray()
             )
             findNavController().navigate(direction)

@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.navOptions
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,18 +15,22 @@ import com.andreikslpv.thekitchen.R
 import com.andreikslpv.thekitchen.databinding.FragmentCatalogBinding
 import com.andreikslpv.thekitchen.domain.models.Category
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
+import com.andreikslpv.thekitchen.presentation.ui.MainActivity
 import com.andreikslpv.thekitchen.presentation.ui.base.BaseFragment
+import com.andreikslpv.thekitchen.presentation.ui.models.RecipePreviewType
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.ItemClickListener
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.RecipeItemClickListener
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.RecipePreviewLoadStateAdapter
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.RecipePreviewPagingAdapter
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.itemDecoration.SpaceItemDecoration
+import com.andreikslpv.thekitchen.presentation.utils.findTopNavController
 import com.andreikslpv.thekitchen.presentation.utils.makeToast
 import com.andreikslpv.thekitchen.presentation.utils.simpleScan
 import com.andreikslpv.thekitchen.presentation.utils.visible
 import com.andreikslpv.thekitchen.presentation.vm.CatalogViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.shape.ShapeAppearanceModel
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
@@ -48,13 +53,19 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
         viewModel.categories.observe(viewLifecycleOwner) {}
         initRecipeListRecycler()
         initCollectRecipe()
-        viewModel.addFilters(args.filters)
+        setFiltersWhenStarting()
         initCollectFilter()
         setupSwipeToRefresh()
         initFiltersButton()
     }
 
-        private fun initCollectFilter() {
+    private fun setFiltersWhenStarting() {
+        val temp = (requireActivity() as MainActivity).getAndEraseCategoryFromHome()
+        if (temp.isNotBlank()) viewModel.addFilters(arrayOf(temp))
+        else viewModel.addFilters(args.filters)
+    }
+
+    private fun initCollectFilter() {
         viewModel.filters.observe(viewLifecycleOwner) { filters ->
             binding.catalogFilters.removeAllViews()
             filters.getCategoriesList().forEach { item ->
@@ -62,8 +73,7 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
                 category?.let {
                     binding.catalogFilters.addView(
                         getChipsWithAttributes(
-                            Chip(binding.catalogFilters.context),
-                            it
+                            Chip(binding.catalogFilters.context), it
                         )
                     )
                 }
@@ -78,8 +88,7 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
         chip.tag = category.id
         chip.isCheckable = true
         chip.shapeAppearanceModel = ShapeAppearanceModel().toBuilder()
-            .setAllCornerSizes(resources.getDimension(R.dimen.chip_corner_radius))
-            .build()
+            .setAllCornerSizes(resources.getDimension(R.dimen.chip_corner_radius)).build()
         chip.setChipBackgroundColorResource(R.color.lime)
         chip.isCheckedIconVisible = false
 
@@ -92,31 +101,31 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
 
     private fun initRecipeListRecycler() {
         binding.catalogRecyclerRecipe.apply {
-            recipePreviewAdapter = RecipePreviewPagingAdapter(
-                object : RecipeItemClickListener {
-                    override fun click(recipePreview: RecipePreview) {
+            recipePreviewAdapter = RecipePreviewPagingAdapter(object : RecipeItemClickListener {
+                override fun click(recipePreview: RecipePreview) {
 //                            viewLifecycleOwner.lifecycleScope.launch {
 //                                removePhotoFromFavoritesUseCase.execute(photo.id)
 //                            }
-                    }
-                },
-                object : ItemClickListener {
-                    override fun click(id: String) {
-//                            viewLifecycleOwner.lifecycleScope.launch {
-//                                removePhotoFromFavoritesUseCase.execute(photo.id)
-//                            }
-                    }
                 }
-            )
+            }, object : ItemClickListener {
+                override fun click(id: String) {
+                    val result = viewModel.tryToChangeFavoritesStatus(id)
+                    if (!result) Snackbar.make(
+                        binding.root, R.string.home_snackbar_text, Snackbar.LENGTH_LONG
+                    ).setAction(R.string.home_snackbar_action) { goToAuthFragment() }.show()
+                }
+            },
+            RecipePreviewType.CATALOG)
             layoutManager = LinearLayoutManager(requireContext())
             //binding.selectionsRecycler.setHasFixedSize(true)
 
-            adapter = recipePreviewAdapter.withLoadStateHeaderAndFooter(
-                header = RecipePreviewLoadStateAdapter { recipePreviewAdapter.retry() },
-                footer = RecipePreviewLoadStateAdapter { recipePreviewAdapter.retry() }
-            )
+            adapter =
+                recipePreviewAdapter.withLoadStateHeaderAndFooter(header = RecipePreviewLoadStateAdapter { recipePreviewAdapter.retry() },
+                    footer = RecipePreviewLoadStateAdapter { recipePreviewAdapter.retry() })
             //Применяем декоратор для отступов
-            val decorator = SpaceItemDecoration(4)
+            val decorator = SpaceItemDecoration(
+                paddingBottomInDp = 16,
+            )
             addItemDecoration(decorator)
         }
 
@@ -162,20 +171,17 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
     }
 
     // Когда пользователь меняет поисковой запрос, то отслеживаем этот момент и прокручиваем в начало списка
-    private fun handleScrollingToTopWhenSearching() =
-        this.lifecycleScope.launch {
-            getRefreshLoadStateFlow()
-                .simpleScan(count = 2)
-                .collectLatest { (previousState, currentState) ->
-                    if (previousState is LoadState.Loading && currentState is LoadState.NotLoading) {
-                        binding.catalogRecyclerRecipe.scrollToPosition(0)
-                    }
+    private fun handleScrollingToTopWhenSearching() = this.lifecycleScope.launch {
+        getRefreshLoadStateFlow().simpleScan(count = 2)
+            .collectLatest { (previousState, currentState) ->
+                if (previousState is LoadState.Loading && currentState is LoadState.NotLoading) {
+                    binding.catalogRecyclerRecipe.scrollToPosition(0)
                 }
-        }
+            }
+    }
 
     private fun getRefreshLoadStateFlow(): Flow<LoadState> {
-        return recipePreviewAdapter.loadStateFlow
-            .map { it.refresh }
+        return recipePreviewAdapter.loadStateFlow.map { it.refresh }
     }
 
     private fun setupSwipeToRefresh() {
@@ -191,11 +197,19 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
     private fun initFiltersButton() {
         binding.catalogToolbar.menu.findItem(R.id.fitersButton).setOnMenuItemClickListener {
             // запускаем Filters и передаем в него список уже установленных фильтров
-            val direction = CatalogFragmentDirections.actionCatalogFragment2ToFiltersFragment2(
+            val direction = CatalogFragmentDirections.actionCatalogFragmentToFiltersFragment(
                 viewModel.filters.value?.getCategoriesArray()
             )
             findNavController().navigate(direction)
             true
         }
+    }
+
+    private fun goToAuthFragment() {
+        findTopNavController().navigate(R.id.authFragment, null, navOptions {
+            popUpTo(R.id.tabsFragment) {
+                inclusive = true
+            }
+        })
     }
 }

@@ -4,6 +4,8 @@ package com.andreikslpv.thekitchen.di
  import com.andreikslpv.thekitchen.presentation.ui.MainActivity
  import com.andreikslpv.thekitchen.presentation.ui.fragments.AuthFragment
  import com.andreikslpv.thekitchen.presentation.ui.fragments.HomeFragment
+ import com.andreikslpv.thekitchen.presentation.ui.recyclers.RecipeNewViewHolder
+ import com.andreikslpv.thekitchen.presentation.ui.recyclers.RecipeCatalogViewHolder
  import com.andreikslpv.thekitchen.presentation.vm.*
  import dagger.BindsInstance
  import dagger.Component
@@ -27,5 +29,8 @@ interface AppComponent {
     fun inject(profileViewModel: ProfileViewModel)
     fun inject(homeViewModel: HomeViewModel)
     fun inject(catalogViewModel: CatalogViewModel)
+    fun inject(favoritesViewModel: FavoritesViewModel)
     fun inject(filtersViewModel: FiltersViewModel)
+    fun inject(recipeCatalogViewHolder: RecipeCatalogViewHolder)
+    fun inject(recipeNewViewHolder: RecipeNewViewHolder)
 }

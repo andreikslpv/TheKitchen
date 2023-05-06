@@ -5,13 +5,16 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import com.andreikslpv.thekitchen.databinding.ItemRecipePreviewBinding
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
+import com.andreikslpv.thekitchen.presentation.ui.base.BaseRecipeViewHolder
+import com.andreikslpv.thekitchen.presentation.ui.models.RecipePreviewType
 
 class RecipePreviewPagingAdapter(
     private val recipeItemClickListener: RecipeItemClickListener,
     private val favoriteClickListener: ItemClickListener,
-) : PagingDataAdapter<RecipePreview, RecipePreviewViewHolder>(RecipePreviewItemDiff()) {
+    private val type: RecipePreviewType,
+) : PagingDataAdapter<RecipePreview, BaseRecipeViewHolder>(RecipePreviewItemDiff()) {
 
-    override fun onBindViewHolder(holder: RecipePreviewViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BaseRecipeViewHolder, position: Int) {
         getItem(position)?.let {
             holder.bind(it)
         }
@@ -28,9 +31,16 @@ class RecipePreviewPagingAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipePreviewViewHolder {
-        return RecipePreviewViewHolder(
-            ItemRecipePreviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseRecipeViewHolder {
+        return when (type) {
+            RecipePreviewType.CATALOG -> RecipeCatalogViewHolder(
+                ItemRecipePreviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            )
+
+            RecipePreviewType.FAVORITES -> RecipeFavoritesViewHolder(
+                ItemRecipePreviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            )
+        }
+
     }
 }

@@ -11,6 +11,6 @@
         android:pathData="M0,0h24v24h-24z"/>
     <path
         android:pathData="M10.444,16H13.556V14.667H10.444V16ZM5,8V9.333H19V8H5ZM7.333,12.667H16.667V11.333H7.333V12.667Z"
-        android:fillColor="@color/purple"/>
+        android:fillColor="@color/icon_toolbar"/>
   </group>
 </vector>

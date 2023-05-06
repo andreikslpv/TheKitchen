@@ -95,7 +95,6 @@ object Recipe5 {
         recipePreview = RecipePreview(
             id = id,
             name = "Салат с красной рыбой и авокадо слоями",
-            categories = arrayListOf("ca00001", "ca00002", "ca00003", "ca00005", "ca00012", "ca00016", "ca00017"),
             categoriesExclude = arrayListOf("ca00012", "ca00016", "ca00017"),
             categoriesDish = arrayListOf("ca00005"),
             time = 30,
@@ -176,7 +175,6 @@ object Recipe5 {
         recipePreview = RecipePreview(
             id = id,
             name = "Салат с курицей, черносливом, орехами и яйцами (слоями)",
-            categories = arrayListOf("ca00003", "ca00005", "ca00014", "ca00016", "ca00017"),
             categoriesExclude = arrayListOf("ca00014", "ca00016", "ca00017"),
             categoriesDish = arrayListOf("ca00005"),
             time = 60,
@@ -256,7 +254,6 @@ object Recipe5 {
         recipePreview = RecipePreview(
             id = id,
             name = "Салат с кальмарами, крабовыми палочками, помидором и яйцом",
-            categories = arrayListOf("ca00003", "ca00005", "ca00012", "ca00014", "ca00016", "ca00017"),
             categoriesExclude = arrayListOf("ca00012", "ca00014", "ca00016", "ca00017"),
             categoriesDish = arrayListOf("ca00005"),
             time = 60,
@@ -331,7 +328,6 @@ object Recipe5 {
         recipePreview = RecipePreview(
             id = id,
             name = "Вкусный салат с креветками на Новый год",
-            categories = arrayListOf("ca00001", "ca00002", "ca00003", "ca00005", "ca00012", "ca00014", "ca00016", "ca00017"),
             categoriesExclude = arrayListOf("ca00012", "ca00014", "ca00016", "ca00017"),
             categoriesDish = arrayListOf("ca00005"),
             time = 30,
@@ -408,7 +404,6 @@ object Recipe5 {
         recipePreview = RecipePreview(
             id = id,
             name = "Праздничный салат с креветками, кальмарами и икрой (Морская жемчужина)",
-            categories = arrayListOf("ca00003", "ca00005", "ca00012", "ca00014", "ca00016", "ca00017"),
             categoriesExclude = arrayListOf("ca00012", "ca00014", "ca00016", "ca00017"),
             categoriesDish = arrayListOf("ca00005"),
             time = 60,
@@ -488,7 +483,6 @@ object Recipe5 {
         recipePreview = RecipePreview(
             id = id,
             name = "Салат с перцем, кукурузой и тыквой",
-            categories = arrayListOf("ca00003", "ca00005", "ca00012", "ca00013", "ca00014", "ca00015", "ca00017"),
             categoriesExclude = arrayListOf("ca00012", "ca00013", "ca00014", "ca00015", "ca00017"),
             categoriesDish = arrayListOf("ca00005"),
             time = 60,
@@ -587,7 +581,6 @@ object Recipe5 {
         recipePreview = RecipePreview(
             id = id,
             name = "Салат с курицей, огурцами, яйцом и перловкой",
-            categories = arrayListOf("ca00005", "ca00013", "ca00017"),
             categoriesExclude = arrayListOf("ca00013", "ca00017"),
             categoriesDish = arrayListOf("ca00005"),
             time = 90,
@@ -665,7 +658,6 @@ object Recipe5 {
         recipePreview = RecipePreview(
             id = id,
             name = "Салат с мидиями, рисом, яйцами и огурцом",
-            categories = arrayListOf("ca00003", "ca00005", "ca00012", "ca00013", "ca00014", "ca00017"),
             categoriesExclude = arrayListOf("ca00012", "ca00013", "ca00014", "ca00017"),
             categoriesDish = arrayListOf("ca00005"),
             time = 60,
@@ -792,7 +784,6 @@ object Recipe5 {
         recipePreview = RecipePreview(
             id = id,
             name = "Салат с печенью и огурцами Крокусы",
-            categories = arrayListOf("ca00005", "ca00013", "ca00017"),
             categoriesExclude = arrayListOf("ca00013", "ca00017"),
             categoriesDish = arrayListOf("ca00005"),
             time = 120,
@@ -880,7 +871,6 @@ object Recipe5 {
         recipePreview = RecipePreview(
             id = id,
             name = "Слоеный салат с копченой курицей",
-            categories = arrayListOf("ca00003", "ca00005", "ca00013", "ca00017"),
             categoriesExclude = arrayListOf("ca00013", "ca00017"),
             categoriesDish = arrayListOf("ca00005"),
             time = 60,

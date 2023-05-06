@@ -3,7 +3,7 @@
 
     <style name="TextTitle">
         <item name="android:textSize">@dimen/text_title</item>
-        <item name="android:textColor">@color/black_light</item>
+        <item name="android:textColor">@color/text_card_title</item>
         <item name="android:textStyle">bold</item>
         <item name="android:gravity">start</item>
     </style>
@@ -17,7 +17,7 @@
 
     <style name="TextTitleCategory">
         <item name="android:textSize">@dimen/text_title_category</item>
-        <item name="android:textColor">@color/black_light</item>
+        <item name="android:textColor">@color/text_card_title</item>
         <item name="android:gravity">center</item>
     </style>
 
@@ -37,5 +37,17 @@
         <item name="android:gravity">start</item>
     </style>
 
+    <style name="TextUps">
+        <item name="android:textSize">@dimen/text_title</item>
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="TextEmpty">
+        <item name="android:textSize">@dimen/text_title_button</item>
+        <item name="android:textColor">@color/text_menu_title</item>
+        <item name="android:gravity">center</item>
+    </style>
 
 </resources>

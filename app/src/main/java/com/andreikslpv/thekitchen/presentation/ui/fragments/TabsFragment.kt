@@ -23,4 +23,8 @@ class TabsFragment : BaseFragment<FragmentTabsBinding>(FragmentTabsBinding::infl
         NavigationUI.setupWithNavController(binding.bottomNavigationView, navController)
     }
 
+    fun goToCatalog() {
+        binding.bottomNavigationView.selectedItemId = R.id.catalog
+    }
+
 }

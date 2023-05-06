@@ -9,8 +9,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-const val PAGE_SIZE = 5
-
 class RecipePreviewDataSource @Inject constructor(
     private val database: FirebaseFirestore,
     private val filters: FiltersSeparated,
@@ -30,6 +28,7 @@ class RecipePreviewDataSource @Inject constructor(
                 .await()
 
             val tempList = result.documents
+                .asSequence()
                 .mapNotNull { it.toObject(RecipePreview::class.java) }
                 .filter { it.id != RecipePreview().id }
                 .map {
@@ -39,6 +38,7 @@ class RecipePreviewDataSource @Inject constructor(
                     it
                 }
                 .sortedBy { it.isContainExclude }
+                .toList()
 
             return LoadResult.Page(
                 data = tempList,

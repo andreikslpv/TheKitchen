@@ -9,26 +9,17 @@
         android:id="@+id/homeFragment"
         android:name="com.andreikslpv.thekitchen.presentation.ui.fragments.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_homeFragment_to_catalogFragment"
-            app:destination="@id/catalogFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_recipeFragment"
-            app:destination="@id/recipeFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/catalogFragment"
-        android:name="com.andreikslpv.thekitchen.presentation.ui.fragments.CatalogFragment"
-        android:label="fragment_catalog"
-        tools:layout="@layout/fragment_catalog" >
-        <action
-            android:id="@+id/action_catalogFragment_to_recipeFragment"
-            app:destination="@id/recipeFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_home"/>
+
     <fragment
         android:id="@+id/recipeFragment"
         android:name="com.andreikslpv.thekitchen.presentation.ui.fragments.RecipeFragment"
         android:label="fragment_recipe"
         tools:layout="@layout/fragment_recipe" />
+    <include app:graph="@navigation/catalog" />
+
+    <action
+        android:id="@+id/action_global_addingFilters2"
+        app:destination="@id/catalog"
+         />
 </navigation>
