@@ -1,6 +1,7 @@
 package com.andreikslpv.thekitchen.di
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
@@ -15,6 +16,10 @@ class FirebaseModule {
     @Provides
     @Singleton
     fun provideFirebaseAuthInstance() = FirebaseAuth.getInstance()
+
+    @Provides
+    @Singleton
+    fun provideFirebaseCrashlyticsInstance() = FirebaseCrashlytics.getInstance()
 
     @Provides
     fun provideFirebaseFirestore() = FirebaseFirestore.getInstance()

@@ -131,7 +131,6 @@ class MainActivity : AppCompatActivity() {
     private fun prepareRootNavController(isSignedIn: Boolean, navController: NavController) {
         val graph = navController.navInflater.inflate(getMainNavigationGraphId())
         graph.setStartDestination(
-            //getTabsDestination()
             if (isSignedIn) {
                 getTabsDestination()
             } else {

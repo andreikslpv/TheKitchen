@@ -19,7 +19,7 @@ class AuthRepository @Inject constructor(
 
     val isUserAuthenticatedInFirebase get() = auth.currentUser != null
 
-    suspend fun firebaseSignInWithGoogle(idToken: String) = flow {
+    suspend fun firebaseSignInWithGoogle(idToken: String?) = flow {
         try {
             emit(Response.Loading)
             val credential = GoogleAuthProvider.getCredential(idToken, null)

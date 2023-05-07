@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 apply from: "$project.rootDir/versions.gradle"
@@ -44,7 +45,7 @@ dependencies {
 
     implementation 'androidx.core:core-ktx:1.10.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     // Modules
     implementation project(path: ':domain')
@@ -59,6 +60,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-config-ktx'
     implementation 'com.google.firebase:firebase-storage-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
     //Dagger
     implementation dagger
     kapt daggerCompiler
@@ -79,7 +82,7 @@ dependencies {
     implementation "androidx.room:room-ktx:2.5.1"
     kapt "androidx.room:room-compiler:2.5.1"
     // Jetpack Paging 3
-    implementation "androidx.paging:paging-runtime:3.2.0-alpha04"
+    implementation "androidx.paging:paging-runtime:3.2.0-alpha05"
     // pull-to-refresh
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 

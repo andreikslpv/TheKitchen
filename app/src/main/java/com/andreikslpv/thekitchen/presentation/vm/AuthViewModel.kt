@@ -21,7 +21,7 @@ class AuthViewModel : ViewModel() {
         App.instance.dagger.inject(this)
     }
 
-    fun signInWithGoogle(idToken: String) = liveData(Dispatchers.IO) {
+    fun signInWithGoogle(idToken: String?) = liveData(Dispatchers.IO) {
         authRepository.firebaseSignInWithGoogle(idToken).collect { response ->
             emit(response)
         }
@@ -31,10 +31,6 @@ class AuthViewModel : ViewModel() {
         val user = User()
         authRepository.getCurrentUser()?.apply {
             user.uid = this.uid
-            user.displayName = this.displayName
-            user.email = this.email
-            user.photoUrl = this.photoUrl.toString()
-            user.createdAt = System.currentTimeMillis()
         }
         userRepository.createUser(user).collect { response ->
             emit(response)

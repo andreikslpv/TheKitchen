@@ -40,16 +40,20 @@
     <string name="favorites_share_title">Поделиться:</string>
     <string name="favorites_share_message">А это мои любимые рецепты: \n%s</string>
 
+    //Auth
+    <string name="auth_copyright">Зарегистрировавшись, вы соглашаетесь с Условиями обслуживания и Политикой конфиденциальности</string>
+    <string name="auth_slogan">Лучшие рецепты\nдля вкусной жизни</string>
+    <string name="sign_in_with_google_button">Продолжить с Google</string>
+    <string name="anonymous_button">Продолжить без авторизации</string>
+
+
+
     //Menu Items
     <string name="sign_out_item">Sign-out</string>
 
     //Fragments
     <string name="profile_fragment">My Profile</string>
     <string name="movie_fragment">Movie Details</string>
-
-    //Buttons
-    <string name="sign_in_with_google_button">Войти с Google</string>
-    <string name="anonymous_button">Войти без авторизации</string>
 
     //TextViews
     <string name="authentication">Authentication</string>

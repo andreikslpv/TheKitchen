@@ -18,6 +18,7 @@ import com.andreikslpv.thekitchen.presentation.ui.base.BaseFragment
 import com.andreikslpv.thekitchen.presentation.vm.AuthViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import javax.inject.Inject
 
 
@@ -30,6 +31,9 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>(FragmentAuthBinding::infl
 
     @Inject
     lateinit var signInIntent: Intent
+
+    @Inject
+    lateinit var crashlytics: FirebaseCrashlytics
 
     private val viewModel by viewModels<AuthViewModel>()
 
@@ -44,38 +48,37 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>(FragmentAuthBinding::infl
             resultLauncher.launch(signInIntent)
         }
         binding.anonymousButton.setOnClickListener {
+            //signInWithGoogle(null)
             startTabsFragment()
         }
         initResultLauncher()
     }
 
     private fun initResultLauncher() {
-        resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == AppCompatActivity.RESULT_OK) {
-                val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-                try {
-                    val googleSignInAccount = task.getResult(ApiException::class.java)
-                    googleSignInAccount?.apply {
-                        idToken?.let { idToken ->
-                            signInWithGoogle(idToken)
+        resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == AppCompatActivity.RESULT_OK) {
+                    val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+                    try {
+                        val googleSignInAccount = task.getResult(ApiException::class.java)
+                        googleSignInAccount?.apply {
+                            idToken?.let { idToken ->
+                                signInWithGoogle(idToken)
+                            }
                         }
+                    } catch (e: ApiException) {
+                        println("AAA initResultLauncher ${e.message}")
+                        crashlytics.recordException(e)
                     }
-                } catch (e: ApiException) {
-                    print(e.message)
                 }
             }
-        }
     }
 
-    private fun signInWithGoogle(idToken: String) {
+    private fun signInWithGoogle(idToken: String?) {
         viewModel.signInWithGoogle(idToken).observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Response.Loading -> binding.progressBar.show()
                 is Response.Success -> {
-//                    startTabsFragment()
-//                    binding.progressBar.hide()
-
-
                     val isNewUser = response.data
                     if (isNewUser) {
                         createUser()
@@ -84,8 +87,10 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>(FragmentAuthBinding::infl
                         binding.progressBar.hide()
                     }
                 }
+
                 is Response.Failure -> {
-                    print(response.errorMessage)
+                    println("AAA signInWithGoogle ${response.errorMessage}")
+                    crashlytics.recordException(Throwable(response.errorMessage))
                     binding.progressBar.hide()
                 }
             }
@@ -103,6 +108,7 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>(FragmentAuthBinding::infl
 
                 is Response.Failure -> {
                     println("AAA createUser ${response.errorMessage}")
+                    crashlytics.recordException(Throwable(response.errorMessage))
                     binding.progressBar.hide()
                 }
             }

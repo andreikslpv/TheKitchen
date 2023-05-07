@@ -41,7 +41,7 @@ class UserRepositoryImpl @Inject constructor(
                     trySend(user)
                     println("AAA getCurrentUser $user")
                     favorites.tryEmit(user.favorites)
-                    history.tryEmit(user.viewed)
+                    history.tryEmit(user.history)
                 }
             }
         awaitClose {

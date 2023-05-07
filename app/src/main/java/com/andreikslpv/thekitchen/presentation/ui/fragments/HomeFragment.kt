@@ -144,13 +144,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     private fun initProfileButton() {
-        if (viewModel.currentUserFromAuth != null)
-            binding.homeToolbar.menu.findItem(R.id.profileButton).setOnMenuItemClickListener {
-                // для запуска экранов верхнего уровня (graph_main) используем extension
+        binding.homeToolbar.menu.findItem(R.id.profileButton).setOnMenuItemClickListener {
+            if (viewModel.currentUserFromAuth != null)
+            // для запуска экранов верхнего уровня (graph_main) используем extension
                 findTopNavController().navigate(R.id.profileFragment)
-                true
-            }
-        else goToAuthFragment()
+            else goToAuthFragment()
+            true
+        }
     }
 
     private fun goToAuthFragment() {

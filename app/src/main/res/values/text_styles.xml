@@ -8,6 +8,11 @@
         <item name="android:gravity">start</item>
     </style>
 
+    <style name="TextTitle.Center" parent="TextTitle">
+        <item name="android:gravity">center</item>
+    </style>
+
+
     <style name="TextTitleButtonFill">
         <item name="android:textSize">@dimen/text_title_button</item>
         <item name="android:textColor">@color/white</item>
@@ -46,6 +51,12 @@
 
     <style name="TextEmpty">
         <item name="android:textSize">@dimen/text_title_button</item>
+        <item name="android:textColor">@color/text_menu_title</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="TextCopyright">
+        <item name="android:textSize">@dimen/text_warning</item>
         <item name="android:textColor">@color/text_menu_title</item>
         <item name="android:gravity">center</item>
     </style>

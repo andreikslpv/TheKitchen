@@ -102,7 +102,7 @@
                 android:id="@+id/favoritesEmptyImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_big_48"
+                android:layout_marginTop="@dimen/margin_big_80"
                 android:background="@android:color/transparent"
                 android:scaleType="centerCrop"
                 android:src="@drawable/empty_favorites"
