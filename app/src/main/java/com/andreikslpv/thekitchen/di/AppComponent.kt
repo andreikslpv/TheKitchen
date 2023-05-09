@@ -4,6 +4,7 @@ package com.andreikslpv.thekitchen.di
  import com.andreikslpv.thekitchen.presentation.ui.MainActivity
  import com.andreikslpv.thekitchen.presentation.ui.fragments.AuthFragment
  import com.andreikslpv.thekitchen.presentation.ui.fragments.HomeFragment
+ import com.andreikslpv.thekitchen.presentation.ui.fragments.RecipeFragment
  import com.andreikslpv.thekitchen.presentation.ui.recyclers.RecipeNewViewHolder
  import com.andreikslpv.thekitchen.presentation.ui.recyclers.RecipeCatalogViewHolder
  import com.andreikslpv.thekitchen.presentation.vm.*
@@ -23,6 +24,7 @@ interface AppComponent {
     //методы для того, чтобы появилась возможность внедрять зависимости в требуемые классы
     fun inject(authFragment: AuthFragment)
     fun inject(homeFragment: HomeFragment)
+    fun inject(recipeFragment: RecipeFragment)
     fun inject(mainActivity: MainActivity)
     fun inject(authViewModel: AuthViewModel)
     fun inject(mainViewModel: MainViewModel)
@@ -31,6 +33,7 @@ interface AppComponent {
     fun inject(catalogViewModel: CatalogViewModel)
     fun inject(favoritesViewModel: FavoritesViewModel)
     fun inject(filtersViewModel: FiltersViewModel)
+    fun inject(recipeViewModel: RecipeViewModel)
     fun inject(recipeCatalogViewHolder: RecipeCatalogViewHolder)
     fun inject(recipeNewViewHolder: RecipeNewViewHolder)
 }

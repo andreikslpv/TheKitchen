@@ -100,8 +100,10 @@ class MainActivity : AppCompatActivity() {
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if (isStartDestination(navController?.currentDestination)) {
+            println("AAA act 1")
             super.onBackPressed()
         } else {
+            println("AAA act 2")
             navController?.popBackStack()
         }
     }

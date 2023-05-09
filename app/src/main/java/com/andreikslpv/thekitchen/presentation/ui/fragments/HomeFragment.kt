@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -91,9 +92,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             recipeNewAdapter = RecipeNewRecyclerAdapter(
                 object : RecipeItemClickListener {
                     override fun click(recipePreview: RecipePreview) {
-//                            viewLifecycleOwner.lifecycleScope.launch {
-//                                removePhotoFromFavoritesUseCase.execute(photo.id)
-//                            }
+                        goToRecipeFragment(recipePreview)
                     }
                 },
                 object : ItemClickListener {
@@ -167,5 +166,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             fragment.goToCatalog()
             (requireActivity() as MainActivity).setCategoryFromHome(id)
         }
+    }
+
+    private fun goToRecipeFragment(recipePreview: RecipePreview) {
+        val direction = HomeFragmentDirections.actionHomeFragmentToRecipeFragment(
+            recipePreview
+        )
+        findNavController().navigate(direction)
     }
 }

@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -52,9 +53,7 @@ class FavoritesFragment :
         binding.favoritesRecyclerRecipe.apply {
             recipePreviewAdapter = RecipePreviewPagingAdapter(object : RecipeItemClickListener {
                 override fun click(recipePreview: RecipePreview) {
-//                            viewLifecycleOwner.lifecycleScope.launch {
-//                                removePhotoFromFavoritesUseCase.execute(photo.id)
-//                            }
+                    goToRecipeFragment(recipePreview)
                 }
             }, object : ItemClickListener {
                 override fun click(id: String) {
@@ -193,4 +192,10 @@ class FavoritesFragment :
         })
     }
 
+    private fun goToRecipeFragment(recipePreview: RecipePreview) {
+        val direction = FavoritesFragmentDirections.actionFavoritesFragmentToRecipeFragment3(
+            recipePreview
+        )
+        findNavController().navigate(direction)
+    }
 }

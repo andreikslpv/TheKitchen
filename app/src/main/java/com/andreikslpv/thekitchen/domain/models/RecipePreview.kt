@@ -17,4 +17,4 @@ data class RecipePreview(
     var isFavorite: Boolean = false,
     @Exclude
     var isContainExclude: Boolean = false,
-)
+) : java.io.Serializable

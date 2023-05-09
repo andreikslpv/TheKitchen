@@ -77,9 +77,12 @@
     <!-- for auth -->
     <dimen name="auth_logo_dimen">192dp</dimen>
 
-
-
-
+    <!-- for recipe -->
+    <dimen name="recipe_image_height">220dp</dimen>
+    <dimen name="recipe_description_margin">-28dp</dimen>
+    <dimen name="calc_button_dimen">40dp</dimen>
+    <dimen name="calc_text_dimen">20dp</dimen>
+    <dimen name="calc_corner_radius">12dp</dimen>
 
 
     <!-- for FAB -->
