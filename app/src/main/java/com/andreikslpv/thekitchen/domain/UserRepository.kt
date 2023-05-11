@@ -21,4 +21,6 @@ interface UserRepository {
 
     fun getHistory(): MutableStateFlow<List<String>>
 
+    fun setHistory(uid: String, newHistory: List<String>)
+
 }

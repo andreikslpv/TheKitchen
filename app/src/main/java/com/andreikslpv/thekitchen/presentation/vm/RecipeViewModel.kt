@@ -11,6 +11,7 @@ import com.andreikslpv.thekitchen.domain.models.Ingredient
 import com.andreikslpv.thekitchen.domain.models.RecipeDetails
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
 import com.andreikslpv.thekitchen.domain.usecases.GetUserFromDbUseCase
+import com.andreikslpv.thekitchen.domain.usecases.SetHistoryUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeFavoritesStatusUseCase
 import com.andreikslpv.thekitchen.presentation.utils.roundTo
 import kotlinx.coroutines.CoroutineScope
@@ -36,6 +37,9 @@ class RecipeViewModel : ViewModel() {
 
     @Inject
     lateinit var tryToChangeFavoritesStatusUseCase: TryToChangeFavoritesStatusUseCase
+
+    @Inject
+    lateinit var setHistoryUseCase: SetHistoryUseCase
 
     private val _recipePreview = MutableLiveData(RecipePreview())
     val recipePreview: LiveData<RecipePreview> = _recipePreview
@@ -108,6 +112,7 @@ class RecipeViewModel : ViewModel() {
 
     fun setRecipePreview(recipe: RecipePreview) {
         _recipePreview.value = recipe
+        setHistoryUseCase.execute(recipe.id)
     }
 
     fun validAndSetPortionsCount(newCount: Int) {

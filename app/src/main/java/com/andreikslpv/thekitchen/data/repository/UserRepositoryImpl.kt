@@ -72,5 +72,9 @@ class UserRepositoryImpl @Inject constructor(
         return history
     }
 
+    override fun setHistory(uid: String, newHistory: List<String>) {
+        val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
+        user.update("history", newHistory)
+    }
 
 }

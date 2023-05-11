@@ -8,6 +8,7 @@ import com.andreikslpv.thekitchen.domain.usecases.GetRecipeNewUseCase
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipePreviewUseCase
 import com.andreikslpv.thekitchen.domain.usecases.GetUserFromDbUseCase
 import com.andreikslpv.thekitchen.domain.usecases.InitApplicationSettingsUseCase
+import com.andreikslpv.thekitchen.domain.usecases.SetHistoryUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeFavoritesStatusUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveAllFromFavoritesUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveFromFavoritesUseCase
@@ -79,6 +80,15 @@ class DomainModule {
         authRepository: AuthRepository,
     ): TryToRemoveAllFromFavoritesUseCase {
         return TryToRemoveAllFromFavoritesUseCase(userRepository, authRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSetHistoryUseCase(
+        userRepository: UserRepository,
+        authRepository: AuthRepository,
+    ): SetHistoryUseCase {
+        return SetHistoryUseCase(userRepository, authRepository)
     }
 
 }
