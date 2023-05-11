@@ -50,11 +50,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         initRecyclers()
         initCollect()
         initProfileButton()
+        println("AAA HomeFragment 4")
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun initCollect() {
         viewModel.getAllCategories().observe(viewLifecycleOwner) { response ->
+            println("AAA HomeFragment 5")
             categoryDishAdapter.changeItems(
                 response.filter {
                     it.type == CategoryType.DISH.value

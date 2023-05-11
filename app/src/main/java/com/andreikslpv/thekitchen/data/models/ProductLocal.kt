@@ -14,5 +14,5 @@ data class ProductLocal(
     @PrimaryKey
     @ColumnInfo(name = RoomConstants.COLUMN_PRODUCT_ID) val id: String = "pr00000",
     @ColumnInfo(name = RoomConstants.COLUMN_PRODUCT_NAME) val name: String = "product",
-    @ColumnInfo(name = RoomConstants.COLUMN_PRODUCT_UNIT) val unit: String = "un00000",
+    @ColumnInfo(name = RoomConstants.COLUMN_PRODUCT_UNIT) val saleUnit: String = "un00000",
 )

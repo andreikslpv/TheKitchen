@@ -2,6 +2,8 @@ package com.andreikslpv.thekitchen.di
 
 import android.content.Context
 import com.andreikslpv.thekitchen.data.dao.CategoryDao
+import com.andreikslpv.thekitchen.data.dao.ProductDao
+import com.andreikslpv.thekitchen.data.dao.UnitDao
 import com.andreikslpv.thekitchen.data.dao.UpdateDao
 import com.andreikslpv.thekitchen.data.repository.AuthRepository
 import com.andreikslpv.thekitchen.data.repository.RecipeRepositoryImpl
@@ -43,8 +45,10 @@ class DataModule {
         database: FirebaseFirestore,
         updateDao: UpdateDao,
         categoryDao: CategoryDao,
+        productDao: ProductDao,
+        unitDao: UnitDao,
     ): RecipeRepository {
-        return RecipeRepositoryImpl(database, updateDao, categoryDao)
+        return RecipeRepositoryImpl(database, updateDao, categoryDao, productDao, unitDao)
     }
 
     @Provides

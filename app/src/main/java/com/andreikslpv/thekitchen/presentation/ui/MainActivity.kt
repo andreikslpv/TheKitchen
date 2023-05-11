@@ -17,6 +17,7 @@ import com.andreikslpv.thekitchen.R
 import com.andreikslpv.thekitchen.databinding.ActivityMainBinding
 import com.andreikslpv.thekitchen.domain.usecases.InitApplicationSettingsUseCase
 import com.andreikslpv.thekitchen.presentation.ui.fragments.TabsFragment
+import com.andreikslpv.thekitchen.presentation.utils.makeToast
 import com.andreikslpv.thekitchen.presentation.vm.MainViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -74,13 +75,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        CoroutineScope(Dispatchers.IO).launch {
-//            Recipe4.addToDb(firestore, storage)
-//            Recipe5.addToDb(firestore, storage)
-//            Categories.addToDb(firestore, storage)
-//            Products.addToDb(firestore)
-        }
-
+//        CoroutineScope(Dispatchers.IO).launch {
+////            Recipe4.addToDb(firestore, storage)
+////            Recipe5.addToDb(firestore, storage)
+////            Categories.addToDb(firestore, storage)
+////            Products.addToDb(firestore)
+//        }
         initApplicationSettings()
 
         // preparing root nav controller
@@ -100,10 +100,8 @@ class MainActivity : AppCompatActivity() {
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if (isStartDestination(navController?.currentDestination)) {
-            println("AAA act 1")
             super.onBackPressed()
         } else {
-            println("AAA act 2")
             navController?.popBackStack()
         }
     }

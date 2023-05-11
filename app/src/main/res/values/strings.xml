@@ -51,6 +51,9 @@
     <string name="recipe_title_ingridients">Ингредиенты</string>
     <string name="recipe_title_steps">Пошаговый рецепт</string>
     <string name="recipe_kkal">%d Ккал</string>
+    <string name="ingredient_count">%s %s</string>
+    <string name="ingredient_adding">Добавить в список покупок</string>
+    <string name="step_title">Шаг %s</string>
 
 
 
