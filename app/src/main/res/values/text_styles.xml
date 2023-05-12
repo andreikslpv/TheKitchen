@@ -49,6 +49,13 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="TextAddingButton">
+        <item name="android:textSize">@dimen/text_title_category</item>
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">end</item>
+    </style>
+
     <style name="TextEmpty">
         <item name="android:textSize">@dimen/text_title_button</item>
         <item name="android:textColor">@color/text_menu_title</item>

@@ -1,11 +1,14 @@
 package com.andreikslpv.thekitchen.presentation.ui.fragments
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import androidx.paging.LoadState
@@ -56,11 +59,15 @@ class FavoritesFragment :
                     goToRecipeFragment(recipePreview)
                 }
             }, object : ItemClickListener {
+                @SuppressLint("NotifyDataSetChanged")
                 override fun click(id: String) {
                     val result = viewModel.tryToRemoveFromFavorites(id)
-                    if (!result) Snackbar.make(
-                        binding.root, R.string.home_snackbar_text, Snackbar.LENGTH_LONG
-                    ).setAction(R.string.home_snackbar_action) { goToAuthFragment() }.show()
+                    if (!result)
+                        Snackbar.make(
+                            binding.root, R.string.home_snackbar_text, Snackbar.LENGTH_LONG
+                        ).setAction(R.string.home_snackbar_action) { goToAuthFragment() }.show()
+                    else recipePreviewAdapter.notifyDataSetChanged()
+
                 }
             },
                 RecipePreviewType.FAVORITES
@@ -84,28 +91,32 @@ class FavoritesFragment :
 
     private fun initLoadStateListening() {
         this.lifecycleScope.launch {
-            recipePreviewAdapter.loadStateFlow.collect {
-                if (it.source.prepend is LoadState.NotLoading) {
-                    binding.catalogProgressBar.visible(true)
-                }
-                if (it.source.prepend is LoadState.Error) {
-                    (it.source.prepend as LoadState.Error).error.message?.makeToast(
-                        requireContext()
-                    )
-                }
-                if (it.source.append is LoadState.Error) {
-                    (it.source.append as LoadState.Error).error.message?.makeToast(
-                        requireContext()
-                    )
-                }
-                if (it.source.refresh is LoadState.NotLoading) {
-                    binding.catalogProgressBar.visible(false)
-                }
-                if (it.source.refresh is LoadState.Error) {
-                    binding.catalogProgressBar.visible(false)
-                    (it.source.refresh as LoadState.Error).error.message?.makeToast(
-                        requireContext()
-                    )
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    recipePreviewAdapter.loadStateFlow.collect {
+                        if (it.source.prepend is LoadState.NotLoading) {
+                            binding.catalogProgressBar.visible(true)
+                        }
+                        if (it.source.prepend is LoadState.Error) {
+                            (it.source.prepend as LoadState.Error).error.message?.makeToast(
+                                requireContext()
+                            )
+                        }
+                        if (it.source.append is LoadState.Error) {
+                            (it.source.append as LoadState.Error).error.message?.makeToast(
+                                requireContext()
+                            )
+                        }
+                        if (it.source.refresh is LoadState.NotLoading) {
+                            binding.catalogProgressBar.visible(false)
+                        }
+                        if (it.source.refresh is LoadState.Error) {
+                            binding.catalogProgressBar.visible(false)
+                            (it.source.refresh as LoadState.Error).error.message?.makeToast(
+                                requireContext()
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -113,14 +124,18 @@ class FavoritesFragment :
 
     private fun initEmptyListening() {
         this.lifecycleScope.launch {
-            recipePreviewAdapter.loadStateFlow.collect {
-                if (it.append is LoadState.NotLoading && it.append.endOfPaginationReached) {
-                    val temp = recipePreviewAdapter.itemCount < 1
-                    binding.favoritesEmptyView.visible(temp)
-                    binding.favoritesRecyclerRecipe.visible(!temp)
-                } else {
-                    binding.favoritesEmptyView.visible(false)
-                    binding.favoritesRecyclerRecipe.visible(true)
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    recipePreviewAdapter.loadStateFlow.collect {
+                        if (it.append is LoadState.NotLoading && it.append.endOfPaginationReached) {
+                            val temp = recipePreviewAdapter.itemCount < 1
+                            binding.favoritesEmptyView.visible(temp)
+                            binding.favoritesRecyclerRecipe.visible(!temp)
+                        } else {
+                            binding.favoritesEmptyView.visible(false)
+                            binding.favoritesRecyclerRecipe.visible(true)
+                        }
+                    }
                 }
             }
         }

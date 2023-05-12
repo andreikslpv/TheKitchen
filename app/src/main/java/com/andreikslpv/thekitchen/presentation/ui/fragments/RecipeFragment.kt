@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navOptions
@@ -23,8 +26,6 @@ import com.andreikslpv.thekitchen.presentation.utils.findTopNavController
 import com.andreikslpv.thekitchen.presentation.vm.RecipeViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.roundToInt
@@ -145,25 +146,26 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>(FragmentRecipeBinding
     }
 
     private fun initFavoriteButton() {
-        CoroutineScope(Dispatchers.Main).launch {
-            userRepository.getFavorites().collect { list ->
-                if (list.contains(viewModel.recipePreview.value?.id)) {
-                    println("AAA 1 ${binding.recipeButtonFavorites}")
-                    binding.recipeButtonFavorites.setImageResource(R.drawable.ic_favorites_fill)
-//                    binding?.let {
-//                        it.recipeButtonFavorites.setImageResource(R.drawable.ic_favorites_fill)
-//                        println("AAA 1 ${binding.recipeButtonFavorites}")
-//                    }
-                } else {
-                    println("AAA 2 ${binding.recipeButtonFavorites}")
-                    binding.recipeButtonFavorites.setImageResource(R.drawable.ic_favorites)
-//                    binding?.let {
-//                        it.recipeButtonFavorites.setImageResource(R.drawable.ic_favorites)
-//                        println("AAA 2 ${binding.recipeButtonFavorites}")
-//                    }
+        this.lifecycleScope.launch {
+            // Suspend the coroutine until the lifecycle is DESTROYED.
+            // repeatOnLifecycle launches the block in a new coroutine every time the
+            // lifecycle is in the STARTED state (or above) and cancels it when it's STOPPED.
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                // Safely collect from source when the lifecycle is STARTED
+                // and stop collecting when the lifecycle is STOPPED
+                viewLifecycleOwner.lifecycleScope.launch {
+                    userRepository.getFavorites().collect { list ->
+                        if (list.contains(viewModel.recipePreview.value?.id)) {
+                            binding.recipeButtonFavorites.setImageResource(R.drawable.ic_favorites_fill)
+                        } else {
+                            binding.recipeButtonFavorites.setImageResource(R.drawable.ic_favorites)
+                        }
+                    }
                 }
             }
+            // Note: at this point, the lifecycle is DESTROYED!
         }
+
         binding.recipeButtonFavorites.setOnClickListener {
             val result = viewModel.tryToChangeFavoritesStatus()
             if (!result) Snackbar.make(

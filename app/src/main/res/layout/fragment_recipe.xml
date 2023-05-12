@@ -133,7 +133,8 @@
                     android:src="@drawable/ic_minus"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="ContentDescription" />
+                    tools:ignore="ContentDescription"
+                    android:focusable="true" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/recipeCalcText"
@@ -142,7 +143,7 @@
                     android:layout_height="@dimen/calc_button_dimen"
                     android:layout_marginTop="@dimen/margin_basic"
                     android:background="@color/lime"
-                    android:text="0"
+                    android:text="@string/portion_default"
                     app:layout_constraintEnd_toStartOf="@+id/recipeCalcMinus"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -157,7 +158,8 @@
                     android:src="@drawable/ic_plus"
                     app:layout_constraintEnd_toStartOf="@+id/recipeCalcText"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="ContentDescription" />
+                    tools:ignore="ContentDescription"
+                    android:focusable="true" />
 
 
                 <com.google.android.material.textview.MaterialTextView
@@ -231,6 +233,7 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/ingredientAddingButton"
+                    style="@style/TextAddingButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_basic"
@@ -238,10 +241,7 @@
                     android:background="@android:color/transparent"
                     android:clickable="true"
                     android:focusable="true"
-                    android:gravity="end"
                     android:text="@string/ingredient_adding"
-                    android:textColor="@color/link"
-                    android:textSize="@dimen/text_title_category"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ingredientRecyclerRecipe" />
 

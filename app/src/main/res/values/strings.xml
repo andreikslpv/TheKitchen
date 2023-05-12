@@ -54,6 +54,7 @@
     <string name="ingredient_count">%s %s</string>
     <string name="ingredient_adding">Добавить в список покупок</string>
     <string name="step_title">Шаг %s</string>
+    <string name="portion_default">0</string>
 
 
 

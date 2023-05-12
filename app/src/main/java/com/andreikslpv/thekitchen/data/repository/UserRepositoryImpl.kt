@@ -34,7 +34,7 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getCurrentUser(uid: String) = callbackFlow {
-        val favorites = database.collection(FirestoreConstants.PATH_USERS).document(uid)
+        val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
             .addSnapshotListener { value, error ->
                 if (error == null && value != null) {
                     val user = value.toObject(User::class.java)!!
@@ -45,7 +45,7 @@ class UserRepositoryImpl @Inject constructor(
                 }
             }
         awaitClose {
-            favorites.remove()
+            user.remove()
         }
     }
 
