@@ -103,9 +103,7 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
         binding.catalogRecyclerRecipe.apply {
             recipePreviewAdapter = RecipePreviewPagingAdapter(object : RecipeItemClickListener {
                 override fun click(recipePreview: RecipePreview) {
-//                            viewLifecycleOwner.lifecycleScope.launch {
-//                                removePhotoFromFavoritesUseCase.execute(photo.id)
-//                            }
+                    goToRecipeFragment(recipePreview)
                 }
             }, object : ItemClickListener {
                 override fun click(id: String) {
@@ -115,9 +113,9 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
                     ).setAction(R.string.home_snackbar_action) { goToAuthFragment() }.show()
                 }
             },
-            RecipePreviewType.CATALOG)
+                RecipePreviewType.CATALOG
+            )
             layoutManager = LinearLayoutManager(requireContext())
-            //binding.selectionsRecycler.setHasFixedSize(true)
 
             adapter =
                 recipePreviewAdapter.withLoadStateHeaderAndFooter(header = RecipePreviewLoadStateAdapter { recipePreviewAdapter.retry() },
@@ -211,5 +209,12 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
                 inclusive = true
             }
         })
+    }
+
+    private fun goToRecipeFragment(recipePreview: RecipePreview) {
+        val direction = CatalogFragmentDirections.actionGlobalRecipeFragment(
+            recipePreview
+        )
+        findNavController().navigate(direction)
     }
 }

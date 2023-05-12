@@ -46,6 +46,16 @@
     <string name="sign_in_with_google_button">Продолжить с Google</string>
     <string name="anonymous_button">Продолжить без авторизации</string>
 
+    //Recipe
+    <string name="recipe_title_description">Описание блюда</string>
+    <string name="recipe_title_ingridients">Ингредиенты</string>
+    <string name="recipe_title_steps">Пошаговый рецепт</string>
+    <string name="recipe_kkal">%d Ккал</string>
+    <string name="ingredient_count">%s %s</string>
+    <string name="ingredient_adding">Добавить в список покупок</string>
+    <string name="step_title">Шаг %s</string>
+    <string name="portion_default">0</string>
+
 
 
     //Menu Items

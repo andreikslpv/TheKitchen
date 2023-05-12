@@ -1,10 +1,337 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.ui.fragments.RecipeFragment">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/recipeAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/recipeToolbar"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/recipeNested"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/recipeImage"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/recipe_image_height"
+                android:clipToOutline="true"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription"
+                tools:src="@tools:sample/avatars" />
+
+            <ImageView
+                android:id="@+id/recipeButtonFavorites"
+                android:layout_width="@dimen/FAB_dimen"
+                android:layout_height="@dimen/FAB_dimen"
+                android:layout_marginTop="@dimen/FAB_margin"
+                android:layout_marginEnd="@dimen/FAB_margin"
+                android:background="@android:color/transparent"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription"
+                tools:src="@tools:sample/avatars" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/descriptionContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/recipe_description_margin"
+                android:background="@drawable/background_main_card_recipe"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recipeImage">
+
+                <ImageView
+                    android:id="@+id/recipeTimerImage"
+                    android:layout_width="@dimen/FAB_dimen"
+                    android:layout_height="@dimen/FAB_dimen"
+                    android:layout_marginStart="@dimen/margin_basic"
+                    android:layout_marginTop="@dimen/margin_big_24"
+                    android:background="@android:color/transparent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_timer"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription"
+                    tools:src="@tools:sample/avatars" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/recipeTimerValue"
+                    style="@style/TextTitleCategory.Start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/FAB_dimen"
+                    android:layout_marginStart="@dimen/card_preview_margin_image"
+                    android:layout_marginTop="@dimen/margin_big_24"
+                    android:gravity="start|center_vertical"
+                    app:layout_constraintStart_toEndOf="@+id/recipeTimerImage"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="XX min" />
+
+                <ImageView
+                    android:id="@+id/recipeKkalImage"
+                    android:layout_width="@dimen/FAB_dimen"
+                    android:layout_height="@dimen/FAB_dimen"
+                    android:layout_marginStart="@dimen/card_preview_margin_kkal"
+                    android:layout_marginTop="@dimen/margin_big_24"
+                    android:background="@android:color/transparent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_kkal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription"
+                    tools:src="@tools:sample/avatars" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/recipeKkalValue"
+                    style="@style/TextTitleCategory.Start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/FAB_dimen"
+                    android:layout_marginStart="@dimen/card_preview_margin_image"
+                    android:layout_marginTop="@dimen/margin_big_24"
+                    android:gravity="start|center_vertical"
+                    app:layout_constraintStart_toEndOf="@+id/recipeKkalImage"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="XXX kkal" />
+
+                <ImageView
+                    android:id="@+id/recipeCalcMinus"
+                    android:layout_width="@dimen/calc_button_dimen"
+                    android:layout_height="@dimen/calc_button_dimen"
+                    android:layout_marginTop="@dimen/margin_basic"
+                    android:layout_marginEnd="@dimen/margin_basic"
+                    android:background="@drawable/background_calc_minus"
+                    android:clickable="true"
+                    android:elevation="@dimen/card_elevation_no"
+                    android:src="@drawable/ic_minus"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription"
+                    android:focusable="true" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/recipeCalcText"
+                    style="@style/TextTitle.Center"
+                    android:layout_width="@dimen/calc_text_dimen"
+                    android:layout_height="@dimen/calc_button_dimen"
+                    android:layout_marginTop="@dimen/margin_basic"
+                    android:background="@color/lime"
+                    android:text="@string/portion_default"
+                    app:layout_constraintEnd_toStartOf="@+id/recipeCalcMinus"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/recipeCalcPlus"
+                    android:layout_width="@dimen/calc_button_dimen"
+                    android:layout_height="@dimen/calc_button_dimen"
+                    android:layout_marginTop="@dimen/margin_basic"
+                    android:background="@drawable/background_calc_plus"
+                    android:clickable="true"
+                    android:elevation="@dimen/card_elevation_no"
+                    android:src="@drawable/ic_plus"
+                    app:layout_constraintEnd_toStartOf="@+id/recipeCalcText"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription"
+                    android:focusable="true" />
 
 
-</FrameLayout>
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/recipeTitleDescription"
+                    style="@style/TextTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_basic"
+                    android:layout_marginTop="@dimen/margin_big_32"
+                    android:text="@string/recipe_title_description"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recipeCalcMinus" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/recipeDescription"
+                    style="@style/TextRecipeBasic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_basic"
+                    android:layout_marginTop="@dimen/margin_big_24"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recipeTitleDescription" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin_basic"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recipeDescription" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ingridientsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_basic"
+                android:background="@drawable/background_main_card"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/descriptionContainer">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/ingridientsTitleDescription"
+                    style="@style/TextTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_basic"
+                    android:layout_marginTop="@dimen/margin_basic"
+                    android:text="@string/recipe_title_ingridients"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/ingredientRecyclerRecipe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_basic"
+                    android:layout_marginTop="@dimen/margin_big_24"
+                    android:background="@android:color/transparent"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ingridientsTitleDescription"
+                    tools:listitem="@layout/item_ingredient" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/ingredientAddingButton"
+                    style="@style/TextAddingButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_basic"
+                    android:layout_marginEnd="@dimen/margin_basic"
+                    android:background="@android:color/transparent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="@string/ingredient_adding"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ingredientRecyclerRecipe" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin_basic"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ingredientAddingButton" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/stepsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_basic"
+                android:background="@drawable/background_main_card_step"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ingridientsContainer">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/stepsTitleDescription"
+                    style="@style/TextTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_basic"
+                    android:layout_marginTop="@dimen/margin_basic"
+                    android:text="@string/recipe_title_steps"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@id/stepsPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/step_height"
+                    android:layout_marginHorizontal="@dimen/margin_basic"
+                    android:layout_marginTop="@dimen/margin_big_24"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/stepsTitleDescription"
+                    tools:listitem="@layout/item_step" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@id/stepsProgress"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/step_progress_height"
+                    android:layout_marginHorizontal="@dimen/margin_basic"
+                    android:layout_marginTop="@dimen/margin_basic"
+                    android:max="100"
+                    app:indicatorColor="@color/purple"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/stepsPager" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin_basic"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/stepsProgress" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_basic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/stepsContainer" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

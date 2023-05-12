@@ -20,6 +20,6 @@ object RoomConstants {
     const val TABLE_CACHED_PRODUCT = "cached_product"
     const val COLUMN_PRODUCT_ID = "id"
     const val COLUMN_PRODUCT_NAME = "name"
-    const val COLUMN_PRODUCT_UNIT = "unit"
+    const val COLUMN_PRODUCT_UNIT = "sale_unit"
 
 }

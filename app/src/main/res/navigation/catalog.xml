@@ -9,7 +9,11 @@
         android:id="@+id/recipeFragment"
         android:name="com.andreikslpv.thekitchen.presentation.ui.fragments.RecipeFragment"
         android:label="fragment_recipe"
-        tools:layout="@layout/fragment_recipe" />
+        tools:layout="@layout/fragment_recipe" >
+        <argument
+            android:name="recipe"
+            app:argType="com.andreikslpv.thekitchen.domain.models.RecipePreview" />
+    </fragment>
     <navigation
         android:id="@+id/addingFilters"
         app:startDestination="@id/catalogFragment">
@@ -42,5 +46,8 @@
                 android:id="@+id/action_filtersFragment_to_catalogFragment"
                 app:destination="@id/catalogFragment" />
         </fragment>
+        <action
+            android:id="@+id/action_global_recipeFragment"
+            app:destination="@id/recipeFragment" />
     </navigation>
 </navigation>

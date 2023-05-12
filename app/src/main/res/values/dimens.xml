@@ -31,6 +31,7 @@
     <!-- margins -->
     <dimen name="margin_basic">16dp</dimen>
     <dimen name="margin_small">12dp</dimen>
+    <dimen name="margin_small_8">8dp</dimen>
     <dimen name="margin_big">20dp</dimen>
     <dimen name="margin_big_24">24dp</dimen>
     <dimen name="margin_big_32">32dp</dimen>
@@ -77,8 +78,15 @@
     <!-- for auth -->
     <dimen name="auth_logo_dimen">192dp</dimen>
 
-
-
+    <!-- for recipe -->
+    <dimen name="recipe_image_height">220dp</dimen>
+    <dimen name="recipe_description_margin">-28dp</dimen>
+    <dimen name="calc_button_dimen">40dp</dimen>
+    <dimen name="calc_text_dimen">20dp</dimen>
+    <dimen name="calc_corner_radius">12dp</dimen>
+    <dimen name="step_height">200dp</dimen>
+    <dimen name="step_progress_height">8dp</dimen>
+    <dimen name="step_progress_max">100</dimen>
 
 
 

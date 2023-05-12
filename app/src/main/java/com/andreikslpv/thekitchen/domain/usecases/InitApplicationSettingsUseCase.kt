@@ -20,8 +20,8 @@ class InitApplicationSettingsUseCase(
             recipeRepository.updateLocalData(FirestoreConstants.PATH_CATEGORY)
 //            checkForUpdates(SettingsIntType.VERSION_CATEGORY_TYPE, FirestoreConstants.PATH_CATEGORY_TYPE)
 //            checkForUpdates(SettingsIntType.VERSION_CATEGORY, FirestoreConstants.PATH_CATEGORY)
-//            checkForUpdates(SettingsIntType.VERSION_UNIT, FirestoreConstants.PATH_UNIT)
-//            checkForUpdates(SettingsIntType.VERSION_PRODUCT, FirestoreConstants.PATH_PRODUCT)
+            checkForUpdates(SettingsIntType.VERSION_UNIT, FirestoreConstants.PATH_UNIT)
+            checkForUpdates(SettingsIntType.VERSION_PRODUCT, FirestoreConstants.PATH_PRODUCT)
         }
     }
 
