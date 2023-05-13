@@ -12,7 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class RecipeNewViewHolder(val binding: ItemRecipeNewBinding) :
+class RecipeMiniViewHolder(val binding: ItemRecipeNewBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     @Inject

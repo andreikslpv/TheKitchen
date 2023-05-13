@@ -4,6 +4,7 @@ import com.andreikslpv.thekitchen.data.repository.AuthRepository
 import com.andreikslpv.thekitchen.domain.RecipeRepository
 import com.andreikslpv.thekitchen.domain.SettingsRepository
 import com.andreikslpv.thekitchen.domain.UserRepository
+import com.andreikslpv.thekitchen.domain.usecases.GetRecipeHistoryUseCase
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipeNewUseCase
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipePreviewUseCase
 import com.andreikslpv.thekitchen.domain.usecases.GetUserFromDbUseCase
@@ -33,9 +34,19 @@ class DomainModule {
     @Provides
     @Singleton
     fun provideGetRecipeNewUseCase(
+        userRepository: UserRepository,
         recipeRepository: RecipeRepository,
     ): GetRecipeNewUseCase {
-        return GetRecipeNewUseCase(recipeRepository)
+        return GetRecipeNewUseCase(userRepository, recipeRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetRecipeHistoryUseCase(
+        userRepository: UserRepository,
+        recipeRepository: RecipeRepository,
+    ): GetRecipeHistoryUseCase {
+        return GetRecipeHistoryUseCase(userRepository, recipeRepository)
     }
 
     @Provides

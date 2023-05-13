@@ -23,6 +23,11 @@
         <item name="postSplashScreenTheme">@style/Theme.TheKitchen</item>
     </style>
 
+    <style name="roundedImageViewRounded">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
     <style name="RoundButton" parent="Widget.MaterialComponents.Button">
         <item name="cornerRadius">@dimen/button_radius</item>
         <item name="android:layout_width">@dimen/button_width</item>

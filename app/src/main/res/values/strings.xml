@@ -56,6 +56,11 @@
     <string name="step_title">Шаг %s</string>
     <string name="portion_default">0</string>
 
+    //Profile
+    <string name="profile_title_history">История просмотра</string>
+    <string name="profile_title_exclude">Мои предпочтения</string>
+    <string name="profile_sign_out">Выйти из аккаунта</string>
+
 
 
     //Menu Items

@@ -9,6 +9,7 @@
     <dimen name="card_elevation_image">4dp</dimen>
 
     <!-- for text -->
+    <dimen name="text_name">24sp</dimen>
     <dimen name="text_title">18sp</dimen>
     <dimen name="text_title_button">16sp</dimen>
     <dimen name="text_title_category">14sp</dimen>
@@ -87,6 +88,13 @@
     <dimen name="step_height">200dp</dimen>
     <dimen name="step_progress_height">8dp</dimen>
     <dimen name="step_progress_max">100</dimen>
+
+    <!-- for profile -->
+    <dimen name="profile_avatar_dimen">124dp</dimen>
+    <dimen name="profile_camera_dimen">40dp</dimen>
+    <dimen name="profile_pencil_dimen">24dp</dimen>
+    <dimen name="profile_switch_height">32dp</dimen>
+    <dimen name="profile_switch_width">52dp</dimen>
 
 
 

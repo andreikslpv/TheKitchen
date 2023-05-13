@@ -26,10 +26,22 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.andreikslpv.thekitchen.presentation.ui.fragments.ProfileFragment"
-        android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" >
+        android:label="@string/profile"
+        tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_profileFragment_to_authFragment"
             app:destination="@id/authFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_recipeFragment2"
+            app:destination="@id/recipeFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/recipeFragment2"
+        android:name="com.andreikslpv.thekitchen.presentation.ui.fragments.RecipeFragment"
+        android:label="fragment_recipe"
+        tools:layout="@layout/fragment_recipe" >
+        <argument
+            android:name="recipe"
+            app:argType="com.andreikslpv.thekitchen.domain.models.RecipePreview" />
     </fragment>
 </navigation>

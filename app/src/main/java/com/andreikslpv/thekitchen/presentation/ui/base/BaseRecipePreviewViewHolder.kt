@@ -8,7 +8,7 @@ import com.andreikslpv.thekitchen.presentation.utils.visible
 import com.bumptech.glide.Glide
 import kotlin.math.roundToInt
 
-open class BaseRecipeViewHolder(open val binding: ItemRecipePreviewBinding) :
+open class BaseRecipePreviewViewHolder(open val binding: ItemRecipePreviewBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     open fun bind(recipe: RecipePreview) {

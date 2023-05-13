@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 
-class GetRecipeNewUseCase(
+class GetRecipeHistoryUseCase(
     private val userRepository: UserRepository,
     private val recipeRepository: RecipeRepository,
 ) {
@@ -18,6 +18,6 @@ class GetRecipeNewUseCase(
             userRepository.getHistory().value
         }
 
-        return recipeRepository.getRecipeNew(job.await())
+        return recipeRepository.getRecipeHistory(job.await())
     }
 }

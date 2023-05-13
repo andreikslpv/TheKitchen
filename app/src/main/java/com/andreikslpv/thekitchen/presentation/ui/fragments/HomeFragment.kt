@@ -19,7 +19,7 @@ import com.andreikslpv.thekitchen.presentation.ui.base.BaseFragment
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.CategoryRecyclerAdapter
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.ItemClickListener
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.RecipeItemClickListener
-import com.andreikslpv.thekitchen.presentation.ui.recyclers.RecipeNewRecyclerAdapter
+import com.andreikslpv.thekitchen.presentation.ui.recyclers.RecipeMiniRecyclerAdapter
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.itemDecoration.SpaceItemDecoration
 import com.andreikslpv.thekitchen.presentation.utils.findTopNavController
 import com.andreikslpv.thekitchen.presentation.utils.makeToast
@@ -34,7 +34,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     private lateinit var categoryDishAdapter: CategoryRecyclerAdapter
     private lateinit var categoryTimeAdapter: CategoryRecyclerAdapter
-    private lateinit var recipeNewAdapter: RecipeNewRecyclerAdapter
+    private lateinit var recipeNewAdapter: RecipeMiniRecyclerAdapter
 
     private val viewModel by viewModels<HomeViewModel>()
 
@@ -91,7 +91,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     private fun initRecyclers() {
         binding.homeRecyclerRecipe.apply {
-            recipeNewAdapter = RecipeNewRecyclerAdapter(
+            recipeNewAdapter = RecipeMiniRecyclerAdapter(
                 object : RecipeItemClickListener {
                     override fun click(recipePreview: RecipePreview) {
                         goToRecipeFragment(recipePreview)

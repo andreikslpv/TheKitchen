@@ -99,12 +99,14 @@ class RecipeRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getRecipeNew(favorites: List<String>) = flow {
+    override suspend fun getRecipeNew(history: List<String>) = flow {
         try {
+            val historyMutable = mutableListOf("re00000")
+            historyMutable.addAll(history)
             emit(Response.Loading)
             val collection = database.collection(FirestoreConstants.PATH_RECIPE_PREVIEW)
             val result = collection
-                .whereNotIn("id", favorites)
+                .whereNotIn("id", historyMutable)
                 .limit(5L)
                 .get()
                 .await()
@@ -114,6 +116,30 @@ class RecipeRepositoryImpl @Inject constructor(
             }
 
             emit(Response.Success(tempList))
+        } catch (e: Exception) {
+            emit(Response.Failure(e.message ?: Constants.ERROR_MESSAGE))
+        }
+    }
+
+    override suspend fun getRecipeHistory(history: List<String>)= flow {
+        try {
+            emit(Response.Loading)
+            val collection = database.collection(FirestoreConstants.PATH_RECIPE_PREVIEW)
+            val result = collection
+                .whereIn("id", history)
+                .get()
+                .await()
+
+            val tempList = result.documents.mapNotNull {
+                it.toObject(RecipePreview::class.java)
+            }
+            //создаем сопоставление списка, по которому хотим выполнить сортировку
+            val idValueMap = tempList.associateBy { it.id }
+            //повторяем список, по которому хотим выполнить сортировку,
+            // и сопоставлям его значения объекту, который извлекли из только что созданного сопоставления
+            val sortedList = history.map { idValueMap[it] }
+
+            emit(Response.Success(sortedList.mapNotNull { it }))
         } catch (e: Exception) {
             emit(Response.Failure(e.message ?: Constants.ERROR_MESSAGE))
         }

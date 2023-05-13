@@ -19,7 +19,9 @@ interface RecipeRepository {
 
     fun updateLocalData(path: String)
 
-    suspend fun getRecipeNew(favorites: List<String>): Flow<Response<List<RecipePreview>>>
+    suspend fun getRecipeNew(history: List<String>): Flow<Response<List<RecipePreview>>>
+
+    suspend fun getRecipeHistory(history: List<String>): Flow<Response<List<RecipePreview>>>
 
     suspend fun getRecipePreview(filters: FiltersSeparated): Flow<PagingData<RecipePreview>>
 

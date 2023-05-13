@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.andreikslpv.thekitchen.databinding.ItemRecipeNewBinding
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
 
-class RecipeNewRecyclerAdapter(
+class RecipeMiniRecyclerAdapter(
     private val recipeItemClickListener: RecipeItemClickListener,
     private val favoriteClickListener: ItemClickListener,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -17,14 +17,14 @@ class RecipeNewRecyclerAdapter(
     override fun getItemCount() = items.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return RecipeNewViewHolder(
+        return RecipeMiniViewHolder(
             ItemRecipeNewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is RecipeNewViewHolder -> {
+            is RecipeMiniViewHolder -> {
                 holder.bind(items[position])
                 holder.binding.itemContainer.setOnClickListener {
                     recipeItemClickListener.click(items[position])
