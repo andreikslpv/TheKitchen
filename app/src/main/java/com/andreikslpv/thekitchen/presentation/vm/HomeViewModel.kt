@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.data.repository.AuthRepository
-import com.andreikslpv.thekitchen.domain.RecipeRepository
+import com.andreikslpv.thekitchen.domain.CategoryRepository
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipeNewUseCase
 import com.andreikslpv.thekitchen.domain.usecases.GetUserFromDbUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeFavoritesStatusUseCase
@@ -16,7 +16,7 @@ import javax.inject.Inject
 class HomeViewModel : ViewModel() {
 
     @Inject
-    lateinit var recipeRepository: RecipeRepository
+    lateinit var categoryRepository: CategoryRepository
 
     @Inject
     lateinit var authRepository: AuthRepository
@@ -44,9 +44,13 @@ class HomeViewModel : ViewModel() {
     }
 
     fun getAllCategories() = liveData(Dispatchers.IO) {
-        recipeRepository.getAllCategories().collect { response ->
+        categoryRepository.getAllCategories().collect { response ->
             emit(response)
         }
+    }
+
+    fun setCategoryDish(categoryId: String) {
+        categoryRepository.setFilterDish(categoryId)
     }
 
     fun getRecipeNew() = liveData(Dispatchers.IO) {

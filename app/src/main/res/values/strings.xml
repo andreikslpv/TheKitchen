@@ -59,7 +59,7 @@
     //Profile
     <string name="profile_title_history">История просмотра</string>
     <string name="profile_title_exclude">Мои предпочтения</string>
-    <string name="profile_sign_out">Выйти из аккаунта</string>
+    <string name="profile_sign_out">Выйти</string>
 
 
 

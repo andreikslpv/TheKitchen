@@ -7,7 +7,6 @@ import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
 import com.andreikslpv.thekitchen.R
 import com.andreikslpv.thekitchen.databinding.FragmentFiltersBinding
@@ -26,8 +25,6 @@ class FiltersFragment : BaseFragment<FragmentFiltersBinding>(FragmentFiltersBind
 
     private val viewModel by viewModels<FiltersViewModel>()
 
-    private val args: FiltersFragmentArgs by navArgs()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -35,7 +32,7 @@ class FiltersFragment : BaseFragment<FragmentFiltersBinding>(FragmentFiltersBind
 
         initCollectCategoriesList()
         initCollectChoosenFilter()
-        viewModel.addFilters(args.filters)
+        viewModel.getFiltersFromRepository()
         initEraseButton()
         initApplayButton()
     }
@@ -137,10 +134,9 @@ class FiltersFragment : BaseFragment<FragmentFiltersBinding>(FragmentFiltersBind
 
     private fun initApplayButton() {
         binding.filtersApplayButton.setOnClickListener {
-            // возвращаемся в Catalog и передаем в него список установленных фильтров
-            val direction = FiltersFragmentDirections.actionFiltersFragmentToCatalogFragment(
-                viewModel.filters.value?.getCategoriesArray()
-            )
+            viewModel.sendFiltersToRepository()
+            // возвращаемся в Catalog
+            val direction = FiltersFragmentDirections.actionFiltersFragmentToCatalogFragment()
             findNavController().navigate(direction)
         }
     }

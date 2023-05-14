@@ -1,6 +1,8 @@
 package com.andreikslpv.thekitchen.di
 
 import com.andreikslpv.thekitchen.data.repository.AuthRepository
+import com.andreikslpv.thekitchen.domain.CategoryRepository
+import com.andreikslpv.thekitchen.domain.IngredientRepository
 import com.andreikslpv.thekitchen.domain.RecipeRepository
 import com.andreikslpv.thekitchen.domain.SettingsRepository
 import com.andreikslpv.thekitchen.domain.UserRepository
@@ -25,10 +27,16 @@ class DomainModule {
     @Singleton
     fun provideInitApplicationSettingsUseCase(
         settingsRepository: SettingsRepository,
-        recipeRepository: RecipeRepository,
+        ingredientRepository: IngredientRepository,
+        categoryRepository: CategoryRepository,
         remoteConfig: FirebaseRemoteConfig
     ): InitApplicationSettingsUseCase {
-        return InitApplicationSettingsUseCase(settingsRepository, recipeRepository, remoteConfig)
+        return InitApplicationSettingsUseCase(
+            settingsRepository,
+            ingredientRepository,
+            categoryRepository,
+            remoteConfig
+        )
     }
 
     @Provides
@@ -53,8 +61,9 @@ class DomainModule {
     @Singleton
     fun provideGetRecipePreviewUseCase(
         recipeRepository: RecipeRepository,
+        categoryRepository: CategoryRepository,
     ): GetRecipePreviewUseCase {
-        return GetRecipePreviewUseCase(recipeRepository)
+        return GetRecipePreviewUseCase(recipeRepository, categoryRepository)
     }
 
     @Provides

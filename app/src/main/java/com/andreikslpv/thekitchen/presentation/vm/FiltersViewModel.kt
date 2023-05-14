@@ -5,15 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.andreikslpv.thekitchen.App
-import com.andreikslpv.thekitchen.domain.RecipeRepository
+import com.andreikslpv.thekitchen.domain.CategoryRepository
 import com.andreikslpv.thekitchen.domain.models.Filters
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class FiltersViewModel : ViewModel() {
 
     @Inject
-    lateinit var repository: RecipeRepository
+    lateinit var categoryRepository: CategoryRepository
 
     private val _filters = MutableLiveData(Filters())
     val filters: LiveData<Filters> = _filters
@@ -23,14 +25,18 @@ class FiltersViewModel : ViewModel() {
     }
 
     fun getAllCategories() = liveData(Dispatchers.IO) {
-        repository.getAllCategories().collect { response ->
+        categoryRepository.getAllCategories().collect { response ->
             emit(response)
         }
     }
 
-    fun addFilters(filtersArray: Array<String>?) {
-        filtersArray?.let {
-            _filters.value?.addCategories(it)
+    fun getFiltersFromRepository() {
+        _filters.value?.addCategories(categoryRepository.getFilters().value.getCategoriesList())
+    }
+
+    fun sendFiltersToRepository() {
+        CoroutineScope(Dispatchers.IO).launch {
+            _filters.value?.let { categoryRepository.setFilters(it) }
         }
     }
 

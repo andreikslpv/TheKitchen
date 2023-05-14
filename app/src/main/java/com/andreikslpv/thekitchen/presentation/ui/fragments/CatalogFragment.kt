@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.navigation.navOptions
 import androidx.paging.LoadState
 import androidx.paging.PagingData
@@ -15,7 +14,6 @@ import com.andreikslpv.thekitchen.R
 import com.andreikslpv.thekitchen.databinding.FragmentCatalogBinding
 import com.andreikslpv.thekitchen.domain.models.Category
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
-import com.andreikslpv.thekitchen.presentation.ui.MainActivity
 import com.andreikslpv.thekitchen.presentation.ui.base.BaseFragment
 import com.andreikslpv.thekitchen.presentation.ui.models.RecipePreviewType
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.ItemClickListener
@@ -45,24 +43,14 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
 
     private val viewModel by viewModels<CatalogViewModel>()
 
-    private val args: CatalogFragmentArgs by navArgs()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.categories.observe(viewLifecycleOwner) {}
         initRecipeListRecycler()
         initCollectRecipe()
-        setFiltersWhenStarting()
         initCollectFilter()
         setupSwipeToRefresh()
         initFiltersButton()
-    }
-
-    private fun setFiltersWhenStarting() {
-        val temp = (requireActivity() as MainActivity).getAndEraseCategoryFromHome()
-        if (temp.isNotBlank()) viewModel.addFilters(arrayOf(temp))
-        else viewModel.addFilters(args.filters)
     }
 
     private fun initCollectFilter() {
@@ -194,10 +182,7 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
 
     private fun initFiltersButton() {
         binding.catalogToolbar.menu.findItem(R.id.fitersButton).setOnMenuItemClickListener {
-            // запускаем Filters и передаем в него список уже установленных фильтров
-            val direction = CatalogFragmentDirections.actionCatalogFragmentToFiltersFragment(
-                viewModel.filters.value?.getCategoriesArray()
-            )
+            val direction = CatalogFragmentDirections.actionCatalogFragmentToFiltersFragment()
             findNavController().navigate(direction)
             true
         }
@@ -205,9 +190,7 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
 
     private fun goToAuthFragment() {
         findTopNavController().navigate(R.id.authFragment, null, navOptions {
-            popUpTo(R.id.tabsFragment) {
-                inclusive = true
-            }
+            popUpTo(R.id.tabsFragment) { inclusive = true }
         })
     }
 

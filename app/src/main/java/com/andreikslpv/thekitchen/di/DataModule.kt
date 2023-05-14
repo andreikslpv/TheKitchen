@@ -6,9 +6,13 @@ import com.andreikslpv.thekitchen.data.dao.ProductDao
 import com.andreikslpv.thekitchen.data.dao.UnitDao
 import com.andreikslpv.thekitchen.data.dao.UpdateDao
 import com.andreikslpv.thekitchen.data.repository.AuthRepository
+import com.andreikslpv.thekitchen.data.repository.CategoryRepositoryImpl
+import com.andreikslpv.thekitchen.data.repository.IngredientRepositoryImpl
 import com.andreikslpv.thekitchen.data.repository.RecipeRepositoryImpl
 import com.andreikslpv.thekitchen.data.repository.SettingsRepositoryImpl
 import com.andreikslpv.thekitchen.data.repository.UserRepositoryImpl
+import com.andreikslpv.thekitchen.domain.CategoryRepository
+import com.andreikslpv.thekitchen.domain.IngredientRepository
 import com.andreikslpv.thekitchen.domain.RecipeRepository
 import com.andreikslpv.thekitchen.domain.SettingsRepository
 import com.andreikslpv.thekitchen.domain.UserRepository
@@ -43,12 +47,29 @@ class DataModule {
     @Singleton
     fun provideRecipeRepository(
         database: FirebaseFirestore,
+    ): RecipeRepository {
+        return RecipeRepositoryImpl(database)
+    }
+
+    @Provides
+    @Singleton
+    fun provideIngredientRepository(
+        database: FirebaseFirestore,
         updateDao: UpdateDao,
-        categoryDao: CategoryDao,
         productDao: ProductDao,
         unitDao: UnitDao,
-    ): RecipeRepository {
-        return RecipeRepositoryImpl(database, updateDao, categoryDao, productDao, unitDao)
+    ): IngredientRepository {
+        return IngredientRepositoryImpl(database, updateDao, productDao, unitDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCategoryRepository(
+        database: FirebaseFirestore,
+        categoryDao: CategoryDao,
+        updateDao: UpdateDao,
+    ): CategoryRepository {
+        return CategoryRepositoryImpl(database, categoryDao, updateDao)
     }
 
     @Provides
