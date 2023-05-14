@@ -130,11 +130,11 @@
                     android:background="@drawable/background_calc_minus"
                     android:clickable="true"
                     android:elevation="@dimen/card_elevation_no"
+                    android:focusable="true"
                     android:src="@drawable/ic_minus"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="ContentDescription"
-                    android:focusable="true" />
+                    tools:ignore="ContentDescription" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/recipeCalcText"
@@ -155,11 +155,11 @@
                     android:background="@drawable/background_calc_plus"
                     android:clickable="true"
                     android:elevation="@dimen/card_elevation_no"
+                    android:focusable="true"
                     android:src="@drawable/ic_plus"
                     app:layout_constraintEnd_toStartOf="@+id/recipeCalcText"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="ContentDescription"
-                    android:focusable="true" />
+                    tools:ignore="ContentDescription" />
 
 
                 <com.google.android.material.textview.MaterialTextView
@@ -185,12 +185,38 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/recipeTitleDescription" />
 
+                <FrameLayout
+                    android:id="@+id/linkContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_basic"
+                    android:layout_marginTop="@dimen/margin_basic"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recipeDescription">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/recipeLink"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autoLink="web"
+                        android:background="@android:color/transparent"
+                        android:textColor="@android:color/transparent" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/recipeLinkText"
+                        style="@style/TextLink"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/link" />
+
+                </FrameLayout>
+
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/margin_basic"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recipeDescription" />
+                    app:layout_constraintTop_toBottomOf="@+id/linkContainer" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

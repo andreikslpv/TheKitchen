@@ -10,9 +10,12 @@ import kotlinx.coroutines.flow.Flow
 interface CategoryDao {
 
     @Query("SELECT * FROM ${RoomConstants.TABLE_CACHED_CATEGORY} WHERE ${RoomConstants.COLUMN_CATEGORY_ID} <> \"ca00000\"")
-    suspend fun getAllCategories(): List<CategoryLocal>
+    fun getAllCategories(): Flow<List<CategoryLocal>>
 
     @Query("SELECT * FROM ${RoomConstants.TABLE_CACHED_CATEGORY} WHERE ${RoomConstants.COLUMN_CATEGORY_TYPE} = :typeId")
     fun getCategoriesByType(typeId: String): Flow<List<CategoryLocal>>
+
+    @Query("SELECT * FROM ${RoomConstants.TABLE_CACHED_CATEGORY} WHERE ${RoomConstants.COLUMN_CATEGORY_ID} = :id")
+    fun getCategoriyById(id: String): List<CategoryLocal>
 
 }

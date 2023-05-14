@@ -55,6 +55,12 @@
     <string name="ingredient_adding">Добавить в список покупок</string>
     <string name="step_title">Шаг %s</string>
     <string name="portion_default">0</string>
+    <string name="link">Источник</string>
+
+    //Profile
+    <string name="profile_title_history">История просмотра</string>
+    <string name="profile_title_exclude">Мои предпочтения</string>
+    <string name="profile_sign_out">Выйти</string>
 
 
 

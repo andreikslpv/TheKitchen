@@ -1,14 +1,19 @@
 package com.andreikslpv.thekitchen.di
 
 import com.andreikslpv.thekitchen.data.repository.AuthRepository
+import com.andreikslpv.thekitchen.domain.CategoryRepository
+import com.andreikslpv.thekitchen.domain.IngredientRepository
 import com.andreikslpv.thekitchen.domain.RecipeRepository
 import com.andreikslpv.thekitchen.domain.SettingsRepository
 import com.andreikslpv.thekitchen.domain.UserRepository
+import com.andreikslpv.thekitchen.domain.usecases.GetRecipeHistoryUseCase
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipeNewUseCase
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipePreviewUseCase
 import com.andreikslpv.thekitchen.domain.usecases.GetUserFromDbUseCase
 import com.andreikslpv.thekitchen.domain.usecases.InitApplicationSettingsUseCase
+import com.andreikslpv.thekitchen.domain.usecases.SetDefaultExcludeFromDbUseCase
 import com.andreikslpv.thekitchen.domain.usecases.SetHistoryUseCase
+import com.andreikslpv.thekitchen.domain.usecases.TryToChangeExcludeStatusUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeFavoritesStatusUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveAllFromFavoritesUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveFromFavoritesUseCase
@@ -24,26 +29,43 @@ class DomainModule {
     @Singleton
     fun provideInitApplicationSettingsUseCase(
         settingsRepository: SettingsRepository,
-        recipeRepository: RecipeRepository,
-        remoteConfig: FirebaseRemoteConfig
+        ingredientRepository: IngredientRepository,
+        categoryRepository: CategoryRepository,
+        remoteConfig: FirebaseRemoteConfig,
     ): InitApplicationSettingsUseCase {
-        return InitApplicationSettingsUseCase(settingsRepository, recipeRepository, remoteConfig)
+        return InitApplicationSettingsUseCase(
+            settingsRepository,
+            ingredientRepository,
+            categoryRepository,
+            remoteConfig
+        )
     }
 
     @Provides
     @Singleton
     fun provideGetRecipeNewUseCase(
+        userRepository: UserRepository,
         recipeRepository: RecipeRepository,
     ): GetRecipeNewUseCase {
-        return GetRecipeNewUseCase(recipeRepository)
+        return GetRecipeNewUseCase(userRepository, recipeRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetRecipeHistoryUseCase(
+        userRepository: UserRepository,
+        recipeRepository: RecipeRepository,
+    ): GetRecipeHistoryUseCase {
+        return GetRecipeHistoryUseCase(userRepository, recipeRepository)
     }
 
     @Provides
     @Singleton
     fun provideGetRecipePreviewUseCase(
         recipeRepository: RecipeRepository,
+        categoryRepository: CategoryRepository,
     ): GetRecipePreviewUseCase {
-        return GetRecipePreviewUseCase(recipeRepository)
+        return GetRecipePreviewUseCase(recipeRepository, categoryRepository)
     }
 
     @Provides
@@ -53,6 +75,25 @@ class DomainModule {
         authRepository: AuthRepository,
     ): GetUserFromDbUseCase {
         return GetUserFromDbUseCase(userRepository, authRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTryToChangeExcludeStatusUseCase(
+        userRepository: UserRepository,
+        authRepository: AuthRepository,
+    ): TryToChangeExcludeStatusUseCase {
+        return TryToChangeExcludeStatusUseCase(userRepository, authRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSetDefaultExcludeFromDbUseCase(
+        userRepository: UserRepository,
+        authRepository: AuthRepository,
+        categoryRepository: CategoryRepository,
+    ): SetDefaultExcludeFromDbUseCase {
+        return SetDefaultExcludeFromDbUseCase(userRepository, authRepository, categoryRepository)
     }
 
     @Provides

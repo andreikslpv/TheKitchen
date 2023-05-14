@@ -14,12 +14,11 @@ import com.andreikslpv.thekitchen.databinding.FragmentHomeBinding
 import com.andreikslpv.thekitchen.domain.models.CategoryType
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
 import com.andreikslpv.thekitchen.domain.models.Response
-import com.andreikslpv.thekitchen.presentation.ui.MainActivity
 import com.andreikslpv.thekitchen.presentation.ui.base.BaseFragment
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.CategoryRecyclerAdapter
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.ItemClickListener
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.RecipeItemClickListener
-import com.andreikslpv.thekitchen.presentation.ui.recyclers.RecipeNewRecyclerAdapter
+import com.andreikslpv.thekitchen.presentation.ui.recyclers.RecipeMiniRecyclerAdapter
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.itemDecoration.SpaceItemDecoration
 import com.andreikslpv.thekitchen.presentation.utils.findTopNavController
 import com.andreikslpv.thekitchen.presentation.utils.makeToast
@@ -34,7 +33,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     private lateinit var categoryDishAdapter: CategoryRecyclerAdapter
     private lateinit var categoryTimeAdapter: CategoryRecyclerAdapter
-    private lateinit var recipeNewAdapter: RecipeNewRecyclerAdapter
+    private lateinit var recipeNewAdapter: RecipeMiniRecyclerAdapter
 
     private val viewModel by viewModels<HomeViewModel>()
 
@@ -50,13 +49,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         initRecyclers()
         initCollect()
         initProfileButton()
-        println("AAA HomeFragment 4")
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun initCollect() {
         viewModel.getAllCategories().observe(viewLifecycleOwner) { response ->
-            println("AAA HomeFragment 5")
             categoryDishAdapter.changeItems(
                 response.filter {
                     it.type == CategoryType.DISH.value
@@ -82,6 +79,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 }
 
                 is Response.Failure -> {
+                    println("AAA ${response.errorMessage}")
                     response.errorMessage.makeToast(requireContext())
                     binding.progressBar.hide()
                 }
@@ -91,7 +89,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     private fun initRecyclers() {
         binding.homeRecyclerRecipe.apply {
-            recipeNewAdapter = RecipeNewRecyclerAdapter(
+            recipeNewAdapter = RecipeMiniRecyclerAdapter(
                 object : RecipeItemClickListener {
                     override fun click(recipePreview: RecipePreview) {
                         goToRecipeFragment(recipePreview)
@@ -163,10 +161,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     private fun goToCatalogFragment(id: String) {
+        viewModel.setCategoryDish(id)
         val fragment = requireParentFragment().parentFragment
         if (fragment is TabsFragment) {
             fragment.goToCatalog()
-            (requireActivity() as MainActivity).setCategoryFromHome(id)
         }
     }
 

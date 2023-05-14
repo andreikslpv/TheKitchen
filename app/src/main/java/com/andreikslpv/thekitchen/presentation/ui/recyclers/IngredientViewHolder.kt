@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.R
 import com.andreikslpv.thekitchen.databinding.ItemIngredientBinding
-import com.andreikslpv.thekitchen.domain.RecipeRepository
+import com.andreikslpv.thekitchen.domain.IngredientRepository
 import com.andreikslpv.thekitchen.domain.models.Ingredient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +16,7 @@ class IngredientViewHolder(val binding: ItemIngredientBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     @Inject
-    lateinit var recipeRepository: RecipeRepository
+    lateinit var ingredientRepository: IngredientRepository
 
     init {
         App.instance.dagger.inject(this)
@@ -24,14 +24,14 @@ class IngredientViewHolder(val binding: ItemIngredientBinding) :
 
     fun bind(ingredient: Ingredient) {
         CoroutineScope(Dispatchers.IO).launch {
-            recipeRepository.getProductById(ingredient.product).collect {
+            ingredientRepository.getProductById(ingredient.product).collect {
                 withContext(Dispatchers.Main) {
                     binding.itemIngredientName.text = it.name
                 }
             }
         }
         CoroutineScope(Dispatchers.IO).launch {
-            recipeRepository.getUnitById(ingredient.unit).collect {
+            ingredientRepository.getUnitById(ingredient.unit).collect {
                 withContext(Dispatchers.Main) {
                     binding.itemIngredientCount.text = binding.root.context.getString(
                         R.string.ingredient_count,

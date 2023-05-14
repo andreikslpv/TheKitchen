@@ -23,4 +23,12 @@ interface UserRepository {
 
     fun setHistory(uid: String, newHistory: List<String>)
 
+    fun getDefaultExclude(): MutableStateFlow<List<String>>
+
+    fun addToDefaultExclude(uid: String, categoryId: String)
+
+    fun removeFromDefaultExclude(uid: String, categoryId: String)
+
+    fun setDefaultExclude(uid: String, newExclude: List<String>)
+
 }

@@ -139,6 +139,8 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>(FragmentRecipeBinding
     private fun initCollectDetailsInfo() {
         viewModel.recipeDetails.observe(viewLifecycleOwner) { response ->
             binding.recipeDescription.text = response.description
+//            binding.recipeLinkText.text = getString(R.string.link)
+            binding.recipeLink.text = response.source
             viewModel.setIngredients(response.ingredients)
             stepAdapter.changeItems(response.steps)
             stepAdapter.notifyDataSetChanged()
@@ -181,6 +183,5 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>(FragmentRecipeBinding
             }
         })
     }
-
 
 }

@@ -1,6 +1,7 @@
 package com.andreikslpv.thekitchen.domain.usecases
 
 import androidx.paging.PagingData
+import com.andreikslpv.thekitchen.domain.CategoryRepository
 import com.andreikslpv.thekitchen.domain.RecipeRepository
 import com.andreikslpv.thekitchen.domain.models.CategoryType
 import com.andreikslpv.thekitchen.domain.models.Filters
@@ -10,12 +11,13 @@ import kotlinx.coroutines.flow.Flow
 
 class GetRecipePreviewUseCase(
     private val recipeRepository: RecipeRepository,
+    private val categoryRepository: CategoryRepository,
 ) {
     suspend fun execute(filters: Filters): Flow<PagingData<RecipePreview>> {
         val filtersSeparated = FiltersSeparated()
         // Проходимся по всему списку выбранных рецептов
         filters.getCategoriesList().forEach { filter ->
-            recipeRepository.getAllCategories().value.forEach { category ->
+            categoryRepository.getAllCategories().value.forEach { category ->
                 if (category.id == filter) {
 
                     if (category.type == CategoryType.DISH.value)
@@ -34,7 +36,7 @@ class GetRecipePreviewUseCase(
 
         //Если категории типа блюд не заданы, то для запроса в БД считаем что выбраны все типы блюд
         if (filtersSeparated.categoriesDish.isEmpty())
-            filtersSeparated.categoriesDish = recipeRepository.getAllCategories().value
+            filtersSeparated.categoriesDish = categoryRepository.getAllCategories().value
                 .filter { it.type == CategoryType.DISH.value }
                 .map { it.id } as ArrayList<String>
 

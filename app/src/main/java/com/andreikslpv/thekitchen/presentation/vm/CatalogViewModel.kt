@@ -5,7 +5,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.data.repository.AuthRepository
-import com.andreikslpv.thekitchen.domain.RecipeRepository
+import com.andreikslpv.thekitchen.domain.CategoryRepository
 import com.andreikslpv.thekitchen.domain.UserRepository
 import com.andreikslpv.thekitchen.domain.models.Category
 import com.andreikslpv.thekitchen.domain.models.Filters
@@ -25,7 +25,7 @@ import javax.inject.Inject
 class CatalogViewModel : ViewModel() {
 
     @Inject
-    lateinit var recipeRepository: RecipeRepository
+    lateinit var categoryRepository: CategoryRepository
 
     @Inject
     lateinit var userRepository: UserRepository
@@ -47,12 +47,6 @@ class CatalogViewModel : ViewModel() {
     private val _filters = MutableLiveData(Filters())
     val filters: LiveData<Filters> = _filters
 
-    val categories = liveData {
-        recipeRepository.getAllCategories().collect { response ->
-            emit(response)
-        }
-    }
-
     init {
         App.instance.dagger.inject(this)
 
@@ -66,27 +60,25 @@ class CatalogViewModel : ViewModel() {
 
         // начинаем отслеживать данные пользователя в бд
         CoroutineScope(Dispatchers.IO).launch {
-            getUserFromDbUseCase.execute().collect{}
+            getUserFromDbUseCase.execute().collect {}
+        }
+        // начинаем отслеживать список установленных фильтров
+        CoroutineScope(Dispatchers.IO).launch {
+            categoryRepository.getFilters().collect { response ->
+                _filters.postValue(response)
+            }
         }
 
     }
 
     fun getCategoryById(id: String): Category? {
-        categories.value?.forEach {
-            if (it.id == id) return it
-        }
-        return null
+        return categoryRepository.getCategoryById(id)
     }
 
-    fun addFilters(filtersArray: Array<String>?) {
-        filtersArray?.let {
-            _filters.value?.addCategories(it)
-            refresh()
+    fun removeFilter(categoryId: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            categoryRepository.removeFilter(categoryId)
         }
-    }
-
-    fun removeFilter(category: String) {
-        _filters.value?.removeCategory(category)
         refresh()
     }
 

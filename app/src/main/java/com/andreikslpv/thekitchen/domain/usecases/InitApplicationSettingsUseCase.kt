@@ -1,7 +1,8 @@
 package com.andreikslpv.thekitchen.domain.usecases
 
 import com.andreikslpv.thekitchen.data.db.FirestoreConstants
-import com.andreikslpv.thekitchen.domain.RecipeRepository
+import com.andreikslpv.thekitchen.domain.CategoryRepository
+import com.andreikslpv.thekitchen.domain.IngredientRepository
 import com.andreikslpv.thekitchen.domain.SettingsRepository
 import com.andreikslpv.thekitchen.domain.models.SettingsIntType
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -11,13 +12,16 @@ import kotlinx.coroutines.launch
 
 class InitApplicationSettingsUseCase(
     private val settingsRepository: SettingsRepository,
-    private val recipeRepository: RecipeRepository,
-    private val remoteConfig: FirebaseRemoteConfig
+    private val ingredientRepository: IngredientRepository,
+    private val categoryRepository: CategoryRepository,
+    private val remoteConfig: FirebaseRemoteConfig,
 ) {
     fun execute() {
+        // загружаем список всех категорий в репозиторий
+        categoryRepository.updateCategories()
+
 
         CoroutineScope(Dispatchers.IO).launch {
-            recipeRepository.updateLocalData(FirestoreConstants.PATH_CATEGORY)
 //            checkForUpdates(SettingsIntType.VERSION_CATEGORY_TYPE, FirestoreConstants.PATH_CATEGORY_TYPE)
 //            checkForUpdates(SettingsIntType.VERSION_CATEGORY, FirestoreConstants.PATH_CATEGORY)
             checkForUpdates(SettingsIntType.VERSION_UNIT, FirestoreConstants.PATH_UNIT)
@@ -30,7 +34,7 @@ class InitApplicationSettingsUseCase(
             val localValue = settingsRepository.getSettingIntValue(setting)
             val remoteValue = remoteConfig.getLong(setting.key).toInt()
             if (localValue != remoteValue) {
-                recipeRepository.updateLocalData(path)
+                ingredientRepository.updateLocalData(path)
                 settingsRepository.setSettingIntValue(setting, remoteValue)
             }
         }

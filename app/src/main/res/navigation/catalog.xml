@@ -25,11 +25,6 @@
             <action
                 android:id="@+id/action_catalogFragment_to_filtersFragment"
                 app:destination="@id/filtersFragment" />
-            <argument
-                android:name="filters"
-                android:defaultValue="@null"
-                app:argType="string[]"
-                app:nullable="true" />
 
         </fragment>
         <fragment
@@ -37,11 +32,6 @@
             android:name="com.andreikslpv.thekitchen.presentation.ui.fragments.FiltersFragment"
             android:label="@string/filters"
             tools:layout="@layout/fragment_filters">
-            <argument
-                android:name="filters"
-                android:defaultValue="@null"
-                app:argType="string[]"
-                app:nullable="true" />
             <action
                 android:id="@+id/action_filtersFragment_to_catalogFragment"
                 app:destination="@id/catalogFragment" />

@@ -1,11 +1,10 @@
 package com.andreikslpv.thekitchen.domain.models
 
 data class Filters(
-    val query: String = "",
     private val categories: ArrayList<String> = arrayListOf(),
 ) {
 
-    fun addCategories(categoryArray: Array<String>) {
+    fun addCategories(categoryArray: ArrayList<String>) {
         categories.clear()
         categories.addAll(categoryArray)
     }
@@ -20,8 +19,17 @@ data class Filters(
         else categories.remove(category)
     }
 
+    fun removeCategories(removing: List<String>) {
+        if (categories.isNotEmpty())
+            categories.removeAll(removing.toSet())
+    }
+
+    fun changeCategoryStatus(category: String) {
+        if (categories.contains(category)) categories.remove(category)
+        else categories.add(category)
+    }
+
     fun getCategoriesList() = categories
 
-    fun getCategoriesArray() = categories.toTypedArray()
 }
 
