@@ -60,17 +60,16 @@
                     android:layout_marginStart="@dimen/margin_basic"
                     android:layout_marginTop="@dimen/margin_basic"
                     android:text="@string/home_title_new"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/homeRecyclerRecipe"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_basic"
+                    android:layout_marginStart="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_small"
-                    android:layout_marginRight="@dimen/margin_basic"
+                    android:layout_marginEnd="@dimen/margin_small"
                     android:background="@android:color/transparent"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

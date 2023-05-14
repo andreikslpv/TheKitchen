@@ -20,14 +20,30 @@ class RecipePreviewPagingAdapter(
         }
 
         holder.binding.itemContainer.setOnClickListener {
-            getItem(position)?.let { recipe ->
-                recipeItemClickListener.click(recipe)
+            try {
+                recipeItemClick(position)
+            } catch (e: Exception) {
+                recipeItemClick(position - 1)
             }
         }
         holder.binding.itemButtonFavorites.setOnClickListener {
-            getItem(position)?.let { recipe ->
-                favoriteClickListener.click(recipe.id)
+            try {
+                favoriteClick(position)
+            } catch (e: Exception) {
+                favoriteClick(position - 1)
             }
+        }
+    }
+
+    private fun recipeItemClick(pos: Int) {
+        getItem(pos)?.let { recipe ->
+            recipeItemClickListener.click(recipe)
+        }
+    }
+
+    private fun favoriteClick(pos: Int) {
+        getItem(pos)?.let { recipe ->
+            favoriteClickListener.click(recipe.id)
         }
     }
 

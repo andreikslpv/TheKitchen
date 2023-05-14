@@ -6,6 +6,7 @@ import com.andreikslpv.thekitchen.databinding.ItemExcludeBinding
 import com.andreikslpv.thekitchen.domain.UserRepository
 import com.andreikslpv.thekitchen.domain.models.Category
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeExcludeStatusUseCase
+import com.google.android.material.materialswitch.MaterialSwitch
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -35,11 +36,11 @@ class ExcludeViewHolder(val binding: ItemExcludeBinding) :
                 }
             }
         }
-        binding.itemExcludeButton.setOnCheckedChangeListener { buttonView, _ ->
-            buttonView.tag?.let {
-                tryToChangeExcludeStatusUseCase.execute(buttonView.tag as String)
+        binding.itemExcludeButton.setOnClickListener {
+            val switch = (it as MaterialSwitch)
+            switch.tag?.let {
+                tryToChangeExcludeStatusUseCase.execute(switch.tag as String)
             }
-
         }
     }
 }

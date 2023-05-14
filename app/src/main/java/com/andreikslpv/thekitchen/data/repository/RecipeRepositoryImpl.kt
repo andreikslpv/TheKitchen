@@ -31,7 +31,7 @@ class RecipeRepositoryImpl @Inject constructor(
             emit(Response.Loading)
             val collection = database.collection(FirestoreConstants.PATH_RECIPE_PREVIEW)
             val result = collection
-                .whereNotIn("id", historyMutable)
+                .whereNotIn("id", historyMutable.take(10))
                 .limit(5L)
                 .get()
                 .await()

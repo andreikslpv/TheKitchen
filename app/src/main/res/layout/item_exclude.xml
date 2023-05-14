@@ -17,7 +17,7 @@
 
     <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/itemExcludeButton"
-        style="@style/Widget.Material3.CompoundButton.MaterialSwitch"
+        style="@style/Widget.App.Switch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:checked="false"

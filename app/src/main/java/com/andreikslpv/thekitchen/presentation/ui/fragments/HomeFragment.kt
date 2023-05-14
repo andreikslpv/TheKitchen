@@ -79,6 +79,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 }
 
                 is Response.Failure -> {
+                    println("AAA ${response.errorMessage}")
                     response.errorMessage.makeToast(requireContext())
                     binding.progressBar.hide()
                 }
@@ -161,11 +162,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     private fun goToCatalogFragment(id: String) {
         viewModel.setCategoryDish(id)
-
         val fragment = requireParentFragment().parentFragment
         if (fragment is TabsFragment) {
             fragment.goToCatalog()
-            //(requireActivity() as MainActivity).setCategoryFromHome(id)
         }
     }
 

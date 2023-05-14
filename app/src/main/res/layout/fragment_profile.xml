@@ -125,11 +125,11 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/profileRecyclerRecipe"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_basic"
+                    android:layout_marginStart="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_small"
-                    android:layout_marginRight="@dimen/margin_basic"
+                    android:layout_marginEnd="@dimen/margin_small"
                     android:background="@android:color/transparent"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

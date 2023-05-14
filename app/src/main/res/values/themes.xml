@@ -12,6 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="materialSwitchStyle">@style/Widget.App.Switch</item>
     </style>
 
     <!-- Splash Screen Theme (API >= 31) -->
@@ -21,6 +22,17 @@
         <item name="windowSplashScreenBackground">@color/mint</item>
         <item name="windowSplashScreenAnimationDuration">0</item>
         <item name="postSplashScreenTheme">@style/Theme.TheKitchen</item>
+    </style>
+
+    <style name="Widget.App.Switch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Switch</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Switch" parent="">
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorSurfaceVariant">#0D000000</item>
+        <item name="colorOutline">@color/white</item>
+        <item name="colorOnPrimary">@color/white</item>
     </style>
 
     <style name="roundedImageViewRounded">
