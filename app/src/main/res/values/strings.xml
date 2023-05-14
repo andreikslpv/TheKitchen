@@ -6,6 +6,7 @@
     <string name="catalog_title">Каталог</string>
     <string name="search_title">Поиск</string>
     <string name="shopping_list_title">Список</string>
+    <string name="shopping_list_title_full">Список покупок</string>
     <string name="favorites_title">Избранное</string>
 
     //Toolbar menu
@@ -21,6 +22,7 @@
     <string name="home_title_new">Попробуйте новое</string>
     <string name="home_snackbar_text">Данное действие доступно только для авторизованных пользователей</string>
     <string name="home_snackbar_action">Авторизоваться</string>
+    <string name="link_practice">Проект разработан в рамках Pineapple Practice</string>
 
     //Recipe Preview
     <string name="warning">Содержит исключенный ингредиент</string>
@@ -61,6 +63,9 @@
     <string name="profile_title_history">История просмотра</string>
     <string name="profile_title_exclude">Мои предпочтения</string>
     <string name="profile_sign_out">Выйти</string>
+
+    //Shopping list
+    <string name="shopping_empty_text">Пополните его автоматически\nиз карточки рецепта или добавьте\nпродукты нажав на «+»</string>
 
 
 

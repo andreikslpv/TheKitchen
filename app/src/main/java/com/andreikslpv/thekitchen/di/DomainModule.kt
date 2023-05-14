@@ -13,6 +13,7 @@ import com.andreikslpv.thekitchen.domain.usecases.GetUserFromDbUseCase
 import com.andreikslpv.thekitchen.domain.usecases.InitApplicationSettingsUseCase
 import com.andreikslpv.thekitchen.domain.usecases.SetDefaultExcludeFromDbUseCase
 import com.andreikslpv.thekitchen.domain.usecases.SetHistoryUseCase
+import com.andreikslpv.thekitchen.domain.usecases.TryToAddIngredientToShoppingListUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeExcludeStatusUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeFavoritesStatusUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveAllFromFavoritesUseCase
@@ -130,6 +131,15 @@ class DomainModule {
         authRepository: AuthRepository,
     ): SetHistoryUseCase {
         return SetHistoryUseCase(userRepository, authRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTryToAddIngredientToShoppingListUseCase(
+        userRepository: UserRepository,
+        authRepository: AuthRepository,
+    ): TryToAddIngredientToShoppingListUseCase {
+        return TryToAddIngredientToShoppingListUseCase(userRepository, authRepository)
     }
 
 }

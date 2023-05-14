@@ -2,6 +2,7 @@ package com.andreikslpv.thekitchen.data.repository
 
 import com.andreikslpv.thekitchen.data.db.FirestoreConstants
 import com.andreikslpv.thekitchen.domain.UserRepository
+import com.andreikslpv.thekitchen.domain.models.Ingredient
 import com.andreikslpv.thekitchen.domain.models.Response
 import com.andreikslpv.thekitchen.domain.models.User
 import com.andreikslpv.thekitchen.presentation.utils.Constants
@@ -21,6 +22,7 @@ class UserRepositoryImpl @Inject constructor(
    private val favorites = MutableStateFlow(emptyList<String>())
    private val history = MutableStateFlow(emptyList<String>())
    private val defaultExclude = MutableStateFlow(emptyList<String>())
+   private val shoppingList = MutableStateFlow(emptyList<Ingredient>())
 
     override suspend fun createUser(user: User) = flow {
         try {
@@ -95,6 +97,15 @@ class UserRepositoryImpl @Inject constructor(
     override fun setDefaultExclude(uid: String, newExclude: List<String>) {
         val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
         user.update("defaultExclude", newExclude)
+    }
+
+    override fun getShoppingList(): MutableStateFlow<List<Ingredient>> {
+        return shoppingList
+    }
+
+    override suspend fun setShoppingList(uid: String, newShoppingList: List<Ingredient>) {
+        val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
+        user.update("shoppingList", newShoppingList)
     }
 
 }

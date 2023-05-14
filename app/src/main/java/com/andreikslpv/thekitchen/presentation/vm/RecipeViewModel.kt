@@ -12,6 +12,7 @@ import com.andreikslpv.thekitchen.domain.models.RecipeDetails
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
 import com.andreikslpv.thekitchen.domain.usecases.GetUserFromDbUseCase
 import com.andreikslpv.thekitchen.domain.usecases.SetHistoryUseCase
+import com.andreikslpv.thekitchen.domain.usecases.TryToAddIngredientToShoppingListUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeFavoritesStatusUseCase
 import com.andreikslpv.thekitchen.presentation.utils.roundTo
 import kotlinx.coroutines.CoroutineScope
@@ -40,6 +41,9 @@ class RecipeViewModel : ViewModel() {
 
     @Inject
     lateinit var setHistoryUseCase: SetHistoryUseCase
+
+    @Inject
+    lateinit var tryToAddIngredientToShoppingListUseCase: TryToAddIngredientToShoppingListUseCase
 
     private val _recipePreview = MutableLiveData(RecipePreview())
     val recipePreview: LiveData<RecipePreview> = _recipePreview
@@ -134,6 +138,12 @@ class RecipeViewModel : ViewModel() {
         return if (recipePreview.value != null)
             tryToChangeFavoritesStatusUseCase.execute(recipePreview.value!!.id)
         else false
+    }
+
+    fun tryToAddIngredientToShoppingList(): Boolean? {
+        return ingredients.value?.let {
+            tryToAddIngredientToShoppingListUseCase.execute(it)
+        }
     }
 
 

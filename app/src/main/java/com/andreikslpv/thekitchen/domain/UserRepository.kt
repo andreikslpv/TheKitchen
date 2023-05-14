@@ -1,5 +1,6 @@
 package com.andreikslpv.thekitchen.domain
 
+import com.andreikslpv.thekitchen.domain.models.Ingredient
 import com.andreikslpv.thekitchen.domain.models.Response
 import com.andreikslpv.thekitchen.domain.models.User
 import kotlinx.coroutines.flow.Flow
@@ -30,5 +31,9 @@ interface UserRepository {
     fun removeFromDefaultExclude(uid: String, categoryId: String)
 
     fun setDefaultExclude(uid: String, newExclude: List<String>)
+
+    fun getShoppingList(): MutableStateFlow<List<Ingredient>>
+
+    suspend fun setShoppingList(uid: String, newShoppingList: List<Ingredient>)
 
 }

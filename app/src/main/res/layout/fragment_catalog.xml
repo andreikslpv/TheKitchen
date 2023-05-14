@@ -20,11 +20,13 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
+            app:title="@string/catalog_title"
             app:menu="@menu/menu_toolbar_catalog">
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/catalogSearchView"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="@dimen/search_height"
                 android:background="@drawable/background_search_view"
                 app:layout_constraintTop_toTopOf="parent" />

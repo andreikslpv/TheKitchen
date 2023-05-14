@@ -50,7 +50,7 @@
     </style>
 
     <style name="TextAddingButton">
-        <item name="android:textSize">@dimen/text_title_category</item>
+        <item name="android:textSize">@dimen/text_title_button</item>
         <item name="android:textColor">@color/purple</item>
         <item name="android:textStyle">bold</item>
         <item name="android:gravity">end</item>
@@ -104,5 +104,10 @@
         <item name="android:textColor">@color/link</item>
         <item name="android:gravity">start</item>
     </style>
+
+    <style name="TextLink.Center" parent="TextLink">
+        <item name="android:gravity">center</item>
+    </style>
+
 
 </resources>
