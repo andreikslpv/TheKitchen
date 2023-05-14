@@ -14,10 +14,10 @@ class InitApplicationSettingsUseCase(
     private val settingsRepository: SettingsRepository,
     private val ingredientRepository: IngredientRepository,
     private val categoryRepository: CategoryRepository,
-    private val remoteConfig: FirebaseRemoteConfig
+    private val remoteConfig: FirebaseRemoteConfig,
 ) {
     fun execute() {
-
+        // загружаем список всех категорий в репозиторий
         categoryRepository.updateCategories()
 
 

@@ -10,16 +10,21 @@
         style="@style/TextRecipeBasic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Exclude name" />
 
     <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/itemExcludeButton"
-        android:layout_width="@dimen/profile_switch_width"
-        android:layout_height="@dimen/profile_switch_height"
+        style="@style/Widget.Material3.CompoundButton.MaterialSwitch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:checked="false"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:showText="false">
+
+    </com.google.android.material.materialswitch.MaterialSwitch>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

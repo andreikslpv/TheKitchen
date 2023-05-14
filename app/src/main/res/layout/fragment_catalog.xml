@@ -45,6 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_basic"
+                android:theme="@style/Theme.MaterialComponents.Light"
                 android:background="@android:color/transparent"
                 android:elevation="@dimen/card_elevation_no"
                 android:visibility="gone"

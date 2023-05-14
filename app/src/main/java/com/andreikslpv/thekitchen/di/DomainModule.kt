@@ -11,7 +11,9 @@ import com.andreikslpv.thekitchen.domain.usecases.GetRecipeNewUseCase
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipePreviewUseCase
 import com.andreikslpv.thekitchen.domain.usecases.GetUserFromDbUseCase
 import com.andreikslpv.thekitchen.domain.usecases.InitApplicationSettingsUseCase
+import com.andreikslpv.thekitchen.domain.usecases.SetDefaultExcludeFromDbUseCase
 import com.andreikslpv.thekitchen.domain.usecases.SetHistoryUseCase
+import com.andreikslpv.thekitchen.domain.usecases.TryToChangeExcludeStatusUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeFavoritesStatusUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveAllFromFavoritesUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveFromFavoritesUseCase
@@ -29,7 +31,7 @@ class DomainModule {
         settingsRepository: SettingsRepository,
         ingredientRepository: IngredientRepository,
         categoryRepository: CategoryRepository,
-        remoteConfig: FirebaseRemoteConfig
+        remoteConfig: FirebaseRemoteConfig,
     ): InitApplicationSettingsUseCase {
         return InitApplicationSettingsUseCase(
             settingsRepository,
@@ -73,6 +75,25 @@ class DomainModule {
         authRepository: AuthRepository,
     ): GetUserFromDbUseCase {
         return GetUserFromDbUseCase(userRepository, authRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTryToChangeExcludeStatusUseCase(
+        userRepository: UserRepository,
+        authRepository: AuthRepository,
+    ): TryToChangeExcludeStatusUseCase {
+        return TryToChangeExcludeStatusUseCase(userRepository, authRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSetDefaultExcludeFromDbUseCase(
+        userRepository: UserRepository,
+        authRepository: AuthRepository,
+        categoryRepository: CategoryRepository,
+    ): SetDefaultExcludeFromDbUseCase {
+        return SetDefaultExcludeFromDbUseCase(userRepository, authRepository, categoryRepository)
     }
 
     @Provides

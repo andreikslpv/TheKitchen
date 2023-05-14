@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.data.repository.AuthRepository
+import com.andreikslpv.thekitchen.domain.CategoryRepository
+import com.andreikslpv.thekitchen.domain.models.CategoryType
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipeHistoryUseCase
 import com.andreikslpv.thekitchen.domain.usecases.GetUserFromDbUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeFavoritesStatusUseCase
@@ -17,6 +19,9 @@ class ProfileViewModel : ViewModel() {
 
     @Inject
     lateinit var authRepository: AuthRepository
+
+    @Inject
+    lateinit var categoryRepository: CategoryRepository
 
     @Inject
     lateinit var getRecipeHistoryUseCase: GetRecipeHistoryUseCase
@@ -39,6 +44,12 @@ class ProfileViewModel : ViewModel() {
     fun getRecipeHistory() = liveData(Dispatchers.IO) {
         getRecipeHistoryUseCase.execute().collect { response ->
             emit(response)
+        }
+    }
+
+    fun getCategoryExclude() = liveData {
+        categoryRepository.getAllCategories().collect { response ->
+            emit(response.filter { it.type == CategoryType.EXCLUDE.value })
         }
     }
 

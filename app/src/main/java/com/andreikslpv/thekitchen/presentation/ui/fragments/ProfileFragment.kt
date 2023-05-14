@@ -14,6 +14,7 @@ import com.andreikslpv.thekitchen.databinding.FragmentProfileBinding
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
 import com.andreikslpv.thekitchen.domain.models.Response
 import com.andreikslpv.thekitchen.presentation.ui.base.BaseFragment
+import com.andreikslpv.thekitchen.presentation.ui.recyclers.ExcludeRecyclerAdapter
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.ItemClickListener
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.RecipeItemClickListener
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.RecipeMiniRecyclerAdapter
@@ -33,6 +34,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     private val viewModel by viewModels<ProfileViewModel>()
 
     private lateinit var recipeHistoryAdapter: RecipeMiniRecyclerAdapter
+    private lateinit var excludeAdapter: ExcludeRecyclerAdapter
 
     private val decorator = SpaceItemDecoration(
         paddingBottomInDp = 16,
@@ -45,7 +47,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         super.onViewCreated(view, savedInstanceState)
 
         binding.profileToolbar.setupWithNavController(findNavController())
-        initCollect()
+        initRecipeHistoryCollect()
+        initCategoryCollect()
         initRecyclers()
         initCurrentUserCollect()
         iniSignOutButton()
@@ -53,7 +56,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun initCollect() {
+    private fun initRecipeHistoryCollect() {
         viewModel.getRecipeHistory().observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Response.Loading -> binding.progressBar.show()
@@ -68,6 +71,14 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                     binding.progressBar.hide()
                 }
             }
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun initCategoryCollect() {
+        viewModel.getCategoryExclude().observe(viewLifecycleOwner) {
+            excludeAdapter.changeItems(it)
+            excludeAdapter.notifyDataSetChanged()
         }
     }
 
@@ -92,6 +103,17 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             //Применяем декоратор для отступов
+            addItemDecoration(decorator)
+        }
+
+        binding.excludeRecyclerRecipe.apply {
+            excludeAdapter = ExcludeRecyclerAdapter()
+            adapter = excludeAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+            //Применяем декоратор для отступов
+            val decorator = SpaceItemDecoration(
+                paddingBottomInDp = 16,
+            )
             addItemDecoration(decorator)
         }
     }

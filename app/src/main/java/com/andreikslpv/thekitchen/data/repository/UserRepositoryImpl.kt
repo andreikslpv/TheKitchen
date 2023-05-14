@@ -40,7 +40,6 @@ class UserRepositoryImpl @Inject constructor(
                 if (error == null && value != null) {
                     val user = value.toObject(User::class.java)!!
                     trySend(user)
-                    println("AAA getCurrentUser $user")
                     favorites.tryEmit(user.favorites)
                     history.tryEmit(user.history)
                     defaultExclude.tryEmit(user.defaultExclude)
@@ -81,6 +80,16 @@ class UserRepositoryImpl @Inject constructor(
 
     override fun getDefaultExclude(): MutableStateFlow<List<String>> {
         return defaultExclude
+    }
+
+    override fun addToDefaultExclude(uid: String, categoryId: String) {
+        val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
+        user.update("defaultExclude", FieldValue.arrayUnion(categoryId))
+    }
+
+    override fun removeFromDefaultExclude(uid: String, categoryId: String) {
+        val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
+        user.update("defaultExclude", FieldValue.arrayRemove(categoryId))
     }
 
     override fun setDefaultExclude(uid: String, newExclude: List<String>) {

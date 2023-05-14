@@ -78,6 +78,7 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
         chip.shapeAppearanceModel = ShapeAppearanceModel().toBuilder()
             .setAllCornerSizes(resources.getDimension(R.dimen.chip_corner_radius)).build()
         chip.setChipBackgroundColorResource(R.color.lime)
+        chip.setChipStrokeWidthResource(R.dimen.chip_stroke_width_no)
         chip.isCheckedIconVisible = false
 
         chip.setOnCheckedChangeListener { buttonView, _ ->

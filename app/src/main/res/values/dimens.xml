@@ -74,6 +74,7 @@
 
     <!-- for chips -->
     <dimen name="chip_stroke_width">1dp</dimen>
+    <dimen name="chip_stroke_width_no">0dp</dimen>
     <dimen name="chip_corner_radius">8dp</dimen>
 
     <!-- for auth -->

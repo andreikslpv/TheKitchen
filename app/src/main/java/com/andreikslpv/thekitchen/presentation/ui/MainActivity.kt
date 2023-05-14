@@ -16,6 +16,7 @@ import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.R
 import com.andreikslpv.thekitchen.databinding.ActivityMainBinding
 import com.andreikslpv.thekitchen.domain.usecases.InitApplicationSettingsUseCase
+import com.andreikslpv.thekitchen.domain.usecases.SetDefaultExcludeFromDbUseCase
 import com.andreikslpv.thekitchen.presentation.ui.fragments.TabsFragment
 import com.andreikslpv.thekitchen.presentation.utils.makeToast
 import com.andreikslpv.thekitchen.presentation.vm.MainViewModel
@@ -39,6 +40,9 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var initApplicationSettingsUseCase: InitApplicationSettingsUseCase
+
+    @Inject
+    lateinit var setDefaultExcludeFromDbUseCase: SetDefaultExcludeFromDbUseCase
 
     @Inject
     lateinit var firestore: FirebaseFirestore
@@ -82,7 +86,7 @@ class MainActivity : AppCompatActivity() {
 ////            Products.addToDb(firestore)
 //        }
         initApplicationSettings()
-
+        setDefaultExcludeFromDb()
         // preparing root nav controller
         val navController = getRootNavController()
         prepareRootNavController(isSignedIn(), navController)
@@ -106,17 +110,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun setCategoryFromHome(categoryId: String) {
-        viewModel.setCategoryFromHome(categoryId)
-    }
-
-    fun getAndEraseCategoryFromHome(): String {
-        return viewModel.getAndEraseCategoryFromHome()
-    }
-
     private fun initApplicationSettings() {
         // устанавливаем сохраненные настройки приложения
         initApplicationSettingsUseCase.execute()
+    }
+
+    private fun setDefaultExcludeFromDb() {
+        setDefaultExcludeFromDbUseCase.execute()
     }
 
     override fun onSupportNavigateUp(): Boolean =
