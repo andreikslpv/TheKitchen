@@ -32,6 +32,7 @@
     <!-- margins -->
     <dimen name="margin_basic">16dp</dimen>
     <dimen name="margin_small">12dp</dimen>
+    <dimen name="margin_small_10">10dp</dimen>
     <dimen name="margin_small_8">8dp</dimen>
     <dimen name="margin_big">20dp</dimen>
     <dimen name="margin_big_24">24dp</dimen>
@@ -96,6 +97,11 @@
     <dimen name="profile_pencil_dimen">24dp</dimen>
     <dimen name="profile_switch_height">32dp</dimen>
     <dimen name="profile_switch_width">52dp</dimen>
+
+    <!-- for shopping -->
+    <dimen name="shopping_name_height">24dp</dimen>
+    <dimen name="shopping_count_height">20dp</dimen>
+    <dimen name="shopping_item_divider">2dp</dimen>
 
 
 

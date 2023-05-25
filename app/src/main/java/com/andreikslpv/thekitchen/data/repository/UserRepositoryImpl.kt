@@ -40,11 +40,12 @@ class UserRepositoryImpl @Inject constructor(
         val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
             .addSnapshotListener { value, error ->
                 if (error == null && value != null) {
-                    val user = value.toObject(User::class.java)!!
+                    val user = value.toObject(User::class.java) ?: User()
                     trySend(user)
                     favorites.tryEmit(user.favorites)
                     history.tryEmit(user.history)
                     defaultExclude.tryEmit(user.defaultExclude)
+                    shoppingList.tryEmit(user.shoppingList)
                 }
             }
         awaitClose {

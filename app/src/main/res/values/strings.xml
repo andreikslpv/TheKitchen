@@ -63,9 +63,12 @@
     <string name="profile_title_history">История просмотра</string>
     <string name="profile_title_exclude">Мои предпочтения</string>
     <string name="profile_sign_out">Выйти</string>
+    <string name="profile_ups">Ваша история просмотров пуста</string>
 
     //Shopping list
     <string name="shopping_empty_text">Пополните его автоматически\nиз карточки рецепта или добавьте\nпродукты нажав на «+»</string>
+    <string name="shopping_select_all">Выбрать все</string>
+    <string name="shopping_clear">Очистить выбранные</string>
 
 
 
