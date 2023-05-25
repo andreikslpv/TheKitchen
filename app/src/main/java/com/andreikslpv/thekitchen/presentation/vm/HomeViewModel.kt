@@ -6,11 +6,8 @@ import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.data.repository.AuthRepository
 import com.andreikslpv.thekitchen.domain.CategoryRepository
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipeNewUseCase
-import com.andreikslpv.thekitchen.domain.usecases.GetUserFromDbUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeFavoritesStatusUseCase
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class HomeViewModel : ViewModel() {
@@ -25,9 +22,6 @@ class HomeViewModel : ViewModel() {
     lateinit var getRecipeNewUseCase: GetRecipeNewUseCase
 
     @Inject
-    lateinit var getUserFromDbUseCase: GetUserFromDbUseCase
-
-    @Inject
     lateinit var tryToChangeFavoritesStatusUseCase: TryToChangeFavoritesStatusUseCase
 
     val currentUserFromAuth by lazy {
@@ -36,11 +30,6 @@ class HomeViewModel : ViewModel() {
 
     init {
         App.instance.dagger.inject(this)
-
-        // начинаем отслеживать данные пользователя в бд
-        CoroutineScope(Dispatchers.IO).launch {
-            getUserFromDbUseCase.execute().collect{}
-        }
     }
 
     fun getAllCategories() = liveData(Dispatchers.IO) {

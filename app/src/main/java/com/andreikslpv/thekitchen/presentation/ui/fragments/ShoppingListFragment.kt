@@ -59,7 +59,6 @@ class ShoppingListFragment : BaseFragment<FragmentShoppingListBinding>(FragmentS
     @SuppressLint("NotifyDataSetChanged")
     private fun initProductCollect() {
         viewModel.getShoppingList().observe(viewLifecycleOwner) {
-            println("AAA initProductCollect $it")
             shoppingAdapter.changeItems(it)
             shoppingAdapter.notifyDataSetChanged()
 

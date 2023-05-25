@@ -6,7 +6,7 @@ import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.R
 import com.andreikslpv.thekitchen.databinding.ItemShoppingBinding
 import com.andreikslpv.thekitchen.domain.IngredientRepository
-import com.andreikslpv.thekitchen.domain.models.Ingredient
+import com.andreikslpv.thekitchen.domain.models.ShoppingItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,20 +23,23 @@ class ShoppingViewHolder(val binding: ItemShoppingBinding) :
         App.instance.dagger.inject(this)
     }
 
-    fun bind(ingredient: Ingredient, isLastItem: Boolean) {
-        CoroutineScope(Dispatchers.IO).launch {
-            ingredientRepository.getProductById(ingredient.product).collect {
-                withContext(Dispatchers.Main) {
-                    binding.itemProductName.text = it.name
+    fun bind(shoppingItem: ShoppingItem, isLastItem: Boolean) {
+        if (shoppingItem.showingName.isNotBlank())
+            binding.itemProductName.text = shoppingItem.showingName
+        else
+            CoroutineScope(Dispatchers.IO).launch {
+                ingredientRepository.getProductById(shoppingItem.ingredient.product).collect {
+                    withContext(Dispatchers.Main) {
+                        binding.itemProductName.text = it.name
+                    }
                 }
             }
-        }
         CoroutineScope(Dispatchers.IO).launch {
-            ingredientRepository.getUnitById(ingredient.unit).collect {
+            ingredientRepository.getUnitById(shoppingItem.ingredient.unit).collect {
                 withContext(Dispatchers.Main) {
                     binding.itemProductCount.text = binding.root.context.getString(
                         R.string.ingredient_count,
-                        ingredientCountToString(ingredient.count),
+                        ingredientCountToString(shoppingItem.ingredient.count),
                         it.name
                     )
                 }

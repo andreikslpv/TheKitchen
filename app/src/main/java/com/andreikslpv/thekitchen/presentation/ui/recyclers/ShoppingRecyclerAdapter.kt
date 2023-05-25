@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.andreikslpv.thekitchen.databinding.ItemShoppingBinding
-import com.andreikslpv.thekitchen.domain.models.Ingredient
+import com.andreikslpv.thekitchen.domain.models.ShoppingItem
 
 class ShoppingRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
 
-    private val items = mutableListOf<Ingredient>()
+    private val items = mutableListOf<ShoppingItem>()
 
     override fun getItemCount() = items.size
 
@@ -28,7 +28,7 @@ class ShoppingRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
         }
     }
 
-    fun changeItems(list: List<Ingredient>) {
+    fun changeItems(list: List<ShoppingItem>) {
         val diff = ItemDiff(items, list)
         val diffResult = DiffUtil.calculateDiff(diff)
         items.clear()

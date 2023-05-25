@@ -11,7 +11,6 @@ import com.andreikslpv.thekitchen.domain.models.Category
 import com.andreikslpv.thekitchen.domain.models.Filters
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipePreviewUseCase
-import com.andreikslpv.thekitchen.domain.usecases.GetUserFromDbUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeFavoritesStatusUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -37,9 +36,6 @@ class CatalogViewModel : ViewModel() {
     lateinit var getRecipePreviewUseCase: GetRecipePreviewUseCase
 
     @Inject
-    lateinit var getUserFromDbUseCase: GetUserFromDbUseCase
-
-    @Inject
     lateinit var tryToChangeFavoritesStatusUseCase: TryToChangeFavoritesStatusUseCase
 
     val recipes: Flow<PagingData<RecipePreview>>
@@ -52,16 +48,10 @@ class CatalogViewModel : ViewModel() {
 
         recipes = _filters
             .asFlow()
-            .flatMapLatest {
-                getRecipePreviewUseCase.execute(it)
-            }
+            .flatMapLatest { getRecipePreviewUseCase.execute(it) }
             // кешируем прлучившийся flow, чтобы на него можно было подписаться несколько раз
             .cachedIn(viewModelScope)
 
-        // начинаем отслеживать данные пользователя в бд
-        CoroutineScope(Dispatchers.IO).launch {
-            getUserFromDbUseCase.execute().collect {}
-        }
         // начинаем отслеживать список установленных фильтров
         CoroutineScope(Dispatchers.IO).launch {
             categoryRepository.getFilters().collect { response ->

@@ -10,16 +10,12 @@ import com.andreikslpv.thekitchen.domain.RecipeRepository
 import com.andreikslpv.thekitchen.domain.models.Ingredient
 import com.andreikslpv.thekitchen.domain.models.RecipeDetails
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
-import com.andreikslpv.thekitchen.domain.usecases.GetUserFromDbUseCase
 import com.andreikslpv.thekitchen.domain.usecases.SetHistoryUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToAddIngredientToShoppingListUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeFavoritesStatusUseCase
 import com.andreikslpv.thekitchen.presentation.utils.roundTo
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.math.roundToInt
@@ -32,9 +28,6 @@ class RecipeViewModel : ViewModel() {
 
     @Inject
     lateinit var recipeRepository: RecipeRepository
-
-    @Inject
-    lateinit var getUserFromDbUseCase: GetUserFromDbUseCase
 
     @Inject
     lateinit var tryToChangeFavoritesStatusUseCase: TryToChangeFavoritesStatusUseCase
@@ -65,11 +58,6 @@ class RecipeViewModel : ViewModel() {
             .flatMapLatest {
                 recipeRepository.getRecipeDetails(it.id)
             }.asLiveData(EmptyCoroutineContext, 5000L)
-
-        // начинаем отслеживать данные пользователя в бд
-        CoroutineScope(Dispatchers.IO).launch {
-            getUserFromDbUseCase.execute().collect {}
-        }
     }
 
     fun setKkal(newKkal: Int) {
@@ -145,6 +133,5 @@ class RecipeViewModel : ViewModel() {
             tryToAddIngredientToShoppingListUseCase.execute(it)
         }
     }
-
 
 }

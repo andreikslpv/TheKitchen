@@ -5,5 +5,5 @@ data class User(
     val favorites: ArrayList<String> = arrayListOf(),
     val history: ArrayList<String> = arrayListOf(),
     val defaultExclude: ArrayList<String> = arrayListOf(),
-    val shoppingList: ArrayList<Ingredient> = arrayListOf(),
+    val shoppingList: ArrayList<ShoppingItem> = arrayListOf(),
 )

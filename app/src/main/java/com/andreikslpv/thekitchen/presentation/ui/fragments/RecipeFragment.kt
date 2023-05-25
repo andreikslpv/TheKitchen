@@ -23,6 +23,7 @@ import com.andreikslpv.thekitchen.presentation.ui.recyclers.IngredientRecyclerAd
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.StepRecyclerAdapter
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.itemDecoration.SpaceItemDecoration
 import com.andreikslpv.thekitchen.presentation.utils.findTopNavController
+import com.andreikslpv.thekitchen.presentation.utils.makeToast
 import com.andreikslpv.thekitchen.presentation.vm.RecipeViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
@@ -186,10 +187,14 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>(FragmentRecipeBinding
 
     private fun initAddingButton() {
         binding.ingredientAddingButton.setOnClickListener {
-            if (viewModel.tryToAddIngredientToShoppingList() == false)
-                Snackbar.make(
+            when (viewModel.tryToAddIngredientToShoppingList()) {
+                false -> Snackbar.make(
                     binding.root, R.string.home_snackbar_text, Snackbar.LENGTH_LONG
                 ).setAction(R.string.home_snackbar_action) { goToAuthFragment() }.show()
+
+                true -> getString(R.string.ingredient_adding_success).makeToast(requireContext())
+                null -> getString(R.string.ingredient_adding_failure).makeToast(requireContext())
+            }
         }
     }
 

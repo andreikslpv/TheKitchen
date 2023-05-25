@@ -232,7 +232,7 @@
                 style="@style/TextExitButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_basic"
+                android:layout_marginTop="@dimen/margin_big_24"
                 android:layout_marginStart="@dimen/margin_basic"
                 android:background="@android:color/transparent"
                 android:clickable="true"
@@ -241,6 +241,13 @@
                 android:text="@string/profile_sign_out"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/excludeContainer" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_basic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sign_out_button" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

@@ -2,8 +2,8 @@ package com.andreikslpv.thekitchen.data.repository
 
 import com.andreikslpv.thekitchen.data.db.FirestoreConstants
 import com.andreikslpv.thekitchen.domain.UserRepository
-import com.andreikslpv.thekitchen.domain.models.Ingredient
 import com.andreikslpv.thekitchen.domain.models.Response
+import com.andreikslpv.thekitchen.domain.models.ShoppingItem
 import com.andreikslpv.thekitchen.domain.models.User
 import com.andreikslpv.thekitchen.presentation.utils.Constants
 import com.google.firebase.firestore.FieldValue
@@ -22,7 +22,7 @@ class UserRepositoryImpl @Inject constructor(
    private val favorites = MutableStateFlow(emptyList<String>())
    private val history = MutableStateFlow(emptyList<String>())
    private val defaultExclude = MutableStateFlow(emptyList<String>())
-   private val shoppingList = MutableStateFlow(emptyList<Ingredient>())
+   private val shoppingList = MutableStateFlow(emptyList<ShoppingItem>())
 
     override suspend fun createUser(user: User) = flow {
         try {
@@ -100,11 +100,11 @@ class UserRepositoryImpl @Inject constructor(
         user.update("defaultExclude", newExclude)
     }
 
-    override fun getShoppingList(): MutableStateFlow<List<Ingredient>> {
+    override fun getShoppingList(): MutableStateFlow<List<ShoppingItem>> {
         return shoppingList
     }
 
-    override suspend fun setShoppingList(uid: String, newShoppingList: List<Ingredient>) {
+    override suspend fun setShoppingList(uid: String, newShoppingList: List<ShoppingItem>) {
         val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
         user.update("shoppingList", newShoppingList)
     }
