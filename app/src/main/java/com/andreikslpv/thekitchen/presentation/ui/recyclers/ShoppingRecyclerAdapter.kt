@@ -6,8 +6,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.andreikslpv.thekitchen.databinding.ItemShoppingBinding
 import com.andreikslpv.thekitchen.domain.models.ShoppingItem
+import kotlinx.coroutines.flow.MutableStateFlow
 
-class ShoppingRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
+class ShoppingRecyclerAdapter(
+    private val editItemClickListener: ShoppingItemClickListener,
+    private val selectItemClickListener: ShoppingItemClickListener,
+    private val selectedShoppingItem: MutableStateFlow<MutableList<ShoppingItem>>,
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
 
     private val items = mutableListOf<ShoppingItem>()
 
@@ -23,7 +28,13 @@ class ShoppingRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
         when (holder) {
             is ShoppingViewHolder -> {
                 val isLastItem = (position == itemCount - 1)
-                holder.bind(items[position], isLastItem)
+                holder.bind(items[position], isLastItem, selectedShoppingItem)
+                holder.binding.itemCheckBox.setOnClickListener {
+                    selectItemClickListener.click(items[position])
+                }
+                holder.binding.itemPencil.setOnClickListener {
+                    editItemClickListener.click(items[position])
+                }
             }
         }
     }

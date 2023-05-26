@@ -71,6 +71,8 @@
     <string name="shopping_empty_text">Пополните его автоматически\nиз карточки рецепта или добавьте\nпродукты нажав на «+»</string>
     <string name="shopping_select_all">Выбрать все</string>
     <string name="shopping_clear">Очистить выбранные</string>
+    <string name="shopping_clear_success">Продукты успешно удалены из списка покупок</string>
+    <string name="shopping_clear_failure">Не удалось удалить продукты из списка покупок</string>
 
 
 

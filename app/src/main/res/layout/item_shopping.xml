@@ -44,6 +44,7 @@
         android:layout_width="@dimen/profile_pencil_dimen"
         android:layout_height="@dimen/profile_pencil_dimen"
         android:scaleType="centerCrop"
+        android:layout_marginEnd="@dimen/margin_basic"
         android:src="@drawable/ic_pencil"
         app:tint="@color/text_menu_title"
         app:layout_constraintEnd_toEndOf="parent"

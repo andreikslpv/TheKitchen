@@ -18,6 +18,7 @@ import com.andreikslpv.thekitchen.domain.usecases.TryToChangeExcludeStatusUseCas
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeFavoritesStatusUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveAllFromFavoritesUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveFromFavoritesUseCase
+import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveFromShoppingList
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dagger.Module
 import dagger.Provides
@@ -140,6 +141,15 @@ class DomainModule {
         authRepository: AuthRepository,
     ): TryToAddIngredientToShoppingListUseCase {
         return TryToAddIngredientToShoppingListUseCase(userRepository, authRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTryToRemoveFromShoppingList(
+        userRepository: UserRepository,
+        authRepository: AuthRepository,
+    ): TryToRemoveFromShoppingList {
+        return TryToRemoveFromShoppingList(userRepository, authRepository)
     }
 
 }

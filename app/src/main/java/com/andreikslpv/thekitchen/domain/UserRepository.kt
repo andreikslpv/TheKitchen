@@ -36,4 +36,9 @@ interface UserRepository {
 
     suspend fun setShoppingList(uid: String, newShoppingList: List<ShoppingItem>)
 
+    fun addToShoppingList(uid: String, shoppingItem: ShoppingItem)
+
+    fun removeFromShoppingList(uid: String, shoppingItem: ShoppingItem)
+
+    fun removeAllFromShoppingList(uid: String)
 }

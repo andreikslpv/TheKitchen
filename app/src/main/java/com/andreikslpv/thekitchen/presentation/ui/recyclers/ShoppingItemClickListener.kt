@@ -1,7 +1,7 @@
 package com.andreikslpv.thekitchen.presentation.ui.recyclers
 
-import com.andreikslpv.thekitchen.domain.models.Ingredient
+import com.andreikslpv.thekitchen.domain.models.ShoppingItem
 
 interface ShoppingItemClickListener {
-    fun click(ingredient: Ingredient)
+    fun click(shoppingItem: ShoppingItem)
 }

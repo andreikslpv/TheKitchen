@@ -59,17 +59,17 @@ class UserRepositoryImpl @Inject constructor(
 
     override fun addToFavorites(uid: String, recipeId: String) {
         val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
-        user.update("favorites", FieldValue.arrayUnion(recipeId))
+        user.update(FirestoreConstants.FIELD_FAVORITES, FieldValue.arrayUnion(recipeId))
     }
 
     override fun removeFromFavorites(uid: String, recipeId: String) {
         val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
-        user.update("favorites", FieldValue.arrayRemove(recipeId))
+        user.update(FirestoreConstants.FIELD_FAVORITES, FieldValue.arrayRemove(recipeId))
     }
 
     override fun removeAllFromFavorites(uid: String) {
         val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
-        user.update("favorites", arrayListOf<String>())
+        user.update(FirestoreConstants.FIELD_FAVORITES, arrayListOf<String>())
     }
 
     override fun getHistory(): MutableStateFlow<List<String>> {
@@ -78,7 +78,7 @@ class UserRepositoryImpl @Inject constructor(
 
     override fun setHistory(uid: String, newHistory: List<String>) {
         val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
-        user.update("history", newHistory)
+        user.update(FirestoreConstants.FIELD_HISTORY, newHistory)
     }
 
     override fun getDefaultExclude(): MutableStateFlow<List<String>> {
@@ -87,17 +87,17 @@ class UserRepositoryImpl @Inject constructor(
 
     override fun addToDefaultExclude(uid: String, categoryId: String) {
         val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
-        user.update("defaultExclude", FieldValue.arrayUnion(categoryId))
+        user.update(FirestoreConstants.FIELD_DEFAULT_EXCLUDE, FieldValue.arrayUnion(categoryId))
     }
 
     override fun removeFromDefaultExclude(uid: String, categoryId: String) {
         val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
-        user.update("defaultExclude", FieldValue.arrayRemove(categoryId))
+        user.update(FirestoreConstants.FIELD_DEFAULT_EXCLUDE, FieldValue.arrayRemove(categoryId))
     }
 
     override fun setDefaultExclude(uid: String, newExclude: List<String>) {
         val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
-        user.update("defaultExclude", newExclude)
+        user.update(FirestoreConstants.FIELD_DEFAULT_EXCLUDE, newExclude)
     }
 
     override fun getShoppingList(): MutableStateFlow<List<ShoppingItem>> {
@@ -106,7 +106,22 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun setShoppingList(uid: String, newShoppingList: List<ShoppingItem>) {
         val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
-        user.update("shoppingList", newShoppingList)
+        user.update(FirestoreConstants.FIELD_SHOPPING_LIST, newShoppingList)
+    }
+
+    override fun addToShoppingList(uid: String, shoppingItem: ShoppingItem) {
+        val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
+        user.update(FirestoreConstants.FIELD_SHOPPING_LIST, FieldValue.arrayUnion(shoppingItem))
+    }
+
+    override fun removeFromShoppingList(uid: String, shoppingItem: ShoppingItem) {
+        val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
+        user.update(FirestoreConstants.FIELD_SHOPPING_LIST, FieldValue.arrayRemove(shoppingItem))
+    }
+
+    override fun removeAllFromShoppingList(uid: String) {
+        val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
+        user.update(FirestoreConstants.FIELD_SHOPPING_LIST, arrayListOf<ShoppingItem>())
     }
 
 }

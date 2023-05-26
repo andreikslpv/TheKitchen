@@ -41,6 +41,7 @@
     <dimen name="margin_big_40">40dp</dimen>
     <dimen name="margin_big_68">68dp</dimen>
     <dimen name="margin_big_154">154dp</dimen>
+    <dimen name="margin_big_100">100dp</dimen>
 
 
     <dimen name="main_radius_card">28dp</dimen>

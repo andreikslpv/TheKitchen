@@ -56,7 +56,6 @@
                 style="@style/TextSelectAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_basic"
                 android:gravity="start|center_vertical"
                 android:text="@string/shopping_select_all"
                 app:layout_constraintBottom_toBottomOf="@+id/shoppingSelectAllCheckBox"
@@ -109,7 +108,7 @@
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_basic"
+                android:layout_height="@dimen/margin_big_100"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/shoppingRecyclerContainer" />
@@ -165,15 +164,6 @@
             tools:ignore="ContentDescription" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-<!--    <Space-->
-<!--        android:id="@+id/shoppingSpace"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/shoppingAddButton"

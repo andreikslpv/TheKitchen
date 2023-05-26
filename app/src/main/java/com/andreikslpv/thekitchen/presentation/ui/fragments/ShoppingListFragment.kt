@@ -5,20 +5,25 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.andreikslpv.thekitchen.R
 import com.andreikslpv.thekitchen.databinding.FragmentShoppingListBinding
+import com.andreikslpv.thekitchen.domain.models.ShoppingItem
 import com.andreikslpv.thekitchen.presentation.ui.base.BaseFragment
+import com.andreikslpv.thekitchen.presentation.ui.recyclers.ShoppingItemClickListener
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.ShoppingRecyclerAdapter
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.itemDecoration.SpaceItemDecoration
+import com.andreikslpv.thekitchen.presentation.utils.findTopNavController
 import com.andreikslpv.thekitchen.presentation.utils.visible
 import com.andreikslpv.thekitchen.presentation.vm.ShoppingListViewModel
-import kotlinx.coroutines.launch
+import com.google.android.material.snackbar.Snackbar
 
 /**
  * A simple [Fragment] subclass.
  */
-class ShoppingListFragment : BaseFragment<FragmentShoppingListBinding>(FragmentShoppingListBinding::inflate) {
+class ShoppingListFragment :
+    BaseFragment<FragmentShoppingListBinding>(FragmentShoppingListBinding::inflate) {
 
     private lateinit var shoppingAdapter: ShoppingRecyclerAdapter
 
@@ -30,6 +35,8 @@ class ShoppingListFragment : BaseFragment<FragmentShoppingListBinding>(FragmentS
         setupSwipeToRefresh()
         initRecyclers()
         initProductCollect()
+        initSelectAllButton()
+        initClearButton()
     }
 
     private fun setupSwipeToRefresh() {
@@ -43,7 +50,19 @@ class ShoppingListFragment : BaseFragment<FragmentShoppingListBinding>(FragmentS
 
     private fun initRecyclers() {
         binding.shoppingRecyclerRecipe.apply {
-            shoppingAdapter = ShoppingRecyclerAdapter()
+            shoppingAdapter = ShoppingRecyclerAdapter(
+                object : ShoppingItemClickListener {
+                    override fun click(shoppingItem: ShoppingItem) {
+//                        goToRecipeFragment(recipePreview)
+                    }
+                },
+                object : ShoppingItemClickListener {
+                    override fun click(shoppingItem: ShoppingItem) {
+                        viewModel.changeSelectedStatus(shoppingItem)
+                    }
+                },
+                viewModel.selectedShoppingItem
+            )
             adapter = shoppingAdapter
             layoutManager = LinearLayoutManager(requireContext())
             //Применяем декоратор для отступов
@@ -58,14 +77,11 @@ class ShoppingListFragment : BaseFragment<FragmentShoppingListBinding>(FragmentS
 
     @SuppressLint("NotifyDataSetChanged")
     private fun initProductCollect() {
-        viewModel.getShoppingList().observe(viewLifecycleOwner) {
+        viewModel.shoppingList.observe(viewLifecycleOwner) {
             shoppingAdapter.changeItems(it)
             shoppingAdapter.notifyDataSetChanged()
 
-//            binding.shoppingEmptyView.visible(true)
-//            binding.shoppingNotEmptyView.visible(false)
-
-            if(it.isEmpty()) {
+            if (it.isEmpty()) {
                 binding.shoppingEmptyView.visible(true)
                 binding.shoppingNested.visible(false)
             } else {
@@ -74,4 +90,32 @@ class ShoppingListFragment : BaseFragment<FragmentShoppingListBinding>(FragmentS
             }
         }
     }
+
+    private fun initSelectAllButton() {
+        binding.shoppingSelectAllCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            if (!isChecked)
+                viewModel.unSelectAll()
+            else
+                viewModel.selectAll()
+        }
+    }
+
+    private fun initClearButton() {
+        binding.shoppingClearButton.setOnClickListener {
+            if (!viewModel.removeSelectedFromShoppingList())
+                Snackbar.make(
+                    binding.root, R.string.home_snackbar_text,
+                    Snackbar.LENGTH_LONG
+                ).setAction(R.string.home_snackbar_action) { goToAuthFragment() }.show()
+        }
+    }
+
+    private fun goToAuthFragment() {
+        findTopNavController().navigate(R.id.authFragment, null, navOptions {
+            popUpTo(R.id.tabsFragment) {
+                inclusive = true
+            }
+        })
+    }
+
 }

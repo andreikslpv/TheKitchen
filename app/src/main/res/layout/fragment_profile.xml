@@ -79,7 +79,7 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:enabled="false"
-                    android:text="Name" />
+                    tools:text="Name" />
 
                 <ImageView
                     android:id="@+id/profilePencil"
@@ -96,10 +96,10 @@
                 style="@style/TextEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profileNameContainer" />
+                app:layout_constraintTop_toBottomOf="@+id/profileNameContainer"
+                tools:text="Email" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/historyContainer"
@@ -129,9 +129,9 @@
                     android:layout_marginStart="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_small"
                     android:layout_marginEnd="@dimen/margin_small"
-                    android:visibility="gone"
                     android:background="@android:color/transparent"
                     android:orientation="horizontal"
+                    android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -152,8 +152,8 @@
                         style="@style/TextRecipeBasic"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_basic"
                         android:layout_marginStart="@dimen/margin_basic"
+                        android:layout_marginTop="@dimen/margin_basic"
                         android:text="@string/profile_ups"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -232,8 +232,8 @@
                 style="@style/TextExitButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_big_24"
                 android:layout_marginStart="@dimen/margin_basic"
+                android:layout_marginTop="@dimen/margin_big_24"
                 android:background="@android:color/transparent"
                 android:clickable="true"
                 android:focusable="true"

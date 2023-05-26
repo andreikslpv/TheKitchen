@@ -9,6 +9,7 @@ import com.andreikslpv.thekitchen.domain.IngredientRepository
 import com.andreikslpv.thekitchen.domain.models.ShoppingItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -23,7 +24,11 @@ class ShoppingViewHolder(val binding: ItemShoppingBinding) :
         App.instance.dagger.inject(this)
     }
 
-    fun bind(shoppingItem: ShoppingItem, isLastItem: Boolean) {
+    fun bind(
+        shoppingItem: ShoppingItem,
+        isLastItem: Boolean,
+        selectedShoppingItem: MutableStateFlow<MutableList<ShoppingItem>>
+    ) {
         if (shoppingItem.showingName.isNotBlank())
             binding.itemProductName.text = shoppingItem.showingName
         else
@@ -42,6 +47,13 @@ class ShoppingViewHolder(val binding: ItemShoppingBinding) :
                         ingredientCountToString(shoppingItem.ingredient.count),
                         it.name
                     )
+                }
+            }
+        }
+        CoroutineScope(Dispatchers.IO).launch {
+            selectedShoppingItem.collect {
+                withContext(Dispatchers.Main) {
+                    binding.itemCheckBox.isChecked = it.contains(shoppingItem)
                 }
             }
         }
