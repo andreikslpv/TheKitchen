@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="@dimen/shopping_dialog_width"
+        android:layout_height="@dimen/shopping_dialog_height"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/background_dialog"
+        android:elevation="@dimen/shopping_dialog_elevation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/dialogTitle"
+            style="@style/TextName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_big_24"
+            android:layout_marginTop="@dimen/margin_big_32"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Название" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dialogNameField"
+            android:layout_width="@dimen/shopping_dialog_field_width"
+            android:layout_height="@dimen/shopping_dialog_field_height"
+            android:layout_marginTop="@dimen/margin_big_24"
+            android:hint="@string/shopping_dialog_field_name"
+            app:endIconContentDescription="@string/content_description_end_icon"
+            app:endIconDrawable="@drawable/ic_delete_round"
+            app:endIconMode="clear_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialogTitle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/dialogNameText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="@dimen/text_title_button"
+                tools:text="name" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dialogCountField"
+            android:layout_width="@dimen/shopping_dialog_field_width_half"
+            android:layout_height="@dimen/shopping_dialog_field_height"
+            android:layout_marginStart="@dimen/margin_big_28"
+            android:layout_marginTop="@dimen/margin_big_24"
+            android:hint="@string/shopping_dialog_field_count"
+            app:endIconContentDescription="@string/content_description_end_icon"
+            app:endIconDrawable="@drawable/ic_delete_round"
+            app:endIconMode="clear_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialogNameField">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/dialogCountText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textSize="@dimen/text_title_button"
+                tools:text="count" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dialogUnitField"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="@dimen/shopping_dialog_field_width_half"
+            android:layout_height="@dimen/shopping_dialog_field_height"
+            android:layout_marginTop="@dimen/margin_big_24"
+            android:layout_marginEnd="@dimen/margin_big_28"
+            android:hint="@string/shopping_dialog_field_unit"
+            app:boxCornerRadiusBottomEnd="@dimen/search_corner_radius"
+            app:boxCornerRadiusBottomStart="@dimen/search_corner_radius"
+            app:boxCornerRadiusTopEnd="@dimen/search_corner_radius"
+            app:boxCornerRadiusTopStart="@dimen/search_corner_radius"
+            app:boxStrokeColor="@color/purple"
+            app:endIconTint="@color/black"
+            app:hintTextColor="@color/purple"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialogNameField">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/dialogUnitText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:inputType="none"
+                android:textSize="@dimen/text_title_button"
+                tools:ignore="LabelFor"
+                tools:text="unit" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <LinearLayout
+            android:id="@+id/dialogActionContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_big_40"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialogUnitField">
+
+            <ImageView
+                android:id="@+id/dialogDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_big_32"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_delete"
+                tools:ignore="ContentDescription" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/dialogActionButton"
+                style="@style/TextButtonSmall.Center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_big_32"
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:focusable="true"
+                tools:text="@string/shopping_dialog_action_edit" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/dialogCancelButton"
+                style="@style/TextButtonSmall.Cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="@string/shopping_dialog_action_cancel" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</merge>

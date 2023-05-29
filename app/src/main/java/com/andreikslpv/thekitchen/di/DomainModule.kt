@@ -14,8 +14,10 @@ import com.andreikslpv.thekitchen.domain.usecases.InitApplicationSettingsUseCase
 import com.andreikslpv.thekitchen.domain.usecases.SetDefaultExcludeFromDbUseCase
 import com.andreikslpv.thekitchen.domain.usecases.SetHistoryUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToAddIngredientToShoppingListUseCase
+import com.andreikslpv.thekitchen.domain.usecases.TryToAddToShoppingListUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeExcludeStatusUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeFavoritesStatusUseCase
+import com.andreikslpv.thekitchen.domain.usecases.TryToEditShoppingItemUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveAllFromFavoritesUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveFromFavoritesUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveFromShoppingList
@@ -139,8 +141,13 @@ class DomainModule {
     fun provideTryToAddIngredientToShoppingListUseCase(
         userRepository: UserRepository,
         authRepository: AuthRepository,
+        ingredientRepository: IngredientRepository,
     ): TryToAddIngredientToShoppingListUseCase {
-        return TryToAddIngredientToShoppingListUseCase(userRepository, authRepository)
+        return TryToAddIngredientToShoppingListUseCase(
+            userRepository,
+            authRepository,
+            ingredientRepository
+        )
     }
 
     @Provides
@@ -150,6 +157,26 @@ class DomainModule {
         authRepository: AuthRepository,
     ): TryToRemoveFromShoppingList {
         return TryToRemoveFromShoppingList(userRepository, authRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTryToAddToShoppingListUseCase(
+        userRepository: UserRepository,
+        authRepository: AuthRepository,
+        ingredientRepository: IngredientRepository,
+    ): TryToAddToShoppingListUseCase {
+        return TryToAddToShoppingListUseCase(userRepository, authRepository, ingredientRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTryToEditShoppingItemUseCase(
+        userRepository: UserRepository,
+        authRepository: AuthRepository,
+        ingredientRepository: IngredientRepository,
+    ): TryToEditShoppingItemUseCase {
+        return TryToEditShoppingItemUseCase(userRepository, authRepository, ingredientRepository)
     }
 
 }

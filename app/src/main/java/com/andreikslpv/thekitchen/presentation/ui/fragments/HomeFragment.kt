@@ -79,7 +79,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 }
 
                 is Response.Failure -> {
-                    println("AAA ${response.errorMessage}")
+                    println("AAA ${response.errorMessage} BBB")
                     response.errorMessage.makeToast(requireContext())
                     binding.progressBar.hide()
                 }

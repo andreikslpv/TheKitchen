@@ -8,7 +8,11 @@ interface IngredientRepository {
 
     fun updateLocalData(path: String)
 
-    suspend fun getProductById(productId: String): Flow<Product>
+    suspend fun getProductByIdFlow(productId: String): Flow<Product>
+
+    suspend fun getProductById(productId: String): Product
 
     suspend fun getUnitById(unitId: String): Flow<Unit>
+
+    suspend fun getAllUnits(): Flow<List<Unit>>
 }

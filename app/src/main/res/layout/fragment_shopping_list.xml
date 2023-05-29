@@ -64,7 +64,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/shoppingClearButton"
-                style="@style/TextClearButton"
+                style="@style/TextButtonSmall.End"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_basic"
@@ -108,7 +108,7 @@
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_big_100"
+                android:layout_height="@dimen/margin_big_96"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/shoppingRecyclerContainer" />
@@ -167,12 +167,13 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/shoppingAddButton"
+        style="?attr/floatingActionButtonSmallStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/margin_basic"
-        android:layout_marginBottom="@dimen/margin_big_40"
-        app:backgroundTint="@color/lime"
         android:layout_gravity="bottom|end"
+        android:layout_marginEnd="@dimen/margin_basic"
+        android:layout_marginBottom="@dimen/margin_big_24"
+        app:backgroundTint="@color/lime"
         app:srcCompat="@drawable/ic_add"
         app:tint="@color/icon_toolbar"
         tools:ignore="ContentDescription" />
@@ -184,6 +185,18 @@
         android:layout_gravity="center"
         android:elevation="@dimen/progress_bar_elevation"
         android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.andreikslpv.thekitchen.presentation.ui.dialogs.ShoppingDialog
+        android:id="@+id/shoppingDialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:translationZ="@dimen/progress_bar_elevation"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

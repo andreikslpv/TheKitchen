@@ -74,6 +74,18 @@
     <string name="shopping_clear_success">Продукты успешно удалены из списка покупок</string>
     <string name="shopping_clear_failure">Не удалось удалить продукты из списка покупок</string>
 
+    //Shopping dialog
+    <string name="shopping_dialog_title_edit">Редактирование</string>
+    <string name="shopping_dialog_title_add">Добавление</string>
+    <string name="shopping_dialog_action_edit">Изменить</string>
+    <string name="shopping_dialog_action_add">Добавить</string>
+    <string name="shopping_dialog_action_cancel">Отменить</string>
+    <string name="shopping_dialog_field_name">Название</string>
+    <string name="shopping_dialog_field_count">Количество</string>
+    <string name="shopping_dialog_field_unit">Ед.измерения</string>
+    <string name="shopping_dialog_field_error">Заполните это поле</string>
+    <string name="content_description_end_icon">Очистить поле</string>
+
 
 
     //Menu Items

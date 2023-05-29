@@ -7,3 +7,9 @@ fun Double.roundTo(numFractionDigits: Int): Double {
     val factor = 10.0.pow(numFractionDigits.toDouble())
     return (this * factor).roundToInt() / factor
 }
+
+fun Double.ingredientCountToString(): String {
+    if (this == 0.0) return ""
+    return if (this % 1 == 0.0) this.toInt().toString()
+    else this.toString()
+}

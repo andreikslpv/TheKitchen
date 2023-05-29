@@ -1,6 +1,7 @@
 package com.andreikslpv.thekitchen.domain.usecases
 
 import com.andreikslpv.thekitchen.data.repository.AuthRepository
+import com.andreikslpv.thekitchen.domain.IngredientRepository
 import com.andreikslpv.thekitchen.domain.UserRepository
 import com.andreikslpv.thekitchen.domain.models.Ingredient
 import com.andreikslpv.thekitchen.domain.models.ShoppingItem
@@ -12,20 +13,16 @@ import kotlinx.coroutines.launch
 class TryToAddIngredientToShoppingListUseCase(
     private val userRepository: UserRepository,
     private val authRepository: AuthRepository,
+    private val ingredientRepository: IngredientRepository,
 ) {
 
     fun execute(newShoppingList: List<Ingredient>): Boolean {
         val user = authRepository.getCurrentUser()
         return if (user != null) {
             // получаем теущий список
+            val currentShoppingList: MutableList<ShoppingItem> = mutableListOf()
+            currentShoppingList.addAll(userRepository.getShoppingList().value)
             val job = CoroutineScope(Dispatchers.IO).async {
-                userRepository.getShoppingList()
-            }
-            // дожидаемся получения текущего списка и проверяем для каждого пришедшего ингредиента
-            // ... есть ли он в текущем списке покупок
-            CoroutineScope(Dispatchers.IO).launch {
-                val currentShoppingList: MutableList<ShoppingItem> = mutableListOf()
-                currentShoppingList.addAll(job.await().value)
                 newShoppingList.forEach { ingredient ->
                     var isInclude = false
                     currentShoppingList.forEach { item ->
@@ -35,11 +32,19 @@ class TryToAddIngredientToShoppingListUseCase(
                             isInclude = true
                         }
                     }
+                    // ... иначе добавляем ингредиент в список
                     if (!isInclude)
-                        // ... иначе жоюавляем ингредиентв список
-                        currentShoppingList.add(ShoppingItem(ingredient = ingredient))
+                        currentShoppingList.add(
+                            ShoppingItem(
+                                showingName = ingredientRepository.getProductById(ingredient.product).name,
+                                ingredient = ingredient
+                            )
+                        )
                 }
-                userRepository.setShoppingList(user.uid, currentShoppingList)
+                currentShoppingList
+            }
+            CoroutineScope(Dispatchers.IO).launch {
+                userRepository.setShoppingList(user.uid, job.await())
             }
             true
         } else {

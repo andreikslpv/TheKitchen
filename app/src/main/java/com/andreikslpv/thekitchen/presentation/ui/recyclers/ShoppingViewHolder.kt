@@ -1,5 +1,7 @@
 package com.andreikslpv.thekitchen.presentation.ui.recyclers
 
+import android.graphics.Paint
+import android.os.Build
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.andreikslpv.thekitchen.App
@@ -7,6 +9,7 @@ import com.andreikslpv.thekitchen.R
 import com.andreikslpv.thekitchen.databinding.ItemShoppingBinding
 import com.andreikslpv.thekitchen.domain.IngredientRepository
 import com.andreikslpv.thekitchen.domain.models.ShoppingItem
+import com.andreikslpv.thekitchen.presentation.utils.ingredientCountToString
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,22 +32,45 @@ class ShoppingViewHolder(val binding: ItemShoppingBinding) :
         isLastItem: Boolean,
         selectedShoppingItem: MutableStateFlow<MutableList<ShoppingItem>>
     ) {
-        if (shoppingItem.showingName.isNotBlank())
-            binding.itemProductName.text = shoppingItem.showingName
-        else
-            CoroutineScope(Dispatchers.IO).launch {
-                ingredientRepository.getProductById(shoppingItem.ingredient.product).collect {
-                    withContext(Dispatchers.Main) {
-                        binding.itemProductName.text = it.name
+        binding.itemCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                binding.itemProductName.apply {
+                    paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        setTextColor(
+                            binding.root.context.resources.getColor(
+                                R.color.text_menu_select,
+                                binding.root.context.theme
+                            )
+                        )
+                    } else {
+                        setTextColor(binding.root.context.resources.getColor(R.color.text_menu_select))
+                    }
+                }
+            } else {
+                binding.itemProductName.apply {
+                    paintFlags = paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        setTextColor(
+                            binding.root.context.resources.getColor(
+                                R.color.text_card_title,
+                                binding.root.context.theme
+                            )
+                        )
+                    } else {
+                        setTextColor(binding.root.context.resources.getColor(R.color.text_card_title))
                     }
                 }
             }
+        }
+
+        binding.itemProductName.text = shoppingItem.showingName
         CoroutineScope(Dispatchers.IO).launch {
             ingredientRepository.getUnitById(shoppingItem.ingredient.unit).collect {
                 withContext(Dispatchers.Main) {
                     binding.itemProductCount.text = binding.root.context.getString(
                         R.string.ingredient_count,
-                        ingredientCountToString(shoppingItem.ingredient.count),
+                        shoppingItem.ingredient.count.ingredientCountToString(),
                         it.name
                     )
                 }
@@ -60,9 +86,4 @@ class ShoppingViewHolder(val binding: ItemShoppingBinding) :
         if (isLastItem) binding.itemDivider.visibility = View.INVISIBLE
     }
 
-    private fun ingredientCountToString(count: Double): String {
-        if (count == 0.0) return ""
-        return if (count % 1 == 0.0) count.toInt().toString()
-        else count.toString()
-    }
 }

@@ -3,8 +3,11 @@ package com.andreikslpv.thekitchen.presentation.vm
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.andreikslpv.thekitchen.App
+import com.andreikslpv.thekitchen.domain.IngredientRepository
 import com.andreikslpv.thekitchen.domain.UserRepository
 import com.andreikslpv.thekitchen.domain.models.ShoppingItem
+import com.andreikslpv.thekitchen.domain.usecases.TryToAddToShoppingListUseCase
+import com.andreikslpv.thekitchen.domain.usecases.TryToEditShoppingItemUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveFromShoppingList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,10 +21,25 @@ class ShoppingListViewModel : ViewModel() {
     lateinit var userRepository: UserRepository
 
     @Inject
+    lateinit var ingredientRepository: IngredientRepository
+
+    @Inject
     lateinit var tryToRemoveFromShoppingList: TryToRemoveFromShoppingList
+
+    @Inject
+    lateinit var tryToAddToShoppingListUseCase: TryToAddToShoppingListUseCase
+
+    @Inject
+    lateinit var tryToEditShoppingItemUseCase: TryToEditShoppingItemUseCase
 
     val shoppingList = liveData(Dispatchers.IO) {
         userRepository.getShoppingList().collect { response ->
+            emit(response)
+        }
+    }
+
+    val unitList = liveData {
+        ingredientRepository.getAllUnits().collect { response ->
             emit(response)
         }
     }
@@ -58,5 +76,27 @@ class ShoppingListViewModel : ViewModel() {
     fun removeSelectedFromShoppingList(): Boolean {
         return tryToRemoveFromShoppingList.execute(selectedShoppingItem.value)
     }
+
+    fun removeFromShoppingList(shoppingItems: List<ShoppingItem>): Boolean {
+        return tryToRemoveFromShoppingList.execute(shoppingItems)
+    }
+
+    fun addToShoppingList(shoppingItem: ShoppingItem): Boolean {
+        return tryToAddToShoppingListUseCase.execute(shoppingItem)
+    }
+
+    fun editShoppingItem(shoppingItem: ShoppingItem): Boolean {
+        return tryToEditShoppingItemUseCase.execute(shoppingItem)
+    }
+
+    fun getUnitsNameList() = unitList.value?.map { it.name } ?: emptyList()
+
+    fun getUnitsNameById(id: String) = unitList.value?.find {
+        it.id == id
+    }?.name ?: ""
+
+    fun getUnitsIdByName(name: String) = unitList.value?.find {
+        it.name == name
+    }?.id ?: ""
 
 }

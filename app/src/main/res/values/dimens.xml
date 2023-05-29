@@ -36,12 +36,13 @@
     <dimen name="margin_small_8">8dp</dimen>
     <dimen name="margin_big">20dp</dimen>
     <dimen name="margin_big_24">24dp</dimen>
+    <dimen name="margin_big_28">28dp</dimen>
     <dimen name="margin_big_32">32dp</dimen>
     <dimen name="margin_big_36">36dp</dimen>
     <dimen name="margin_big_40">40dp</dimen>
     <dimen name="margin_big_68">68dp</dimen>
     <dimen name="margin_big_154">154dp</dimen>
-    <dimen name="margin_big_100">100dp</dimen>
+    <dimen name="margin_big_96">96dp</dimen>
 
 
     <dimen name="main_radius_card">28dp</dimen>
@@ -104,6 +105,13 @@
     <dimen name="shopping_count_height">20dp</dimen>
     <dimen name="shopping_item_divider">2dp</dimen>
 
+    <!-- for shopping dialog-->
+    <dimen name="shopping_dialog_height">300dp</dimen>
+    <dimen name="shopping_dialog_width">312dp</dimen>
+    <dimen name="shopping_dialog_elevation">4dp</dimen>
+    <dimen name="shopping_dialog_field_height">48dp</dimen>
+    <dimen name="shopping_dialog_field_width">256dp</dimen>
+    <dimen name="shopping_dialog_field_width_half">120dp</dimen>
 
 
     <!-- for FAB -->

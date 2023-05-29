@@ -12,7 +12,6 @@
         <item name="android:gravity">center</item>
     </style>
 
-
     <style name="TextTitleButtonFill">
         <item name="android:textSize">@dimen/text_title_button</item>
         <item name="android:textColor">@color/white</item>
@@ -49,25 +48,39 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="TextAddingButton">
+
+    <style name="TextButtonBig">
         <item name="android:textSize">@dimen/text_title_button</item>
         <item name="android:textColor">@color/purple</item>
-        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextButtonBig.End" parent="TextButtonBig">
         <item name="android:gravity">end</item>
     </style>
 
-    <style name="TextExitButton">
-        <item name="android:textSize">@dimen/text_title_button</item>
-        <item name="android:textColor">@color/purple</item>
-        <item name="android:textStyle">bold</item>
+    <style name="TextButtonBig.Start" parent="TextButtonBig">
         <item name="android:gravity">start</item>
     </style>
 
-    <style name="TextClearButton">
+
+    <style name="TextButtonSmall">
         <item name="android:textSize">@dimen/text_title_category</item>
         <item name="android:textColor">@color/purple</item>
+    </style>
+
+    <style name="TextButtonSmall.End" parent="TextButtonSmall">
         <item name="android:gravity">end</item>
     </style>
+
+    <style name="TextButtonSmall.Center" parent="TextButtonSmall">
+        <item name="android:gravity">center</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextButtonSmall.Cancel" parent="TextButtonSmall.Center">
+        <item name="android:textColor">@color/text_card_title</item>
+    </style>
+
 
     <style name="TextEmpty">
         <item name="android:textSize">@dimen/text_title_button</item>

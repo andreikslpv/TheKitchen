@@ -24,7 +24,7 @@ class IngredientViewHolder(val binding: ItemIngredientBinding) :
 
     fun bind(ingredient: Ingredient) {
         CoroutineScope(Dispatchers.IO).launch {
-            ingredientRepository.getProductById(ingredient.product).collect {
+            ingredientRepository.getProductByIdFlow(ingredient.product).collect {
                 withContext(Dispatchers.Main) {
                     binding.itemIngredientName.text = it.name
                 }

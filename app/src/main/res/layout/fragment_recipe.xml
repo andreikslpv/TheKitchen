@@ -259,7 +259,7 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/ingredientAddingButton"
-                    style="@style/TextAddingButton"
+                    style="@style/TextButtonBig.End"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_basic"
