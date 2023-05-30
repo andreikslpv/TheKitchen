@@ -1,7 +1,6 @@
 package com.andreikslpv.thekitchen.presentation.ui.fragments
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -23,6 +22,7 @@ import com.andreikslpv.thekitchen.presentation.ui.recyclers.RecipeItemClickListe
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.RecipePreviewLoadStateAdapter
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.RecipePreviewPagingAdapter
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.itemDecoration.SpaceItemDecoration
+import com.andreikslpv.thekitchen.presentation.utils.ShareHelper
 import com.andreikslpv.thekitchen.presentation.utils.findTopNavController
 import com.andreikslpv.thekitchen.presentation.utils.makeToast
 import com.andreikslpv.thekitchen.presentation.utils.visible
@@ -167,23 +167,10 @@ class FavoritesFragment :
                 recipesNames += "$i. ${it.name};\n"
                 i++
             }
-            //Создаем интент
-            val intent = Intent()
-            //Указываем action с которым он запускается
-            intent.action = Intent.ACTION_SEND
-            //Кладем данные о нашем фильме
-            intent.putExtra(
-                Intent.EXTRA_TEXT,
-                getString(R.string.favorites_share_message, recipesNames)
-            )
-            //Указываем MIME тип, чтобы система знала, какое приложения предложить
-            intent.type = "text/plain"
-            //Запускаем наше активити
-            startActivity(
-                Intent.createChooser(
-                    intent,
-                    resources.getString(R.string.favorites_share_title)
-                )
+            ShareHelper.shareThis(
+                requireContext(),
+                getString(R.string.favorites_share_message, recipesNames),
+                resources.getString(R.string.favorites_share_title)
             )
             true
         }

@@ -73,6 +73,7 @@
     <string name="shopping_clear">Очистить выбранные</string>
     <string name="shopping_clear_success">Продукты успешно удалены из списка покупок</string>
     <string name="shopping_clear_failure">Не удалось удалить продукты из списка покупок</string>
+    <string name="shopping_share_text">Список покупок: \n%s</string>
 
     //Shopping dialog
     <string name="shopping_dialog_title_edit">Редактирование</string>

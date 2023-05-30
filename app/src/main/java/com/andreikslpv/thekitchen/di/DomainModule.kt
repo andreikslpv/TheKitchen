@@ -19,6 +19,7 @@ import com.andreikslpv.thekitchen.domain.usecases.TryToChangeExcludeStatusUseCas
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeFavoritesStatusUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToEditShoppingItemUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveAllFromFavoritesUseCase
+import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveAllFromShoppingList
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveFromFavoritesUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveFromShoppingList
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -157,6 +158,15 @@ class DomainModule {
         authRepository: AuthRepository,
     ): TryToRemoveFromShoppingList {
         return TryToRemoveFromShoppingList(userRepository, authRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTryToRemoveAllFromShoppingList(
+        userRepository: UserRepository,
+        authRepository: AuthRepository,
+    ): TryToRemoveAllFromShoppingList {
+        return TryToRemoveAllFromShoppingList(userRepository, authRepository)
     }
 
     @Provides

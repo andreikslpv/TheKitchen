@@ -9,7 +9,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/transparent"
+        android:background="@color/dialog_shadow"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -20,10 +20,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="@dimen/shopping_dialog_width"
         android:layout_height="@dimen/shopping_dialog_height"
-        android:layout_marginTop="50dp"
         android:background="@drawable/background_dialog"
         android:elevation="@dimen/shopping_dialog_elevation"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -112,7 +112,7 @@
                 android:id="@+id/dialogUnitText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:dropDownHeight="@dimen/shopping_dialog_dropdown_height"
                 android:inputType="none"
                 android:textSize="@dimen/text_title_button"
                 tools:ignore="LabelFor"

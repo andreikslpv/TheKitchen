@@ -15,12 +15,16 @@ import com.andreikslpv.thekitchen.presentation.ui.base.BaseFragment
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.ShoppingItemClickListener
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.ShoppingRecyclerAdapter
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.itemDecoration.SpaceItemDecoration
+import com.andreikslpv.thekitchen.presentation.utils.ShareHelper
 import com.andreikslpv.thekitchen.presentation.utils.findTopNavController
 import com.andreikslpv.thekitchen.presentation.utils.ingredientCountToString
 import com.andreikslpv.thekitchen.presentation.utils.visible
 import com.andreikslpv.thekitchen.presentation.vm.ShoppingListViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * A simple [Fragment] subclass.
@@ -45,6 +49,8 @@ class ShoppingListFragment :
         initClearButton()
         initAddButton()
         initShoppingDialog()
+        initShareButton()
+        initClearListButton()
     }
 
     private fun setupSwipeToRefresh() {
@@ -224,6 +230,30 @@ class ShoppingListFragment :
                     Ingredient(product, unit, count ?: 0.0)
                 )
             }
+        }
+    }
+
+    private fun initShareButton() {
+        binding.shoppingToolbar.menu.findItem(R.id.favoritesShare).setOnMenuItemClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                ShareHelper.shareThis(
+                    requireContext(),
+                    getString(
+                        R.string.shopping_share_text,
+                        viewModel.generateTextFromShoppingList()
+                    ),
+                    resources.getString(R.string.favorites_share_title)
+                )
+            }
+            true
+        }
+    }
+
+    private fun initClearListButton() {
+        binding.shoppingToolbar.menu.findItem(R.id.favoritesClearList).setOnMenuItemClickListener {
+            if (!viewModel.removeAllFromShoppingList())
+                authRequiered()
+            true
         }
     }
 

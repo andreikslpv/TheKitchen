@@ -12,7 +12,9 @@ interface IngredientRepository {
 
     suspend fun getProductById(productId: String): Product
 
-    suspend fun getUnitById(unitId: String): Flow<Unit>
+    suspend fun getUnitByIdFlow(unitId: String): Flow<Unit>
+
+    suspend fun getUnitById(unitId: String): Unit
 
     suspend fun getAllUnits(): Flow<List<Unit>>
 }

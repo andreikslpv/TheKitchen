@@ -59,8 +59,11 @@ class IngredientRepositoryImpl(
     override suspend fun getProductById(productId: String) =
         Mappers.LocalToProductMapper.map(productDao.getProductById(productId))
 
-    override suspend fun getUnitById(unitId: String) = unitDao.getUnitById(unitId)
+    override suspend fun getUnitByIdFlow(unitId: String) = unitDao.getUnitByIdFlow(unitId)
         .map { Mappers.LocalToUnitMapper.map(it) }
+
+    override suspend fun getUnitById(unitId: String) =
+        Mappers.LocalToUnitMapper.map(unitDao.getUnitById(unitId))
 
     override suspend fun getAllUnits() = unitDao.getAllUnits()
         .map { Mappers.LocalToUnitListMapper.map(it) }

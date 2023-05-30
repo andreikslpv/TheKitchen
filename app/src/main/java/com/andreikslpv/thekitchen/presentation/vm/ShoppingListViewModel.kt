@@ -8,9 +8,12 @@ import com.andreikslpv.thekitchen.domain.UserRepository
 import com.andreikslpv.thekitchen.domain.models.ShoppingItem
 import com.andreikslpv.thekitchen.domain.usecases.TryToAddToShoppingListUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToEditShoppingItemUseCase
+import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveAllFromShoppingList
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveFromShoppingList
+import com.andreikslpv.thekitchen.presentation.utils.ingredientCountToString
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,6 +28,9 @@ class ShoppingListViewModel : ViewModel() {
 
     @Inject
     lateinit var tryToRemoveFromShoppingList: TryToRemoveFromShoppingList
+
+    @Inject
+    lateinit var tryToRemoveAllFromShoppingList: TryToRemoveAllFromShoppingList
 
     @Inject
     lateinit var tryToAddToShoppingListUseCase: TryToAddToShoppingListUseCase
@@ -81,6 +87,10 @@ class ShoppingListViewModel : ViewModel() {
         return tryToRemoveFromShoppingList.execute(shoppingItems)
     }
 
+    fun removeAllFromShoppingList(): Boolean {
+        return tryToRemoveAllFromShoppingList.execute()
+    }
+
     fun addToShoppingList(shoppingItem: ShoppingItem): Boolean {
         return tryToAddToShoppingListUseCase.execute(shoppingItem)
     }
@@ -98,5 +108,19 @@ class ShoppingListViewModel : ViewModel() {
     fun getUnitsIdByName(name: String) = unitList.value?.find {
         it.name == name
     }?.id ?: ""
+
+    suspend fun generateTextFromShoppingList(): String {
+        val job = CoroutineScope(Dispatchers.IO).async {
+            var products = ""
+            var i = 1
+            shoppingList.value?.forEach {
+                val unit = ingredientRepository.getUnitById(it.ingredient.unit).name
+                products += "$i. ${it.showingName} (${it.ingredient.count.ingredientCountToString()} $unit);\n"
+                i++
+            }
+            products
+        }
+        return job.await()
+    }
 
 }

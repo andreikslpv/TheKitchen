@@ -31,7 +31,7 @@ class IngredientViewHolder(val binding: ItemIngredientBinding) :
             }
         }
         CoroutineScope(Dispatchers.IO).launch {
-            ingredientRepository.getUnitById(ingredient.unit).collect {
+            ingredientRepository.getUnitByIdFlow(ingredient.unit).collect {
                 withContext(Dispatchers.Main) {
                     binding.itemIngredientCount.text = binding.root.context.getString(
                         R.string.ingredient_count,

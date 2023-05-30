@@ -66,7 +66,7 @@ class ShoppingViewHolder(val binding: ItemShoppingBinding) :
 
         binding.itemProductName.text = shoppingItem.showingName
         CoroutineScope(Dispatchers.IO).launch {
-            ingredientRepository.getUnitById(shoppingItem.ingredient.unit).collect {
+            ingredientRepository.getUnitByIdFlow(shoppingItem.ingredient.unit).collect {
                 withContext(Dispatchers.Main) {
                     binding.itemProductCount.text = binding.root.context.getString(
                         R.string.ingredient_count,
