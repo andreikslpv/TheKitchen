@@ -10,15 +10,12 @@ import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.domain.RecipeRepository
 import com.andreikslpv.thekitchen.domain.UserRepository
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
-import com.andreikslpv.thekitchen.domain.usecases.GetUserFromDbUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveAllFromFavoritesUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveFromFavoritesUseCase
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -29,9 +26,6 @@ class FavoritesViewModel : ViewModel() {
 
     @Inject
     lateinit var userRepository: UserRepository
-
-    @Inject
-    lateinit var getUserFromDbUseCase: GetUserFromDbUseCase
 
     @Inject
     lateinit var tryToRemoveFromFavoritesUseCase: TryToRemoveFromFavoritesUseCase
@@ -52,16 +46,9 @@ class FavoritesViewModel : ViewModel() {
 
         recipes = favorites
             .asFlow()
-            .flatMapLatest {
-                recipeRepository.getRecipeFavorites(it)
-            }
+            .flatMapLatest { recipeRepository.getRecipeFavorites(it) }
             // кешируем прлучившийся flow, чтобы на него можно было подписаться несколько раз
             .cachedIn(viewModelScope)
-
-        // начинаем отслеживать данные пользователя в бд
-        CoroutineScope(Dispatchers.IO).launch {
-            getUserFromDbUseCase.execute().collect {}
-        }
     }
 
     fun tryToRemoveFromFavorites(recipeId: String): Boolean {

@@ -23,6 +23,7 @@ import com.andreikslpv.thekitchen.presentation.ui.recyclers.IngredientRecyclerAd
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.StepRecyclerAdapter
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.itemDecoration.SpaceItemDecoration
 import com.andreikslpv.thekitchen.presentation.utils.findTopNavController
+import com.andreikslpv.thekitchen.presentation.utils.makeToast
 import com.andreikslpv.thekitchen.presentation.vm.RecipeViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
@@ -62,6 +63,7 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>(FragmentRecipeBinding
         initCollectDetailsInfo()
         initIngredientsCollect()
         initKkalCollect()
+        initAddingButton()
     }
 
     private fun initCollectPreviewInfo() {
@@ -139,7 +141,6 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>(FragmentRecipeBinding
     private fun initCollectDetailsInfo() {
         viewModel.recipeDetails.observe(viewLifecycleOwner) { response ->
             binding.recipeDescription.text = response.description
-//            binding.recipeLinkText.text = getString(R.string.link)
             binding.recipeLink.text = response.source
             viewModel.setIngredients(response.ingredients)
             stepAdapter.changeItems(response.steps)
@@ -182,6 +183,19 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>(FragmentRecipeBinding
                 inclusive = true
             }
         })
+    }
+
+    private fun initAddingButton() {
+        binding.ingredientAddingButton.setOnClickListener {
+            when (viewModel.tryToAddIngredientToShoppingList()) {
+                false -> Snackbar.make(
+                    binding.root, R.string.home_snackbar_text, Snackbar.LENGTH_LONG
+                ).setAction(R.string.home_snackbar_action) { goToAuthFragment() }.show()
+
+                true -> getString(R.string.ingredient_adding_success).makeToast(requireContext())
+                null -> getString(R.string.ingredient_adding_failure).makeToast(requireContext())
+            }
+        }
     }
 
 }

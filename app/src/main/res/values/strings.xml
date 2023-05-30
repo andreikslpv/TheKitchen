@@ -6,6 +6,7 @@
     <string name="catalog_title">Каталог</string>
     <string name="search_title">Поиск</string>
     <string name="shopping_list_title">Список</string>
+    <string name="shopping_list_title_full">Список покупок</string>
     <string name="favorites_title">Избранное</string>
 
     //Toolbar menu
@@ -21,6 +22,7 @@
     <string name="home_title_new">Попробуйте новое</string>
     <string name="home_snackbar_text">Данное действие доступно только для авторизованных пользователей</string>
     <string name="home_snackbar_action">Авторизоваться</string>
+    <string name="link_practice">Проект разработан в рамках Pineapple Practice</string>
 
     //Recipe Preview
     <string name="warning">Содержит исключенный ингредиент</string>
@@ -56,11 +58,34 @@
     <string name="step_title">Шаг %s</string>
     <string name="portion_default">0</string>
     <string name="link">Источник</string>
+    <string name="ingredient_adding_success">Продукты успешно добавлены в список покупок</string>
+    <string name="ingredient_adding_failure">Не удалось добавить продукты в список покупок</string>
 
     //Profile
     <string name="profile_title_history">История просмотра</string>
     <string name="profile_title_exclude">Мои предпочтения</string>
     <string name="profile_sign_out">Выйти</string>
+    <string name="profile_ups">Ваша история просмотров пуста</string>
+
+    //Shopping list
+    <string name="shopping_empty_text">Пополните его автоматически\nиз карточки рецепта или добавьте\nпродукты нажав на «+»</string>
+    <string name="shopping_select_all">Выбрать все</string>
+    <string name="shopping_clear">Очистить выбранные</string>
+    <string name="shopping_clear_success">Продукты успешно удалены из списка покупок</string>
+    <string name="shopping_clear_failure">Не удалось удалить продукты из списка покупок</string>
+    <string name="shopping_share_text">Список покупок: \n%s</string>
+
+    //Shopping dialog
+    <string name="shopping_dialog_title_edit">Редактирование</string>
+    <string name="shopping_dialog_title_add">Добавление</string>
+    <string name="shopping_dialog_action_edit">Изменить</string>
+    <string name="shopping_dialog_action_add">Добавить</string>
+    <string name="shopping_dialog_action_cancel">Отменить</string>
+    <string name="shopping_dialog_field_name">Название</string>
+    <string name="shopping_dialog_field_count">Количество</string>
+    <string name="shopping_dialog_field_unit">Ед.измерения</string>
+    <string name="shopping_dialog_field_error">Заполните это поле</string>
+    <string name="content_description_end_icon">Очистить поле</string>
 
 
 

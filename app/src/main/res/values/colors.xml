@@ -11,11 +11,13 @@
     <!-- project colors   -->
     <color name="text_card_title">#363636</color>
     <color name="text_menu_title">#757070</color>
+    <color name="text_menu_select">#858585</color>
     <color name="background_main">#F2F5F9</color>
     <color name="purple">#6E479F</color>
     <color name="lime">#CEFE8F</color>
     <color name="icon_toolbar">#363636</color>
     <color name="link">#51A6F5</color>
+    <color name="dialog_shadow">#28000000</color>
 
 
 

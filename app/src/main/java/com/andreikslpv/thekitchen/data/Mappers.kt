@@ -59,6 +59,17 @@ object Mappers {
         }
     }
 
+    object LocalToUnitListMapper : BaseMapper<List<UnitLocal>, List<Unit>> {
+        override fun map(type: List<UnitLocal>?): List<Unit> {
+            return type?.map {
+                Unit(
+                    id = it.id,
+                    name = it.name,
+                )
+            } ?: listOf()
+        }
+    }
+
     object LocalToUnitMapper : BaseMapper<UnitLocal, Unit> {
         override fun map(type: UnitLocal?): Unit {
             return Unit(

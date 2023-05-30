@@ -13,5 +13,8 @@ interface ProductDao {
     fun getAllProducts(): Flow<List<ProductLocal>>
 
     @Query("SELECT * FROM ${RoomConstants.TABLE_CACHED_PRODUCT} WHERE ${RoomConstants.COLUMN_PRODUCT_ID} = :id")
-    fun getProductById(id: String): Flow<ProductLocal>
+    fun getProductByIdFlow(id: String): Flow<ProductLocal>
+
+    @Query("SELECT * FROM ${RoomConstants.TABLE_CACHED_PRODUCT} WHERE ${RoomConstants.COLUMN_PRODUCT_ID} = :id")
+    fun getProductById(id: String): ProductLocal
 }

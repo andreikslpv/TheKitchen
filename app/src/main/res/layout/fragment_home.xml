@@ -20,11 +20,13 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
+            app:title="@string/home_title"
             app:menu="@menu/toolbar_menu">
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/homeSearchView"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="@dimen/search_height"
                 android:background="@drawable/background_search_view"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -154,12 +156,38 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <FrameLayout
+                android:id="@+id/linkContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_basic"
+                android:layout_marginTop="@dimen/margin_basic"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/timeContainer">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/practiceLink"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autoLink="web"
+                    android:background="@android:color/transparent"
+                    android:textColor="@android:color/transparent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/practiceLinkText"
+                    style="@style/TextLink"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/link_practice" />
+
+            </FrameLayout>
+
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_basic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/timeContainer" />
+                app:layout_constraintTop_toBottomOf="@+id/linkContainer" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

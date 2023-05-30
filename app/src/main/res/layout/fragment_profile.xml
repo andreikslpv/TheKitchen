@@ -79,7 +79,7 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:enabled="false"
-                    android:text="Name" />
+                    tools:text="Name" />
 
                 <ImageView
                     android:id="@+id/profilePencil"
@@ -96,14 +96,14 @@
                 style="@style/TextEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profileNameContainer" />
+                app:layout_constraintTop_toBottomOf="@+id/profileNameContainer"
+                tools:text="Email" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/historyContainer"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_big_24"
                 android:background="@drawable/background_main_card"
@@ -119,7 +119,6 @@
                     android:layout_marginStart="@dimen/margin_basic"
                     android:layout_marginTop="@dimen/margin_basic"
                     android:text="@string/profile_title_history"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -132,11 +131,54 @@
                     android:layout_marginEnd="@dimen/margin_small"
                     android:background="@android:color/transparent"
                     android:orientation="horizontal"
+                    android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/profileTitleHistory"
                     tools:listitem="@layout/item_recipe_new" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/historyEmptyView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profileTitleHistory"
+                    tools:visibility="visible">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/historyUps"
+                        style="@style/TextRecipeBasic"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_basic"
+                        android:layout_marginTop="@dimen/margin_basic"
+                        android:text="@string/profile_ups"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/historyEmptyImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_basic"
+                        android:background="@android:color/transparent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/empty_history_3"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/historyUps"
+                        tools:ignore="ContentDescription" />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin_basic"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/historyEmptyImage" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -187,11 +229,11 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/sign_out_button"
-                style="@style/TextExitButton"
+                style="@style/TextButtonBig.Start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_basic"
                 android:layout_marginStart="@dimen/margin_basic"
+                android:layout_marginTop="@dimen/margin_big_24"
                 android:background="@android:color/transparent"
                 android:clickable="true"
                 android:focusable="true"
@@ -199,6 +241,13 @@
                 android:text="@string/profile_sign_out"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/excludeContainer" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_basic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sign_out_button" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

@@ -20,7 +20,7 @@ import com.andreikslpv.thekitchen.presentation.ui.recyclers.RecipeItemClickListe
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.RecipeMiniRecyclerAdapter
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.itemDecoration.SpaceItemDecoration
 import com.andreikslpv.thekitchen.presentation.utils.findTopNavController
-import com.andreikslpv.thekitchen.presentation.utils.makeToast
+import com.andreikslpv.thekitchen.presentation.utils.visible
 import com.andreikslpv.thekitchen.presentation.vm.ProfileViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
@@ -63,11 +63,15 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                 is Response.Success -> {
                     recipeHistoryAdapter.changeItems(response.data)
                     recipeHistoryAdapter.notifyDataSetChanged()
+                    binding.profileRecyclerRecipe.visible(true)
+                    binding.historyEmptyView.visible(false)
                     binding.progressBar.hide()
                 }
 
                 is Response.Failure -> {
-                    response.errorMessage.makeToast(requireContext())
+                    //response.errorMessage.makeToast(requireContext())
+                    binding.profileRecyclerRecipe.visible(false)
+                    binding.historyEmptyView.visible(true)
                     binding.progressBar.hide()
                 }
             }

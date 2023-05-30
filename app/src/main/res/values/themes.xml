@@ -13,6 +13,17 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="materialSwitchStyle">@style/Widget.App.Switch</item>
+        <item name="checkboxStyle">@style/Widget.App.CheckBox</item>
+        <item name="floatingActionButtonSmallStyle">
+            @style/Widget.MaterialComponents.FloatingActionButton
+        </item>
+        <!-- for TextField -->
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
+        <!-- for TextInputLayout -->
+        <item name="textInputStyle">@style/Widget.App.TextInputLayout</item>
+        <item name="textInputOutlinedExposedDropdownMenuStyle">
+            @style/Widget.App.TextInputLayoutExposedDropdownMenu
+        </item>
     </style>
 
     <!-- Splash Screen Theme (API >= 31) -->
@@ -24,6 +35,7 @@
         <item name="postSplashScreenTheme">@style/Theme.TheKitchen</item>
     </style>
 
+    <!-- Switch -->
     <style name="Widget.App.Switch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.Switch</item>
     </style>
@@ -34,6 +46,62 @@
         <item name="colorOutline">@color/white</item>
         <item name="colorOnPrimary">@color/white</item>
     </style>
+
+    <!-- CheckBox -->
+    <style name="Widget.App.CheckBox" parent="Widget.Material3.CompoundButton.CheckBox">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.CheckBox</item>
+    </style>
+
+    <style name="ThemeOverlay.App.CheckBox" parent="">
+        <!-- Container colors -->
+        <item name="colorOnSurface">@color/white</item>
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorError">@color/design_default_color_error</item>
+        <!-- Icon colors -->
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnError">@color/design_default_color_error</item>
+    </style>
+
+    <!-- FAB -->
+    <!--    <style name="Widget.MaterialComponents.FloatingActionButton" parent="Widget.Design.FloatingActionButton">-->
+    <!--        <item name="materialThemeOverlay">@style/ThemeOverlay.App.FAB</item>-->
+    <!--    </style>-->
+
+    <!--    <style name="ThemeOverlay.App.FAB" parent="">-->
+    <!--        <item name="fabSize">mini</item>-->
+    <!--    </style>-->
+
+    <!-- TextField -->
+    <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/search_corner_radius</item>
+    </style>
+
+    <!-- TextInputLayout -->
+    <style name="Widget.App.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox.Dense">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.TextInputLayout</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent</item>
+        <item name="hintTextColor">@color/black</item>
+    </style>
+
+    <style name="ThemeOverlay.App.TextInputLayout" parent="">
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorOnSurface">@color/black</item>
+        <item name="colorError">@color/design_default_color_error</item>
+        <item name="editTextStyle">@style/Widget.Material3.TextInputEditText.OutlinedBox.Dense
+        </item>
+    </style>
+
+    <style name="Widget.App.TextInputLayoutExposedDropdownMenu" parent="Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="materialThemeOverlay">
+            @style/ThemeOverlay.App.TextInputLayout
+        </item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent</item>
+        <item name="colorPrimary">@color/purple</item>
+        <item name="hintTextColor">@color/black</item>
+    </style>
+
 
     <style name="roundedImageViewRounded">
         <item name="cornerFamily">rounded</item>
