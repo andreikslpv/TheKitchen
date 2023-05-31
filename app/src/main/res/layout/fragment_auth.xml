@@ -76,7 +76,6 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="ContentDescription" />
 
-
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/progress_bar"
         style="?android:attr/progressBarStyleSmall"
@@ -88,4 +87,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

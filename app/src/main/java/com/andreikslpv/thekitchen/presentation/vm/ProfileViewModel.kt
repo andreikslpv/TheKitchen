@@ -26,6 +26,8 @@ class ProfileViewModel : ViewModel() {
     @Inject
     lateinit var tryToChangeFavoritesStatusUseCase: TryToChangeFavoritesStatusUseCase
 
+    private var uid = ""
+
     init {
         App.instance.dagger.inject(this)
     }
@@ -61,6 +63,16 @@ class ProfileViewModel : ViewModel() {
 
     fun getCurrentUser() = liveData(Dispatchers.IO) {
         emit(authRepository.getCurrentUser())
+    }
+
+    fun deleteUser(idToken: String?) = liveData(Dispatchers.IO) {
+        authRepository.firebaseDeleteUser(idToken).collect { response ->
+            emit(response)
+        }
+    }
+
+    fun saveUidBeforeDeleteUser() {
+        uid = authRepository.getCurrentUser()?.uid ?: ""
     }
 
 }

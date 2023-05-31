@@ -36,4 +36,5 @@ class AuthViewModel : ViewModel() {
             emit(response)
         }
     }
+
 }

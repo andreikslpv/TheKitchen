@@ -65,7 +65,13 @@
     <string name="profile_title_history">История просмотра</string>
     <string name="profile_title_exclude">Мои предпочтения</string>
     <string name="profile_sign_out">Выйти</string>
+    <string name="profile_delete_success">"Аккаунт был успешно удален"</string>
+    <string name="profile_delete_user">Удалить профиль</string>
     <string name="profile_ups">Ваша история просмотров пуста</string>
+    <string name="profile_dialog_title">Удаление аккаунта</string>
+    <string name="profile_dialog_text">Вы уверены что хотите удалить аккаунт?</string>
+    <string name="profile_dialog_action_cancel">Отменить</string>
+    <string name="profile_dialog_action_auth">Удалить</string>
 
     //Shopping list
     <string name="shopping_empty_text">Пополните его автоматически\nиз карточки рецепта или добавьте\nпродукты нажав на «+»</string>

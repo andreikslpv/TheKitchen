@@ -45,7 +45,7 @@ class AuthRepository @Inject constructor(
     }
 
     @ExperimentalCoroutinesApi
-    fun getFirebaseAuthState() = callbackFlow  {
+    fun getFirebaseAuthState() = callbackFlow {
         val authStateListener = FirebaseAuth.AuthStateListener { auth ->
             trySend(auth.currentUser == null)
         }
@@ -56,5 +56,19 @@ class AuthRepository @Inject constructor(
     }
 
     fun getCurrentUser() = auth.currentUser
+
+    suspend fun firebaseDeleteUser(idToken: String?) = flow {
+        try {
+            emit(Response.Loading)
+            val credential = GoogleAuthProvider.getCredential(idToken, null)
+            auth.currentUser?.reauthenticate(credential)?.await().also {
+                auth.currentUser?.delete()!!.await().also {
+                    emit(Response.Success(true))
+                }
+            }
+        } catch (e: Exception) {
+            emit(Response.Failure(e.message ?: ERROR_MESSAGE))
+        }
+    }
 
 }

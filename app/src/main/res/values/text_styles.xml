@@ -62,6 +62,12 @@
         <item name="android:gravity">start</item>
     </style>
 
+    <style name="TextButtonDanger">
+        <item name="android:textSize">@dimen/text_title_button</item>
+        <item name="android:textColor">@color/text_button_danger</item>
+        <item name="android:gravity">start</item>
+    </style>
+
 
     <style name="TextButtonSmall">
         <item name="android:textSize">@dimen/text_title_category</item>
