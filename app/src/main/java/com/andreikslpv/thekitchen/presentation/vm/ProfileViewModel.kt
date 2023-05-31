@@ -5,6 +5,7 @@ import androidx.lifecycle.liveData
 import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.data.repository.AuthRepository
 import com.andreikslpv.thekitchen.domain.CategoryRepository
+import com.andreikslpv.thekitchen.domain.UserRepository
 import com.andreikslpv.thekitchen.domain.models.CategoryType
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipeHistoryUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeFavoritesStatusUseCase
@@ -19,6 +20,9 @@ class ProfileViewModel : ViewModel() {
 
     @Inject
     lateinit var categoryRepository: CategoryRepository
+
+    @Inject
+    lateinit var userRepository: UserRepository
 
     @Inject
     lateinit var getRecipeHistoryUseCase: GetRecipeHistoryUseCase
@@ -65,14 +69,26 @@ class ProfileViewModel : ViewModel() {
         emit(authRepository.getCurrentUser())
     }
 
-    fun deleteUser(idToken: String?) = liveData(Dispatchers.IO) {
+    fun deleteUserAuth(idToken: String?) = liveData(Dispatchers.IO) {
         authRepository.firebaseDeleteUser(idToken).collect { response ->
+            emit(response)
+        }
+    }
+
+    fun deleteUserDb() = liveData(Dispatchers.IO) {
+        userRepository.deleteUser(uid).collect { response ->
             emit(response)
         }
     }
 
     fun saveUidBeforeDeleteUser() {
         uid = authRepository.getCurrentUser()?.uid ?: ""
+    }
+
+    fun editUserName(newName: String) = liveData(Dispatchers.IO) {
+        authRepository.editUserName(newName).collect { response ->
+            emit(response)
+        }
     }
 
 }

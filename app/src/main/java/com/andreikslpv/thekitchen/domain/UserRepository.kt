@@ -12,6 +12,8 @@ interface UserRepository {
 
     suspend fun getCurrentUser(uid: String): Flow<User>
 
+    suspend fun deleteUser(uid: String): Flow<Response<Boolean>>
+
     fun getFavorites(): MutableStateFlow<List<String>>
 
     fun addToFavorites(uid: String, recipeId: String)

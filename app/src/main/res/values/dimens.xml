@@ -114,6 +114,11 @@
     <dimen name="shopping_dialog_field_width_half">120dp</dimen>
     <dimen name="shopping_dialog_dropdown_height">150dp</dimen>
 
+    <!-- for profile dialog-->
+    <dimen name="profile_dialog_height">200dp</dimen>
+    <dimen name="profile_dialog_width">312dp</dimen>
+    <dimen name="profile_dialog_text_width">264dp</dimen>
+    <dimen name="profile_dialog_elevation">4dp</dimen>
 
     <!-- for FAB -->
     <dimen name="FAB_margin">8dp</dimen>

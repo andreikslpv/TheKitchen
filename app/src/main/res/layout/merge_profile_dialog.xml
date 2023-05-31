@@ -18,10 +18,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="@dimen/shopping_dialog_width"
-        android:layout_height="@dimen/shopping_dialog_height"
+        android:layout_width="@dimen/profile_dialog_width"
+        android:layout_height="@dimen/profile_dialog_height"
         android:background="@drawable/background_dialog"
-        android:elevation="@dimen/shopping_dialog_elevation"
+        android:elevation="@dimen/profile_dialog_elevation"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_big_24"
-            android:layout_marginTop="@dimen/margin_big_32"
+            android:layout_marginTop="@dimen/margin_big_24"
             android:text="@string/profile_dialog_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,13 +41,12 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/dialogText"
-            style="@style/TextButtonSmall.Cancel"
-            android:layout_width="wrap_content"
+            style="@style/TextSelectAll"
+            android:layout_width="@dimen/profile_dialog_text_width"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_big_24"
-            android:layout_marginTop="@dimen/margin_big_24"
+            android:layout_marginTop="@dimen/margin_basic"
             android:text="@string/profile_dialog_text"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dialogTitle" />
 
@@ -61,26 +60,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dialogText">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/dialogActionButton"
-            style="@style/TextButtonSmall.Center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_big_32"
-            android:background="@android:color/transparent"
-            android:clickable="true"
-            android:focusable="true"
-            android:text="@string/profile_dialog_action_auth" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/dialogActionButton"
+                style="@style/TextButtonDangerSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_big_32"
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="@string/profile_dialog_action_auth" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/dialogCancelButton"
-            style="@style/TextButtonSmall.Cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:clickable="true"
-            android:focusable="true"
-            android:text="@string/profile_dialog_action_cancel" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/dialogCancelButton"
+                style="@style/TextButtonSmall.Cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="@string/profile_dialog_action_cancel" />
 
         </LinearLayout>
 

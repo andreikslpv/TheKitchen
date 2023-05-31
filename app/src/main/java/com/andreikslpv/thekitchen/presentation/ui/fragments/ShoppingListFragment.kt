@@ -202,7 +202,7 @@ class ShoppingListFragment :
             nameText.setText("")
             nameText.tag = ""
             countText.setText("")
-            (unitText as? MaterialAutoCompleteTextView)?.setText("", false)
+            (unitText as? MaterialAutoCompleteTextView)?.setText("гр.", false)
 
             actionButton.setOnClickListener {
                 val newShoppingItem = getShoppingItemFromDialog()

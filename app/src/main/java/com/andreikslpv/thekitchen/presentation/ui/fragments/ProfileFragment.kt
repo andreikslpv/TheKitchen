@@ -1,9 +1,13 @@
 package com.andreikslpv.thekitchen.presentation.ui.fragments
 
 import android.annotation.SuppressLint
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -35,6 +39,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
+
 
 /**
  * A simple [Fragment] subclass.
@@ -77,6 +82,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         getAuthState()
         initDeleteUserButton()
         initResultLauncher()
+        initEditNameFunction()
     }
 
     private fun initResultLauncher() {
@@ -88,7 +94,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                         val googleSignInAccount = task.getResult(ApiException::class.java)
                         googleSignInAccount?.apply {
                             idToken?.let { idToken ->
-                                deleteUser(idToken)
+                                deleteUserAuth(idToken)
                             }
                         }
                     } catch (e: ApiException) {
@@ -98,14 +104,33 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
             }
     }
 
-    private fun deleteUser(idToken: String?) {
-        viewModel.deleteUser(idToken).observe(viewLifecycleOwner) { response ->
+    private fun deleteUserAuth(idToken: String?) {
+        viewModel.deleteUserAuth(idToken).observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Response.Loading -> binding.progressBar.show()
                 is Response.Success -> {
                     (requireActivity() as MainActivity).cancelObserveUser()
-                    getString(R.string.profile_delete_success).makeToast(requireContext())
+                    deleteUserDb()
+                    binding.progressBar.hide()
                 }
+
+                is Response.Failure -> {
+                    println("AAA signInWithGoogle ${response.errorMessage}")
+                    binding.progressBar.hide()
+                }
+            }
+        }
+    }
+
+    private fun deleteUserDb() {
+        viewModel.deleteUserDb().observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Response.Loading -> binding.progressBar.show()
+                is Response.Success -> {
+                    getString(R.string.profile_delete_success).makeToast(requireContext())
+                    binding.progressBar.hide()
+                }
+
                 is Response.Failure -> {
                     println("AAA signInWithGoogle ${response.errorMessage}")
                     binding.progressBar.hide()
@@ -258,6 +283,50 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
             actionButton.setOnClickListener {
                 viewModel.saveUidBeforeDeleteUser()
                 resultLauncher.launch(signInIntent)
+            }
+        }
+    }
+
+    private fun initEditNameFunction() {
+        binding.profilePencil.setOnClickListener {
+            binding.profileName.apply {
+                isEnabled = true
+                requestFocus()
+                val imm =
+                    requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+                selectAll()
+            }
+        }
+
+        binding.profileName.setOnKeyListener { v, keyCode, event ->
+            // if the event is a key down event on the enter button
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                (v as EditText).apply {
+                    editUserName(text.toString())
+                    clearFocus()
+                    isCursorVisible = false
+                    isEnabled = false
+                }
+                return@setOnKeyListener true
+            }
+            return@setOnKeyListener false
+        }
+    }
+
+    private fun editUserName(newName: String) {
+        viewModel.editUserName(newName).observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Response.Loading -> binding.progressBar.show()
+                is Response.Success -> {
+                    binding.progressBar.hide()
+                    getString(R.string.profile_edit_name_success).makeToast(requireContext())
+                }
+
+                is Response.Failure -> {
+                    println("AAA signInWithGoogle ${response.errorMessage}")
+                    binding.progressBar.hide()
+                }
             }
         }
     }

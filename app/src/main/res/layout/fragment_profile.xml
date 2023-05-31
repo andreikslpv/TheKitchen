@@ -67,6 +67,7 @@
                 android:id="@+id/profileNameContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_basic"
                 android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -79,13 +80,15 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:enabled="false"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:maxLength="15"
                     tools:text="Name" />
 
                 <ImageView
                     android:id="@+id/profilePencil"
                     android:layout_width="@dimen/profile_pencil_dimen"
                     android:layout_height="@dimen/profile_pencil_dimen"
-                    android:clipToOutline="true"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_pencil"
                     tools:ignore="ContentDescription" />
