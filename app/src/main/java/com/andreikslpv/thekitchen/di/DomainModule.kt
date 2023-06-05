@@ -15,6 +15,7 @@ import com.andreikslpv.thekitchen.domain.usecases.SetDefaultExcludeFromDbUseCase
 import com.andreikslpv.thekitchen.domain.usecases.SetHistoryUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToAddIngredientToShoppingListUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToAddToShoppingListUseCase
+import com.andreikslpv.thekitchen.domain.usecases.TryToChangeAvatarUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeExcludeStatusUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeFavoritesStatusUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToEditShoppingItemUseCase
@@ -23,6 +24,7 @@ import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveAllFromShoppingList
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveFromFavoritesUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveFromShoppingList
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -187,6 +189,15 @@ class DomainModule {
         ingredientRepository: IngredientRepository,
     ): TryToEditShoppingItemUseCase {
         return TryToEditShoppingItemUseCase(userRepository, authRepository, ingredientRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTryToChangeAvatarUseCase(
+        authRepository: AuthRepository,
+        storage: FirebaseStorage,
+    ): TryToChangeAvatarUseCase {
+        return TryToChangeAvatarUseCase(authRepository, storage)
     }
 
 }

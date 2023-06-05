@@ -9,6 +9,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -53,6 +54,29 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
 
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
+    // Registers a photo picker activity launcher in single-select mode.
+    private val pickMedia =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            // Callback is invoked after the user selects a media item or closes the photo picker.
+            if (uri != null) {
+                viewModel.tryToChangeAvatar(uri).observe(viewLifecycleOwner) { response ->
+                    when (response) {
+                        is Response.Loading -> binding.progressBar.show()
+                        is Response.Success -> {
+                            viewModel.refreshUser()
+                            binding.progressBar.hide()
+                        }
+                        is Response.Failure -> {
+                            print(response.errorMessage)
+                            binding.progressBar.hide()
+                        }
+                    }
+                }
+            } else {
+                println("AAA PhotoPicker: No media selected")
+            }
+        }
+
     @Inject
     lateinit var signInIntent: Intent
 
@@ -83,6 +107,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         initDeleteUserButton()
         initResultLauncher()
         initEditNameFunction()
+        initChangeAvatarFunction()
     }
 
     private fun initResultLauncher() {
@@ -129,6 +154,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                 is Response.Success -> {
                     getString(R.string.profile_delete_success).makeToast(requireContext())
                     binding.progressBar.hide()
+                    // перезапускаем приложение
+                    val intent = Intent(requireContext(), MainActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    startActivity(intent)
+                    Runtime.getRuntime().exit(0)
                 }
 
                 is Response.Failure -> {
@@ -153,7 +183,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                 }
 
                 is Response.Failure -> {
-                    //response.errorMessage.makeToast(requireContext())
                     binding.profileRecyclerRecipe.visible(false)
                     binding.historyEmptyView.visible(true)
                     binding.progressBar.hide()
@@ -222,8 +251,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     }
 
     private fun initCurrentUserCollect() {
-        viewModel.getCurrentUser().observe(viewLifecycleOwner) { user ->
-            user?.let {
+        viewModel.currentUser.observe(viewLifecycleOwner) {
+            it?.let { user ->
                 Glide.with(binding.profileAvatar)
                     .load(user.photoUrl)
                     .centerCrop()
@@ -231,7 +260,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                 binding.profileName.setText(user.displayName)
                 binding.profileEmail.text = user.email
             }
+            binding.progressBar.hide()
         }
+
     }
 
     private fun initSignOutButton() {
@@ -328,6 +359,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                     binding.progressBar.hide()
                 }
             }
+        }
+    }
+
+    private fun initChangeAvatarFunction() {
+        binding.profileCamera.setOnClickListener {
+            // Launch the photo picker and let the user choose only images.
+            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
     }
 

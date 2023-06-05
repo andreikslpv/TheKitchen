@@ -1,5 +1,6 @@
 package com.andreikslpv.thekitchen.data.repository
 
+import android.net.Uri
 import com.andreikslpv.thekitchen.domain.models.Response
 import com.andreikslpv.thekitchen.presentation.utils.Constants.ERROR_MESSAGE
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -76,6 +77,18 @@ class AuthRepository @Inject constructor(
         try {
             emit(Response.Loading)
             val profileUpdates = userProfileChangeRequest { displayName = newName }
+            auth.currentUser?.updateProfile(profileUpdates)?.await().also {
+                emit(Response.Success(true))
+            }
+        } catch (e: Exception) {
+            emit(Response.Failure(e.message ?: ERROR_MESSAGE))
+        }
+    }
+
+    suspend fun changeAvatar(uri: Uri) = flow {
+        try {
+            emit(Response.Loading)
+            val profileUpdates = userProfileChangeRequest { photoUri = uri }
             auth.currentUser?.updateProfile(profileUpdates)?.await().also {
                 emit(Response.Success(true))
             }

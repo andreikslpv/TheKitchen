@@ -95,7 +95,7 @@ class FavoritesFragment :
                 viewLifecycleOwner.lifecycleScope.launch {
                     recipePreviewAdapter.loadStateFlow.collect {
                         if (it.source.prepend is LoadState.NotLoading) {
-                            binding.catalogProgressBar.visible(true)
+                            binding.progressBar.show()
                         }
                         if (it.source.prepend is LoadState.Error) {
                             (it.source.prepend as LoadState.Error).error.message?.makeToast(
@@ -108,10 +108,10 @@ class FavoritesFragment :
                             )
                         }
                         if (it.source.refresh is LoadState.NotLoading) {
-                            binding.catalogProgressBar.visible(false)
+                            binding.progressBar.hide()
                         }
                         if (it.source.refresh is LoadState.Error) {
-                            binding.catalogProgressBar.visible(false)
+                            binding.progressBar.hide()
                             (it.source.refresh as LoadState.Error).error.message?.makeToast(
                                 requireContext()
                             )
