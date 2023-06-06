@@ -1,18 +1,29 @@
 package com.andreikslpv.thekitchen.presentation.ui.fragments
 
 import android.annotation.SuppressLint
+import android.content.Context.INPUT_METHOD_SERVICE
+import android.content.Intent
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.R
 import com.andreikslpv.thekitchen.databinding.FragmentProfileBinding
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
 import com.andreikslpv.thekitchen.domain.models.Response
+import com.andreikslpv.thekitchen.presentation.ui.MainActivity
 import com.andreikslpv.thekitchen.presentation.ui.base.BaseFragment
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.ExcludeRecyclerAdapter
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.ItemClickListener
@@ -20,18 +31,54 @@ import com.andreikslpv.thekitchen.presentation.ui.recyclers.RecipeItemClickListe
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.RecipeMiniRecyclerAdapter
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.itemDecoration.SpaceItemDecoration
 import com.andreikslpv.thekitchen.presentation.utils.findTopNavController
+import com.andreikslpv.thekitchen.presentation.utils.makeToast
 import com.andreikslpv.thekitchen.presentation.utils.visible
 import com.andreikslpv.thekitchen.presentation.vm.ProfileViewModel
 import com.bumptech.glide.Glide
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.common.api.ApiException
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import javax.inject.Inject
+
 
 /**
  * A simple [Fragment] subclass.
  */
 class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::inflate) {
 
+    private val dialogAnimDuration = 500L
+    private val dialogAnimAlfa = 1f
+
     private val viewModel by viewModels<ProfileViewModel>()
+
+    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
+
+    // Registers a photo picker activity launcher in single-select mode.
+    private val pickMedia =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            // Callback is invoked after the user selects a media item or closes the photo picker.
+            if (uri != null) {
+                viewModel.tryToChangeAvatar(uri).observe(viewLifecycleOwner) { response ->
+                    when (response) {
+                        is Response.Loading -> binding.progressBar.show()
+                        is Response.Success -> {
+                            viewModel.refreshUser()
+                            binding.progressBar.hide()
+                        }
+                        is Response.Failure -> {
+                            print(response.errorMessage)
+                            binding.progressBar.hide()
+                        }
+                    }
+                }
+            } else {
+                println("AAA PhotoPicker: No media selected")
+            }
+        }
+
+    @Inject
+    lateinit var signInIntent: Intent
 
     private lateinit var recipeHistoryAdapter: RecipeMiniRecyclerAdapter
     private lateinit var excludeAdapter: ExcludeRecyclerAdapter
@@ -42,6 +89,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         paddingLeftInDp = 4,
     )
 
+    init {
+        App.instance.dagger.inject(this)
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,8 +102,71 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         initCategoryCollect()
         initRecyclers()
         initCurrentUserCollect()
-        iniSignOutButton()
+        initSignOutButton()
         getAuthState()
+        initDeleteUserButton()
+        initResultLauncher()
+        initEditNameFunction()
+        initChangeAvatarFunction()
+    }
+
+    private fun initResultLauncher() {
+        resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == AppCompatActivity.RESULT_OK) {
+                    val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+                    try {
+                        val googleSignInAccount = task.getResult(ApiException::class.java)
+                        googleSignInAccount?.apply {
+                            idToken?.let { idToken ->
+                                deleteUserAuth(idToken)
+                            }
+                        }
+                    } catch (e: ApiException) {
+                        println("AAA initResultLauncher ${e.message}")
+                    }
+                }
+            }
+    }
+
+    private fun deleteUserAuth(idToken: String?) {
+        viewModel.deleteUserAuth(idToken).observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Response.Loading -> binding.progressBar.show()
+                is Response.Success -> {
+                    (requireActivity() as MainActivity).cancelObserveUser()
+                    deleteUserDb()
+                    binding.progressBar.hide()
+                }
+
+                is Response.Failure -> {
+                    println("AAA signInWithGoogle ${response.errorMessage}")
+                    binding.progressBar.hide()
+                }
+            }
+        }
+    }
+
+    private fun deleteUserDb() {
+        viewModel.deleteUserDb().observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Response.Loading -> binding.progressBar.show()
+                is Response.Success -> {
+                    getString(R.string.profile_delete_success).makeToast(requireContext())
+                    binding.progressBar.hide()
+                    // перезапускаем приложение
+                    val intent = Intent(requireContext(), MainActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    startActivity(intent)
+                    Runtime.getRuntime().exit(0)
+                }
+
+                is Response.Failure -> {
+                    println("AAA signInWithGoogle ${response.errorMessage}")
+                    binding.progressBar.hide()
+                }
+            }
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -69,7 +183,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                 }
 
                 is Response.Failure -> {
-                    //response.errorMessage.makeToast(requireContext())
                     binding.profileRecyclerRecipe.visible(false)
                     binding.historyEmptyView.visible(true)
                     binding.progressBar.hide()
@@ -138,8 +251,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     }
 
     private fun initCurrentUserCollect() {
-        viewModel.getCurrentUser().observe(viewLifecycleOwner) { user ->
-            user?.let {
+        viewModel.currentUser.observe(viewLifecycleOwner) {
+            it?.let { user ->
                 Glide.with(binding.profileAvatar)
                     .load(user.photoUrl)
                     .centerCrop()
@@ -147,10 +260,12 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                 binding.profileName.setText(user.displayName)
                 binding.profileEmail.text = user.email
             }
+            binding.progressBar.hide()
         }
+
     }
 
-    private fun iniSignOutButton() {
+    private fun initSignOutButton() {
         binding.signOutButton.setOnClickListener {
             signOut()
         }
@@ -179,6 +294,78 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                     }
                 })
             }
+        }
+    }
+
+    private fun initDeleteUserButton() {
+        binding.deleteUserButton.setOnClickListener {
+            showDialog()
+        }
+    }
+
+    private fun showDialog() {
+        binding.profileDialog.apply {
+            this.visible(true)
+            animate()
+                .setDuration(dialogAnimDuration)
+                .alpha(dialogAnimAlfa)
+                .start()
+
+            actionButton.setOnClickListener {
+                viewModel.saveUidBeforeDeleteUser()
+                resultLauncher.launch(signInIntent)
+            }
+        }
+    }
+
+    private fun initEditNameFunction() {
+        binding.profilePencil.setOnClickListener {
+            binding.profileName.apply {
+                isEnabled = true
+                requestFocus()
+                val imm =
+                    requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+                selectAll()
+            }
+        }
+
+        binding.profileName.setOnKeyListener { v, keyCode, event ->
+            // if the event is a key down event on the enter button
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                (v as EditText).apply {
+                    editUserName(text.toString())
+                    clearFocus()
+                    isCursorVisible = false
+                    isEnabled = false
+                }
+                return@setOnKeyListener true
+            }
+            return@setOnKeyListener false
+        }
+    }
+
+    private fun editUserName(newName: String) {
+        viewModel.editUserName(newName).observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Response.Loading -> binding.progressBar.show()
+                is Response.Success -> {
+                    binding.progressBar.hide()
+                    getString(R.string.profile_edit_name_success).makeToast(requireContext())
+                }
+
+                is Response.Failure -> {
+                    println("AAA signInWithGoogle ${response.errorMessage}")
+                    binding.progressBar.hide()
+                }
+            }
+        }
+    }
+
+    private fun initChangeAvatarFunction() {
+        binding.profileCamera.setOnClickListener {
+            // Launch the photo picker and let the user choose only images.
+            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
     }
 

@@ -85,6 +85,7 @@ class MainActivity : AppCompatActivity() {
 //        }
         initApplicationSettings()
         setDefaultExcludeFromDb()
+
         // preparing root nav controller
         val navController = getRootNavController()
         prepareRootNavController(isSignedIn(), navController)
@@ -114,6 +115,16 @@ class MainActivity : AppCompatActivity() {
             imm.hideSoftInputFromWindow(this.currentFocus!!.windowToken, 0)
         }
         return super.dispatchTouchEvent(ev)
+    }
+
+    fun startObserveUser() {
+        viewModel.user.observe(this) {
+            //it.uid.makeToast(this)
+        }
+    }
+
+    fun cancelObserveUser() {
+        viewModel.user.removeObservers(this)
     }
 
     private fun initApplicationSettings() {

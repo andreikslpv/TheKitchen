@@ -1,10 +1,12 @@
 package com.andreikslpv.thekitchen.data.repository
 
+import android.net.Uri
 import com.andreikslpv.thekitchen.domain.models.Response
 import com.andreikslpv.thekitchen.presentation.utils.Constants.ERROR_MESSAGE
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
@@ -45,7 +47,7 @@ class AuthRepository @Inject constructor(
     }
 
     @ExperimentalCoroutinesApi
-    fun getFirebaseAuthState() = callbackFlow  {
+    fun getFirebaseAuthState() = callbackFlow {
         val authStateListener = FirebaseAuth.AuthStateListener { auth ->
             trySend(auth.currentUser == null)
         }
@@ -56,5 +58,43 @@ class AuthRepository @Inject constructor(
     }
 
     fun getCurrentUser() = auth.currentUser
+
+    suspend fun firebaseDeleteUser(idToken: String?) = flow {
+        try {
+            emit(Response.Loading)
+            val credential = GoogleAuthProvider.getCredential(idToken, null)
+            auth.currentUser?.reauthenticate(credential)?.await().also {
+                auth.currentUser?.delete()!!.await().also {
+                    emit(Response.Success(true))
+                }
+            }
+        } catch (e: Exception) {
+            emit(Response.Failure(e.message ?: ERROR_MESSAGE))
+        }
+    }
+
+    suspend fun editUserName(newName: String) = flow {
+        try {
+            emit(Response.Loading)
+            val profileUpdates = userProfileChangeRequest { displayName = newName }
+            auth.currentUser?.updateProfile(profileUpdates)?.await().also {
+                emit(Response.Success(true))
+            }
+        } catch (e: Exception) {
+            emit(Response.Failure(e.message ?: ERROR_MESSAGE))
+        }
+    }
+
+    suspend fun changeAvatar(uri: Uri) = flow {
+        try {
+            emit(Response.Loading)
+            val profileUpdates = userProfileChangeRequest { photoUri = uri }
+            auth.currentUser?.updateProfile(profileUpdates)?.await().also {
+                emit(Response.Success(true))
+            }
+        } catch (e: Exception) {
+            emit(Response.Failure(e.message ?: ERROR_MESSAGE))
+        }
+    }
 
 }

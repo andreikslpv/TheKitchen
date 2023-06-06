@@ -48,9 +48,9 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>(FragmentAuthBinding::infl
             resultLauncher.launch(signInIntent)
         }
         binding.anonymousButton.setOnClickListener {
-            //signInWithGoogle(null)
             startTabsFragment()
         }
+
         initResultLauncher()
     }
 
@@ -123,4 +123,5 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>(FragmentAuthBinding::infl
             }
         })
     }
+
 }

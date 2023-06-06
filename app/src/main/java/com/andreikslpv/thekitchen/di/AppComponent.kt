@@ -4,6 +4,7 @@ package com.andreikslpv.thekitchen.di
  import com.andreikslpv.thekitchen.presentation.ui.MainActivity
  import com.andreikslpv.thekitchen.presentation.ui.fragments.AuthFragment
  import com.andreikslpv.thekitchen.presentation.ui.fragments.HomeFragment
+ import com.andreikslpv.thekitchen.presentation.ui.fragments.ProfileFragment
  import com.andreikslpv.thekitchen.presentation.ui.fragments.RecipeFragment
  import com.andreikslpv.thekitchen.presentation.ui.recyclers.ExcludeViewHolder
  import com.andreikslpv.thekitchen.presentation.ui.recyclers.IngredientViewHolder
@@ -28,6 +29,7 @@ interface AppComponent {
     fun inject(authFragment: AuthFragment)
     fun inject(homeFragment: HomeFragment)
     fun inject(recipeFragment: RecipeFragment)
+    fun inject(profileFragment: ProfileFragment)
     fun inject(mainActivity: MainActivity)
     fun inject(authViewModel: AuthViewModel)
     fun inject(mainViewModel: MainViewModel)

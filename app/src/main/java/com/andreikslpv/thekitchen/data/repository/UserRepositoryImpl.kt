@@ -19,10 +19,10 @@ class UserRepositoryImpl @Inject constructor(
     private val database: FirebaseFirestore,
 ) : UserRepository {
 
-   private val favorites = MutableStateFlow(emptyList<String>())
-   private val history = MutableStateFlow(emptyList<String>())
-   private val defaultExclude = MutableStateFlow(emptyList<String>())
-   private val shoppingList = MutableStateFlow(emptyList<ShoppingItem>())
+    private val favorites = MutableStateFlow(emptyList<String>())
+    private val history = MutableStateFlow(emptyList<String>())
+    private val defaultExclude = MutableStateFlow(emptyList<String>())
+    private val shoppingList = MutableStateFlow(emptyList<ShoppingItem>())
 
     override suspend fun createUser(user: User) = flow {
         try {
@@ -50,6 +50,18 @@ class UserRepositoryImpl @Inject constructor(
             }
         awaitClose {
             user.remove()
+        }
+    }
+
+    override suspend fun deleteUser(uid: String) = flow {
+        try {
+            emit(Response.Loading)
+            database.collection(FirestoreConstants.PATH_USERS).document(uid).delete().await()
+                .also {
+                    emit(Response.Success(true))
+                }
+        } catch (e: Exception) {
+            emit(Response.Failure(e.message ?: Constants.ERROR_MESSAGE))
         }
     }
 

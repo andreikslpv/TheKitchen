@@ -67,6 +67,7 @@
                 android:id="@+id/profileNameContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_basic"
                 android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -79,13 +80,15 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:enabled="false"
+                    android:inputType="text"
+                    android:maxLength="15"
+                    android:maxLines="1"
                     tools:text="Name" />
 
                 <ImageView
                     android:id="@+id/profilePencil"
                     android:layout_width="@dimen/profile_pencil_dimen"
                     android:layout_height="@dimen/profile_pencil_dimen"
-                    android:clipToOutline="true"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_pencil"
                     tools:ignore="ContentDescription" />
@@ -228,7 +231,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/sign_out_button"
+                android:id="@+id/signOutButton"
                 style="@style/TextButtonBig.Start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -242,26 +245,50 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/excludeContainer" />
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/deleteUserButton"
+                style="@style/TextButtonDanger"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_basic"
+                android:layout_marginTop="@dimen/margin_basic"
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="start"
+                android:text="@string/profile_delete_user"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/signOutButton" />
+
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_basic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/sign_out_button" />
+                app:layout_constraintTop_toBottomOf="@+id/deleteUserButton" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
     <androidx.core.widget.ContentLoadingProgressBar
-        android:id="@+id/progress_bar"
-        style="?android:attr/progressBarStyleSmall"
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <com.andreikslpv.thekitchen.presentation.ui.dialogs.ProfileDialog
+        android:id="@+id/profileDialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:translationZ="@dimen/progress_bar_elevation"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -179,17 +179,14 @@
         app:tint="@color/icon_toolbar"
         tools:ignore="ContentDescription" />
 
-    <ProgressBar
-        android:id="@+id/shoppingProgressBar"
-        android:layout_width="@dimen/progress_bar_dimen"
-        android:layout_height="@dimen/progress_bar_dimen"
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:elevation="@dimen/progress_bar_elevation"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <com.andreikslpv.thekitchen.presentation.ui.dialogs.ShoppingDialog
         android:id="@+id/shoppingDialog"
