@@ -7,7 +7,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.andreikslpv.thekitchen.R
 import com.andreikslpv.thekitchen.databinding.FragmentTabsBinding
-import com.andreikslpv.thekitchen.presentation.ui.MainActivity
 import com.andreikslpv.thekitchen.presentation.ui.base.BaseFragment
 
 /**
@@ -22,7 +21,6 @@ class TabsFragment : BaseFragment<FragmentTabsBinding>(FragmentTabsBinding::infl
         val navHost = childFragmentManager.findFragmentById(R.id.tabsContainer) as NavHostFragment
         val navController = navHost.navController
         NavigationUI.setupWithNavController(binding.bottomNavigationView, navController)
-        (requireActivity() as MainActivity).startObserveUser()
     }
 
     fun goToCatalog() {

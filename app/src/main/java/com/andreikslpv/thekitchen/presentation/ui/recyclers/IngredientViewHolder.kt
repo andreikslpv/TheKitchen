@@ -6,8 +6,11 @@ import com.andreikslpv.thekitchen.R
 import com.andreikslpv.thekitchen.databinding.ItemIngredientBinding
 import com.andreikslpv.thekitchen.domain.IngredientRepository
 import com.andreikslpv.thekitchen.domain.models.Ingredient
+import com.andreikslpv.thekitchen.presentation.utils.ingredientCountToString
+import com.andreikslpv.thekitchen.presentation.utils.roundTo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -22,7 +25,7 @@ class IngredientViewHolder(val binding: ItemIngredientBinding) :
         App.instance.dagger.inject(this)
     }
 
-    fun bind(ingredient: Ingredient) {
+    fun bind(ingredient: Ingredient, ratio: MutableStateFlow<Double>) {
         CoroutineScope(Dispatchers.IO).launch {
             ingredientRepository.getProductByIdFlow(ingredient.product).collect {
                 withContext(Dispatchers.Main) {
@@ -30,12 +33,19 @@ class IngredientViewHolder(val binding: ItemIngredientBinding) :
                 }
             }
         }
+        CoroutineScope(Dispatchers.Main).launch {
+            ratio.collect {
+                val count = (it * ingredient.count).roundTo(1).ingredientCountToString()
+                binding.itemIngredientCount.text = count
+            }
+        }
+
         CoroutineScope(Dispatchers.IO).launch {
             ingredientRepository.getUnitByIdFlow(ingredient.unit).collect {
                 withContext(Dispatchers.Main) {
-                    binding.itemIngredientCount.text = binding.root.context.getString(
+                    binding.itemIngredientUnit.text = binding.root.context.getString(
                         R.string.ingredient_count,
-                        ingredientCountToString(ingredient.count),
+                        "",
                         it.name
                     )
                 }
@@ -43,9 +53,4 @@ class IngredientViewHolder(val binding: ItemIngredientBinding) :
         }
     }
 
-    private fun ingredientCountToString(count: Double): String {
-        if (count == 0.0) return ""
-        return if (count % 1 == 0.0) count.toInt().toString()
-        else count.toString()
-    }
 }

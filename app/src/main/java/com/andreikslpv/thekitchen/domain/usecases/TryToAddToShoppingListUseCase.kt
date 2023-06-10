@@ -25,6 +25,7 @@ class TryToAddToShoppingListUseCase(
                 currentShoppingList.forEach { item ->
                     // если item есть в списке покупок
                     if (item.ingredient.product == shoppingItem.ingredient.product
+                        && shoppingItem.ingredient.product.isNotBlank()
                         && item.ingredient.unit == shoppingItem.ingredient.unit
                     ) {
                         // ... то складываем их кол-во в новом итеме,

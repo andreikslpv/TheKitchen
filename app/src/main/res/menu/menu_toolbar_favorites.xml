@@ -6,11 +6,11 @@
         android:id="@+id/favoritesShare"
         android:icon="@drawable/ic_share"
         android:title="@string/share"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="collapseActionView" />
 
     <item
         android:id="@+id/favoritesClearList"
         android:icon="@drawable/ic_list_remove"
         android:title="@string/clearList"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="collapseActionView" />
 </menu>

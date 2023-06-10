@@ -19,11 +19,11 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="@dimen/shopping_dialog_width"
-        android:layout_height="@dimen/shopping_dialog_height"
+        android:layout_height="wrap_content"
         android:background="@drawable/background_dialog"
         android:elevation="@dimen/shopping_dialog_elevation"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -42,7 +42,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/dialogNameField"
             android:layout_width="@dimen/shopping_dialog_field_width"
-            android:layout_height="@dimen/shopping_dialog_field_height"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_big_24"
             android:hint="@string/shopping_dialog_field_name"
             app:endIconContentDescription="@string/content_description_end_icon"
@@ -56,6 +56,7 @@
                 android:id="@+id/dialogNameText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:digits=".,abcdefghijklmnopqrstuvwxyzA BCDEFGHIJKLMNOPQRSTUVWXYZ1234567890йцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textSize="@dimen/text_title_button"
@@ -67,7 +68,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/dialogCountField"
             android:layout_width="@dimen/shopping_dialog_field_width_half"
-            android:layout_height="@dimen/shopping_dialog_field_height"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_big_28"
             android:layout_marginTop="@dimen/margin_big_24"
             android:hint="@string/shopping_dialog_field_count"
@@ -94,7 +95,7 @@
             android:id="@+id/dialogUnitField"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
             android:layout_width="@dimen/shopping_dialog_field_width_half"
-            android:layout_height="@dimen/shopping_dialog_field_height"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_big_24"
             android:layout_marginEnd="@dimen/margin_big_28"
             android:hint="@string/shopping_dialog_field_unit"
@@ -162,6 +163,13 @@
                 android:text="@string/shopping_dialog_action_cancel" />
 
         </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_big_32"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialogActionContainer" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

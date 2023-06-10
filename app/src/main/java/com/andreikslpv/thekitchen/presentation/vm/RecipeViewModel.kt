@@ -13,18 +13,21 @@ import com.andreikslpv.thekitchen.domain.models.RecipePreview
 import com.andreikslpv.thekitchen.domain.usecases.SetHistoryUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToAddIngredientToShoppingListUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeFavoritesStatusUseCase
-import com.andreikslpv.thekitchen.presentation.utils.roundTo
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.coroutines.EmptyCoroutineContext
-import kotlin.math.roundToInt
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class RecipeViewModel : ViewModel() {
 
     private val maxPortionsCount = 9
     private val minPortionsCount = 1
+    private val defaultRatio = 1.0
 
     @Inject
     lateinit var recipeRepository: RecipeRepository
@@ -48,7 +51,7 @@ class RecipeViewModel : ViewModel() {
 
     val ingredients = MutableLiveData(listOf<Ingredient>())
 
-    val kkal = MutableLiveData(0)
+    val ratio = MutableStateFlow(defaultRatio)
 
     init {
         App.instance.dagger.inject(this)
@@ -60,22 +63,6 @@ class RecipeViewModel : ViewModel() {
             }.asLiveData(EmptyCoroutineContext, 5000L)
     }
 
-    fun setKkal(newKkal: Int) {
-        kkal.value = newKkal
-    }
-
-    fun changeKkal(newPortionsCount: Int) {
-        if (_recipePreview.isInitialized) {
-            val oldPortionsCount = _recipePreview.value!!.portions
-            if (newPortionsCount == oldPortionsCount) {
-                setKkal(_recipePreview.value!!.caloriesCount)
-            } else {
-                val ratio = newPortionsCount.toDouble() / oldPortionsCount
-                setKkal((_recipePreview.value!!.caloriesCount * ratio).roundToInt())
-            }
-        }
-    }
-
     fun setIngredients(newIngredients: List<Ingredient>) {
         ingredients.value = newIngredients
     }
@@ -83,21 +70,9 @@ class RecipeViewModel : ViewModel() {
     fun changeIngredients(newPortionsCount: Int) {
         if (recipeDetails.isInitialized && _recipePreview.isInitialized) {
             val oldPortionsCount = _recipePreview.value!!.portions
-            if (newPortionsCount == oldPortionsCount) {
-                setIngredients(recipeDetails.value!!.ingredients)
-            } else {
-                val newIngredients = arrayListOf<Ingredient>()
-                val ratio = newPortionsCount.toDouble() / oldPortionsCount
-                recipeDetails.value!!.ingredients.forEach {
-                    newIngredients.add(
-                        Ingredient(
-                            product = it.product,
-                            unit = it.unit,
-                            count = (ratio * it.count).roundTo(1)
-                        )
-                    )
-                }
-                setIngredients(newIngredients)
+            CoroutineScope(Dispatchers.Main).launch {
+                if (newPortionsCount == oldPortionsCount) ratio.emit(defaultRatio)
+                else ratio.emit(newPortionsCount.toDouble() / oldPortionsCount)
             }
         }
     }

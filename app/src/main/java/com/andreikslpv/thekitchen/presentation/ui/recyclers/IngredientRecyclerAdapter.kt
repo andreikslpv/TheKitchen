@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.andreikslpv.thekitchen.databinding.ItemIngredientBinding
 import com.andreikslpv.thekitchen.domain.models.Ingredient
+import kotlinx.coroutines.flow.MutableStateFlow
 
-class IngredientRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class IngredientRecyclerAdapter(private val ratio: MutableStateFlow<Double>) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val items = mutableListOf<Ingredient>()
 
@@ -22,7 +24,7 @@ class IngredientRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is IngredientViewHolder -> {
-                holder.bind(items[position])
+                holder.bind(items[position], ratio)
             }
         }
     }

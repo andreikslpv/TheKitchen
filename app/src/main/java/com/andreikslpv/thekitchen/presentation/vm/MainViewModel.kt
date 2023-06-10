@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.data.repository.AuthRepository
-import com.andreikslpv.thekitchen.domain.usecases.GetUserFromDbUseCase
+import com.andreikslpv.thekitchen.domain.usecases.StartObserveUserUseCase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
 class MainViewModel : ViewModel() {
@@ -13,18 +15,23 @@ class MainViewModel : ViewModel() {
     lateinit var authRepository: AuthRepository
 
     @Inject
-    lateinit var getUserFromDbUseCase: GetUserFromDbUseCase
+    lateinit var startObserveUserUseCase: StartObserveUserUseCase
 
     val isUserAuthenticated get() = authRepository.isUserAuthenticatedInFirebase
 
-    val user = liveData {
-        getUserFromDbUseCase.execute().collect { response ->
+    init {
+        App.instance.dagger.inject(this)
+    }
+
+    @ExperimentalCoroutinesApi
+    fun getAuthState() = liveData(Dispatchers.IO) {
+        authRepository.getFirebaseAuthState().collect { response ->
             emit(response)
         }
     }
 
-    init {
-        App.instance.dagger.inject(this)
+    fun startObserveUser() {
+        startObserveUserUseCase.execute()
     }
 
 

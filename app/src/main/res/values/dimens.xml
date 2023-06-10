@@ -40,6 +40,7 @@
     <dimen name="margin_big_32">32dp</dimen>
     <dimen name="margin_big_36">36dp</dimen>
     <dimen name="margin_big_40">40dp</dimen>
+    <dimen name="margin_big_52">52dp</dimen>
     <dimen name="margin_big_68">68dp</dimen>
     <dimen name="margin_big_154">154dp</dimen>
     <dimen name="margin_big_96">96dp</dimen>
@@ -86,8 +87,9 @@
     <!-- for recipe -->
     <dimen name="recipe_image_height">220dp</dimen>
     <dimen name="recipe_description_margin">-28dp</dimen>
-    <dimen name="calc_button_dimen">40dp</dimen>
-    <dimen name="calc_text_dimen">20dp</dimen>
+    <dimen name="calc_button_dimen_height">40dp</dimen>
+    <dimen name="calc_button_dimen_width">56dp</dimen>
+    <dimen name="calc_text_dimen">24dp</dimen>
     <dimen name="calc_corner_radius">12dp</dimen>
     <dimen name="step_height">200dp</dimen>
     <dimen name="step_progress_height">8dp</dimen>

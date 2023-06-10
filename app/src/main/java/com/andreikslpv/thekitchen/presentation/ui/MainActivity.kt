@@ -16,6 +16,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.R
+import com.andreikslpv.thekitchen.admin.AdminUtils
 import com.andreikslpv.thekitchen.databinding.ActivityMainBinding
 import com.andreikslpv.thekitchen.domain.usecases.InitApplicationSettingsUseCase
 import com.andreikslpv.thekitchen.domain.usecases.SetDefaultExcludeFromDbUseCase
@@ -23,7 +24,7 @@ import com.andreikslpv.thekitchen.presentation.ui.fragments.TabsFragment
 import com.andreikslpv.thekitchen.presentation.vm.MainViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import java.util.regex.Pattern
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
 /**
@@ -70,6 +71,7 @@ class MainActivity : AppCompatActivity() {
         App.instance.dagger.inject(this)
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
 
@@ -77,12 +79,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        CoroutineScope(Dispatchers.IO).launch {
-////            Recipe4.addToDb(firestore, storage)
-////            Recipe5.addToDb(firestore, storage)
-////            Categories.addToDb(firestore, storage)
-////            Products.addToDb(firestore)
-//        }
+        AdminUtils.uploadDb(firestore, storage)
+
+        getAuthState()
         initApplicationSettings()
         setDefaultExcludeFromDb()
 
@@ -117,14 +116,11 @@ class MainActivity : AppCompatActivity() {
         return super.dispatchTouchEvent(ev)
     }
 
-    fun startObserveUser() {
-        viewModel.user.observe(this) {
-            //it.uid.makeToast(this)
+    @ExperimentalCoroutinesApi
+    private fun getAuthState() {
+        viewModel.getAuthState().observe(this) {
+            viewModel.startObserveUser()
         }
-    }
-
-    fun cancelObserveUser() {
-        viewModel.user.removeObservers(this)
     }
 
     private fun initApplicationSettings() {
@@ -165,8 +161,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val destinationListener =
-        NavController.OnDestinationChangedListener { _, destination, arguments ->
-            supportActionBar?.title = prepareTitle(destination.label, arguments)
+        NavController.OnDestinationChangedListener { _, destination, _ ->
             supportActionBar?.setDisplayHomeAsUpEnabled(!isStartDestination(destination))
         }
 
@@ -175,29 +170,6 @@ class MainActivity : AppCompatActivity() {
         val graph = destination.parent ?: return false
         val startDestinations = topLevelDestinations + graph.startDestinationId
         return startDestinations.contains(destination.id)
-    }
-
-    private fun prepareTitle(label: CharSequence?, arguments: Bundle?): String {
-
-        // code for this method has been copied from Google sources :)
-
-        if (label == null) return ""
-        val title = StringBuffer()
-        val fillInPattern = Pattern.compile("\\{(.+?)\\}")
-        val matcher = fillInPattern.matcher(label)
-        while (matcher.find()) {
-            val argName = matcher.group(1)
-            if (arguments != null && arguments.containsKey(argName)) {
-                matcher.appendReplacement(title, "")
-                title.append(arguments[argName].toString())
-            } else {
-                throw IllegalArgumentException(
-                    "Could not find $argName in $arguments to fill label $label"
-                )
-            }
-        }
-        matcher.appendTail(title)
-        return title.toString()
     }
 
     private fun isSignedIn(): Boolean = viewModel.isUserAuthenticated

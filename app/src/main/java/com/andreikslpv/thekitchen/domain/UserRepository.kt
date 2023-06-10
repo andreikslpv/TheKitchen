@@ -10,7 +10,7 @@ interface UserRepository {
 
     suspend fun createUser(user: User): Flow<Response<Boolean>>
 
-    suspend fun getCurrentUser(uid: String): Flow<User>
+    fun startObserveUser(uid: String)
 
     suspend fun deleteUser(uid: String): Flow<Response<Boolean>>
 

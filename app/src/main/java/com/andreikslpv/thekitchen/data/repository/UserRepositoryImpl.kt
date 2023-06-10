@@ -8,9 +8,7 @@ import com.andreikslpv.thekitchen.domain.models.User
 import com.andreikslpv.thekitchen.presentation.utils.Constants
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -36,21 +34,17 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getCurrentUser(uid: String) = callbackFlow {
-        val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
+    override fun startObserveUser(uid: String) {
+        database.collection(FirestoreConstants.PATH_USERS).document(uid)
             .addSnapshotListener { value, error ->
                 if (error == null && value != null) {
                     val user = value.toObject(User::class.java) ?: User()
-                    trySend(user)
                     favorites.tryEmit(user.favorites)
                     history.tryEmit(user.history)
                     defaultExclude.tryEmit(user.defaultExclude)
                     shoppingList.tryEmit(user.shoppingList)
                 }
             }
-        awaitClose {
-            user.remove()
-        }
     }
 
     override suspend fun deleteUser(uid: String) = flow {

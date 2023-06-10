@@ -3,7 +3,7 @@
 
     //Bottom menu
     <string name="home_title">Главная</string>
-    <string name="catalog_title">Каталог</string>
+    <string name="catalog_title">Поиск</string>
     <string name="search_title">Поиск</string>
     <string name="shopping_list_title">Список</string>
     <string name="shopping_list_title_full">Список покупок</string>
@@ -52,10 +52,11 @@
     <string name="recipe_title_description">Описание блюда</string>
     <string name="recipe_title_ingridients">Ингредиенты</string>
     <string name="recipe_title_steps">Пошаговый рецепт</string>
-    <string name="recipe_kkal">%d Ккал</string>
+    <string name="recipe_kkal">%d Ккал/порция</string>
     <string name="ingredient_count">%s %s</string>
     <string name="ingredient_adding">Добавить в список покупок</string>
     <string name="step_title">Шаг %s</string>
+    <string name="portion_calculator_title">Количество порций</string>
     <string name="portion_default">0</string>
     <string name="link">Источник</string>
     <string name="ingredient_adding_success">Продукты успешно добавлены в список покупок</string>

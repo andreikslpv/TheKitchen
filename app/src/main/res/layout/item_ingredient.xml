@@ -15,12 +15,21 @@
         tools:text="Ingredient name" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/itemIngredientCount"
+        android:id="@+id/itemIngredientUnit"
         style="@style/TextRecipeBasic.End"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="XXX kg." />
+        tools:text=" kg." />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/itemIngredientCount"
+        style="@style/TextRecipeBasic.End"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/itemIngredientUnit"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="XXX" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

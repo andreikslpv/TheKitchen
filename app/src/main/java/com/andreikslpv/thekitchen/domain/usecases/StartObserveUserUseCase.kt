@@ -2,18 +2,15 @@ package com.andreikslpv.thekitchen.domain.usecases
 
 import com.andreikslpv.thekitchen.data.repository.AuthRepository
 import com.andreikslpv.thekitchen.domain.UserRepository
-import kotlinx.coroutines.flow.flow
 
-class GetUserFromDbUseCase(
+class StartObserveUserUseCase(
     private val userRepository: UserRepository,
     private val authRepository: AuthRepository,
 ) {
 
-    suspend fun execute() = flow {
+    fun execute() {
         authRepository.getCurrentUser()?.let { user ->
-            userRepository.getCurrentUser(user.uid).collect { userFromDb ->
-                emit(userFromDb)
-            }
+            userRepository.startObserveUser(user.uid)
         }
     }
 }

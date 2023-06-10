@@ -9,7 +9,7 @@ import com.andreikslpv.thekitchen.domain.UserRepository
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipeHistoryUseCase
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipeNewUseCase
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipePreviewUseCase
-import com.andreikslpv.thekitchen.domain.usecases.GetUserFromDbUseCase
+import com.andreikslpv.thekitchen.domain.usecases.StartObserveUserUseCase
 import com.andreikslpv.thekitchen.domain.usecases.InitApplicationSettingsUseCase
 import com.andreikslpv.thekitchen.domain.usecases.SetDefaultExcludeFromDbUseCase
 import com.andreikslpv.thekitchen.domain.usecases.SetHistoryUseCase
@@ -80,8 +80,8 @@ class DomainModule {
     fun provideGetUserFromDbUseCase(
         userRepository: UserRepository,
         authRepository: AuthRepository,
-    ): GetUserFromDbUseCase {
-        return GetUserFromDbUseCase(userRepository, authRepository)
+    ): StartObserveUserUseCase {
+        return StartObserveUserUseCase(userRepository, authRepository)
     }
 
     @Provides

@@ -134,7 +134,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
             when (response) {
                 is Response.Loading -> binding.progressBar.show()
                 is Response.Success -> {
-                    (requireActivity() as MainActivity).cancelObserveUser()
                     deleteUserDb()
                     binding.progressBar.hide()
                 }

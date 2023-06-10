@@ -9,27 +9,17 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/homeAppBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/homeToolbar"
-            style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:title="@string/home_title"
-            app:menu="@menu/toolbar_menu">
+            app:menu="@menu/toolbar_menu"
+            app:title="@string/home_title">
 
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/homeSearchView"
-                android:layout_width="match_parent"
-                android:visibility="gone"
-                android:layout_height="@dimen/search_height"
-                android:background="@drawable/background_search_view"
-                app:layout_constraintTop_toTopOf="parent" />
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 

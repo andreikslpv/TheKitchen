@@ -62,7 +62,6 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>(FragmentRecipeBinding
         initPortionsCalculator()
         initCollectDetailsInfo()
         initIngredientsCollect()
-        initKkalCollect()
         initAddingButton()
     }
 
@@ -77,14 +76,17 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>(FragmentRecipeBinding
                     .into(it.recipeImage)
                 it.recipeTimerValue.text = getString(R.string.time, recipe.time)
                 viewModel.validAndSetPortionsCount(recipe.portions)
-                viewModel.setKkal(recipe.caloriesCount)
+                val kKal = recipe.caloriesCount.toDouble()
+                val portionCount = recipe.portions
+                val result = (kKal / portionCount).roundToInt()
+                binding.recipeKkalValue.text = getString(R.string.recipe_kkal, result)
             }
         }
     }
 
     private fun initRecyclers() {
         binding.ingredientRecyclerRecipe.apply {
-            ingredientAdapter = IngredientRecyclerAdapter()
+            ingredientAdapter = IngredientRecyclerAdapter(viewModel.ratio)
             adapter = ingredientAdapter
             layoutManager = LinearLayoutManager(requireContext())
             //Применяем декоратор для отступов
@@ -113,7 +115,6 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>(FragmentRecipeBinding
         viewModel.portions.observe(viewLifecycleOwner) {
             binding.recipeCalcText.text = it.toString()
             viewModel.changeIngredients(it)
-            viewModel.changeKkal(it)
         }
         binding.recipeCalcMinus.setOnClickListener {
             viewModel.downPortionsCount()
@@ -128,12 +129,6 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>(FragmentRecipeBinding
         viewModel.ingredients.observe(viewLifecycleOwner) {
             ingredientAdapter.changeItems(it)
             ingredientAdapter.notifyDataSetChanged()
-        }
-    }
-
-    private fun initKkalCollect() {
-        viewModel.kkal.observe(viewLifecycleOwner) {
-            binding.recipeKkalValue.text = getString(R.string.recipe_kkal, it)
         }
     }
 
