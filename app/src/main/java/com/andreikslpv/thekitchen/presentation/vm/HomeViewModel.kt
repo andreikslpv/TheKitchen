@@ -5,9 +5,12 @@ import androidx.lifecycle.liveData
 import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.data.repository.AuthRepository
 import com.andreikslpv.thekitchen.domain.CategoryRepository
+import com.andreikslpv.thekitchen.domain.models.CategoryType
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipeNewUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeFavoritesStatusUseCase
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class HomeViewModel : ViewModel() {
@@ -39,7 +42,17 @@ class HomeViewModel : ViewModel() {
     }
 
     fun setCategoryDish(categoryId: String) {
-        categoryRepository.setFilterDish(categoryId)
+        CoroutineScope(Dispatchers.IO).launch {
+            categoryRepository.setFilterCategory(categoryId, CategoryType.DISH)
+        }
+
+    }
+
+    fun setCategoryTime(categoryId: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            categoryRepository.setFilterCategory(categoryId, CategoryType.TIME)
+        }
+
     }
 
     fun getRecipeNew() = liveData(Dispatchers.IO) {

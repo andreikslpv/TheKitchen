@@ -11,6 +11,7 @@ import com.andreikslpv.thekitchen.domain.usecases.GetRecipeNewUseCase
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipePreviewUseCase
 import com.andreikslpv.thekitchen.domain.usecases.StartObserveUserUseCase
 import com.andreikslpv.thekitchen.domain.usecases.InitApplicationSettingsUseCase
+import com.andreikslpv.thekitchen.domain.usecases.RemoveFilterUseCase
 import com.andreikslpv.thekitchen.domain.usecases.SetDefaultExcludeFromDbUseCase
 import com.andreikslpv.thekitchen.domain.usecases.SetHistoryUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToAddIngredientToShoppingListUseCase
@@ -23,6 +24,7 @@ import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveAllFromFavoritesUse
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveAllFromShoppingList
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveFromFavoritesUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveFromShoppingList
+import com.andreikslpv.thekitchen.domain.usecases.TryToSetExcludeUseCase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
@@ -95,12 +97,30 @@ class DomainModule {
 
     @Provides
     @Singleton
+    fun provideTryToSetExcludeUseCase(
+        userRepository: UserRepository,
+        authRepository: AuthRepository,
+    ): TryToSetExcludeUseCase {
+        return TryToSetExcludeUseCase(userRepository, authRepository)
+    }
+
+    @Provides
+    @Singleton
     fun provideSetDefaultExcludeFromDbUseCase(
         userRepository: UserRepository,
         authRepository: AuthRepository,
         categoryRepository: CategoryRepository,
     ): SetDefaultExcludeFromDbUseCase {
         return SetDefaultExcludeFromDbUseCase(userRepository, authRepository, categoryRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRemoveFilterUseCase(
+        userRepository: UserRepository,
+        authRepository: AuthRepository,
+    ): RemoveFilterUseCase {
+        return RemoveFilterUseCase(userRepository, authRepository)
     }
 
     @Provides

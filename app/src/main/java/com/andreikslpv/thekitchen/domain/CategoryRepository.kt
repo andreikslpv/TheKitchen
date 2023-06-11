@@ -1,6 +1,7 @@
 package com.andreikslpv.thekitchen.domain
 
 import com.andreikslpv.thekitchen.domain.models.Category
+import com.andreikslpv.thekitchen.domain.models.CategoryType
 import com.andreikslpv.thekitchen.domain.models.Filters
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -20,7 +21,11 @@ interface CategoryRepository {
 
     suspend fun setFilters(newFilters: Filters)
 
-    fun setFilterDish(categoryId: String)
+    suspend fun setExcludeFilters(newFilters: List<String>)
+
+    suspend fun setFilterCategory(categoryId: String, type: CategoryType)
+
+    fun getCategoriesIdByType(type: String): List<String>
 
     suspend fun removeFilter(id: String)
 

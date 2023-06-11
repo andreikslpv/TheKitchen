@@ -115,7 +115,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             categoryDishAdapter = CategoryRecyclerAdapter(
                 object : ItemClickListener {
                     override fun click(id: String) {
-                        goToCatalogFragment(id)
+                        viewModel.setCategoryDish(id)
+                        goToCatalogFragment()
                     }
                 },
                 CategoryType.DISH
@@ -130,7 +131,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             categoryTimeAdapter = CategoryRecyclerAdapter(
                 object : ItemClickListener {
                     override fun click(id: String) {
-                        goToCatalogFragment(id)
+                        viewModel.setCategoryTime(id)
+                        goToCatalogFragment()
                     }
                 },
                 CategoryType.TIME
@@ -160,8 +162,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         })
     }
 
-    private fun goToCatalogFragment(id: String) {
-        viewModel.setCategoryDish(id)
+    private fun goToCatalogFragment() {
         val fragment = requireParentFragment().parentFragment
         if (fragment is TabsFragment) {
             fragment.goToCatalog()

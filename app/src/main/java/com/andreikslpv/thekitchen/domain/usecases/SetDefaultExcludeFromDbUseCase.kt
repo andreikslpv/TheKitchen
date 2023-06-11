@@ -3,7 +3,6 @@ package com.andreikslpv.thekitchen.domain.usecases
 import com.andreikslpv.thekitchen.data.repository.AuthRepository
 import com.andreikslpv.thekitchen.domain.CategoryRepository
 import com.andreikslpv.thekitchen.domain.UserRepository
-import com.andreikslpv.thekitchen.domain.models.Filters
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,17 +17,11 @@ class SetDefaultExcludeFromDbUseCase(
         val user = authRepository.getCurrentUser()
         return if (user != null) {
             CoroutineScope(Dispatchers.IO).launch {
-                userRepository.getDefaultExclude().collect { exclude ->
-                    if (exclude.isNotEmpty()) {
-                        CoroutineScope(Dispatchers.IO).launch {
-                            val newFilters = Filters()
-                            newFilters.addCategories(exclude as ArrayList<String>)
-                            categoryRepository.setFilters(newFilters)
-                        }
-                    }
+                userRepository.getDefaultExclude().value.let { exclude ->
+                    println("AAA SetDefaultExcludeFromDbUseCase")
+                    categoryRepository.setExcludeFilters(exclude)
                 }
             }
-
             true
         } else {
             false

@@ -11,6 +11,8 @@ import com.andreikslpv.thekitchen.domain.models.Category
 import com.andreikslpv.thekitchen.domain.models.Filters
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipePreviewUseCase
+import com.andreikslpv.thekitchen.domain.usecases.RemoveFilterUseCase
+import com.andreikslpv.thekitchen.domain.usecases.SetDefaultExcludeFromDbUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeFavoritesStatusUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -38,6 +40,12 @@ class CatalogViewModel : ViewModel() {
     @Inject
     lateinit var tryToChangeFavoritesStatusUseCase: TryToChangeFavoritesStatusUseCase
 
+    @Inject
+    lateinit var removeFilterUseCase: RemoveFilterUseCase
+
+    @Inject
+    lateinit var setDefaultExcludeFromDbUseCase: SetDefaultExcludeFromDbUseCase
+
     val recipes: Flow<PagingData<RecipePreview>>
 
     private val _filters = MutableLiveData(Filters())
@@ -52,9 +60,12 @@ class CatalogViewModel : ViewModel() {
             // кешируем прлучившийся flow, чтобы на него можно было подписаться несколько раз
             .cachedIn(viewModelScope)
 
+        setDefaultExcludeFromDbUseCase.execute()
+
         // начинаем отслеживать список установленных фильтров
         CoroutineScope(Dispatchers.IO).launch {
             categoryRepository.getFilters().collect { response ->
+                println("AAA getFilters")
                 _filters.postValue(response)
             }
         }
@@ -70,6 +81,9 @@ class CatalogViewModel : ViewModel() {
             categoryRepository.removeFilter(categoryId)
         }
         refresh()
+        CoroutineScope(Dispatchers.IO).launch{
+            removeFilterUseCase.execute(categoryId)
+        }
     }
 
     fun refresh() {

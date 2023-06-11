@@ -24,11 +24,6 @@ data class Filters(
             categories.removeAll(removing.toSet())
     }
 
-    fun changeCategoryStatus(category: String) {
-        if (categories.contains(category)) categories.remove(category)
-        else categories.add(category)
-    }
-
     fun getCategoriesList() = categories
 
 }
