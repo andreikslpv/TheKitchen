@@ -42,7 +42,6 @@ class ShoppingListFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupSwipeToRefresh()
         initRecyclers()
         initProductCollect()
         initSelectAllButton()
@@ -51,15 +50,6 @@ class ShoppingListFragment :
         initShoppingDialog()
         initShareButton()
         initClearListButton()
-    }
-
-    private fun setupSwipeToRefresh() {
-//        binding.shoppingSwipeRefreshLayout.setOnRefreshListener {
-//            this.lifecycleScope.launch {
-//                //recipePreviewAdapter.retry()
-//                binding.shoppingSwipeRefreshLayout.isRefreshing = false
-//            }
-//        }
     }
 
     private fun initRecyclers() {

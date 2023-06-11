@@ -5,6 +5,7 @@ import com.andreikslpv.thekitchen.domain.IngredientRepository
 import com.andreikslpv.thekitchen.domain.UserRepository
 import com.andreikslpv.thekitchen.domain.models.Ingredient
 import com.andreikslpv.thekitchen.domain.models.ShoppingItem
+import com.andreikslpv.thekitchen.presentation.utils.roundTo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -16,7 +17,7 @@ class TryToAddIngredientToShoppingListUseCase(
     private val ingredientRepository: IngredientRepository,
 ) {
 
-    fun execute(newShoppingList: List<Ingredient>): Boolean {
+    fun execute(newShoppingList: List<Ingredient>, ratio: Double): Boolean {
         val user = authRepository.getCurrentUser()
         return if (user != null) {
             // получаем теущий список
@@ -24,6 +25,8 @@ class TryToAddIngredientToShoppingListUseCase(
             currentShoppingList.addAll(userRepository.getShoppingList().value)
             val job = CoroutineScope(Dispatchers.IO).async {
                 newShoppingList.forEach { ingredient ->
+                    // если ратио не равно 1.0, то увеличиваем кол-во ингредиента
+                    if (ratio != 1.0) ingredient.count = (ingredient.count * ratio).roundTo(1)
                     var isInclude = false
                     currentShoppingList.forEach { item ->
                         // если ингредиент есть в списке покупок, то увеличиваем его кол-во

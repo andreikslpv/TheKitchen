@@ -6,6 +6,7 @@ import com.andreikslpv.thekitchen.domain.IngredientRepository
 import com.andreikslpv.thekitchen.domain.RecipeRepository
 import com.andreikslpv.thekitchen.domain.SettingsRepository
 import com.andreikslpv.thekitchen.domain.UserRepository
+import com.andreikslpv.thekitchen.domain.usecases.ClearFiltersDishAndTimeUseCase
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipeHistoryUseCase
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipeNewUseCase
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipePreviewUseCase
@@ -112,6 +113,14 @@ class DomainModule {
         categoryRepository: CategoryRepository,
     ): SetDefaultExcludeFromDbUseCase {
         return SetDefaultExcludeFromDbUseCase(userRepository, authRepository, categoryRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideClearFiltersDishAndTimeUseCase(
+        categoryRepository: CategoryRepository,
+    ): ClearFiltersDishAndTimeUseCase {
+        return ClearFiltersDishAndTimeUseCase(categoryRepository)
     }
 
     @Provides

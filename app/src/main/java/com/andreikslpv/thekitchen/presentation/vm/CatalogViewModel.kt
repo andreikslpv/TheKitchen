@@ -65,7 +65,6 @@ class CatalogViewModel : ViewModel() {
         // начинаем отслеживать список установленных фильтров
         CoroutineScope(Dispatchers.IO).launch {
             categoryRepository.getFilters().collect { response ->
-                println("AAA getFilters")
                 _filters.postValue(response)
             }
         }

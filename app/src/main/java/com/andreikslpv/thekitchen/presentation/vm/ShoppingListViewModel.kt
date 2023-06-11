@@ -6,6 +6,7 @@ import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.domain.IngredientRepository
 import com.andreikslpv.thekitchen.domain.UserRepository
 import com.andreikslpv.thekitchen.domain.models.ShoppingItem
+import com.andreikslpv.thekitchen.domain.usecases.ClearFiltersDishAndTimeUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToAddToShoppingListUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToEditShoppingItemUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveAllFromShoppingList
@@ -38,6 +39,9 @@ class ShoppingListViewModel : ViewModel() {
     @Inject
     lateinit var tryToEditShoppingItemUseCase: TryToEditShoppingItemUseCase
 
+    @Inject
+    lateinit var clearFiltersDishAndTimeUseCase: ClearFiltersDishAndTimeUseCase
+
     val shoppingList = liveData(Dispatchers.IO) {
         userRepository.getShoppingList().collect { response ->
             emit(response)
@@ -54,6 +58,8 @@ class ShoppingListViewModel : ViewModel() {
 
     init {
         App.instance.dagger.inject(this)
+        // удаляем фильтры категорий времени и типа блюда, чтобы при переходе на экран Поиск их не было
+        clearFiltersDishAndTimeUseCase.execute()
     }
 
     fun changeSelectedStatus(shoppingItem: ShoppingItem) {

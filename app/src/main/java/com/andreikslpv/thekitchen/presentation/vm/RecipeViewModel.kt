@@ -105,7 +105,7 @@ class RecipeViewModel : ViewModel() {
 
     fun tryToAddIngredientToShoppingList(): Boolean? {
         return ingredients.value?.let {
-            tryToAddIngredientToShoppingListUseCase.execute(it)
+            tryToAddIngredientToShoppingListUseCase.execute(it, ratio.value)
         }
     }
 

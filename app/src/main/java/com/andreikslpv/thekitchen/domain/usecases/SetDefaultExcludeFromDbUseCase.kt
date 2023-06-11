@@ -17,8 +17,7 @@ class SetDefaultExcludeFromDbUseCase(
         val user = authRepository.getCurrentUser()
         return if (user != null) {
             CoroutineScope(Dispatchers.IO).launch {
-                userRepository.getDefaultExclude().value.let { exclude ->
-                    println("AAA SetDefaultExcludeFromDbUseCase")
+                userRepository.getDefaultExclude().collect { exclude ->
                     categoryRepository.setExcludeFilters(exclude)
                 }
             }

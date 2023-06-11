@@ -19,6 +19,8 @@ interface CategoryRepository {
 
     fun getFilters(): MutableStateFlow<Filters>
 
+    fun clearFiltersDishAndTime()
+
     suspend fun setFilters(newFilters: Filters)
 
     suspend fun setExcludeFilters(newFilters: List<String>)

@@ -8,8 +8,11 @@ import com.andreikslpv.thekitchen.domain.models.User
 import com.andreikslpv.thekitchen.presentation.utils.Constants
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -64,18 +67,24 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override fun addToFavorites(uid: String, recipeId: String) {
-        val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
-        user.update(FirestoreConstants.FIELD_FAVORITES, FieldValue.arrayUnion(recipeId))
+        CoroutineScope(Dispatchers.IO).launch {
+            val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
+            user.update(FirestoreConstants.FIELD_FAVORITES, FieldValue.arrayUnion(recipeId))
+        }
     }
 
     override fun removeFromFavorites(uid: String, recipeId: String) {
-        val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
-        user.update(FirestoreConstants.FIELD_FAVORITES, FieldValue.arrayRemove(recipeId))
+        CoroutineScope(Dispatchers.IO).launch {
+            val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
+            user.update(FirestoreConstants.FIELD_FAVORITES, FieldValue.arrayRemove(recipeId))
+        }
     }
 
     override fun removeAllFromFavorites(uid: String) {
-        val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
-        user.update(FirestoreConstants.FIELD_FAVORITES, arrayListOf<String>())
+        CoroutineScope(Dispatchers.IO).launch {
+            val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
+            user.update(FirestoreConstants.FIELD_FAVORITES, arrayListOf<String>())
+        }
     }
 
     override fun getHistory(): MutableStateFlow<List<String>> {
@@ -83,8 +92,10 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override fun setHistory(uid: String, newHistory: List<String>) {
-        val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
-        user.update(FirestoreConstants.FIELD_HISTORY, newHistory)
+        CoroutineScope(Dispatchers.IO).launch {
+            val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
+            user.update(FirestoreConstants.FIELD_HISTORY, newHistory)
+        }
     }
 
     override fun getDefaultExclude(): MutableStateFlow<List<String>> {
@@ -92,18 +103,28 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override fun addToDefaultExclude(uid: String, categoryId: String) {
-        val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
-        user.update(FirestoreConstants.FIELD_DEFAULT_EXCLUDE, FieldValue.arrayUnion(categoryId))
+        CoroutineScope(Dispatchers.IO).launch {
+            val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
+            user.update(FirestoreConstants.FIELD_DEFAULT_EXCLUDE, FieldValue.arrayUnion(categoryId))
+        }
     }
 
     override fun removeFromDefaultExclude(uid: String, categoryId: String) {
-        val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
-        user.update(FirestoreConstants.FIELD_DEFAULT_EXCLUDE, FieldValue.arrayRemove(categoryId))
+        CoroutineScope(Dispatchers.IO).launch {
+            val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
+            user.update(
+                FirestoreConstants.FIELD_DEFAULT_EXCLUDE,
+                FieldValue.arrayRemove(categoryId)
+            )
+        }
     }
 
     override fun setDefaultExclude(uid: String, newExclude: List<String>) {
-        val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
-        user.update(FirestoreConstants.FIELD_DEFAULT_EXCLUDE, newExclude)
+        CoroutineScope(Dispatchers.IO).launch {
+            val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
+            user.update(FirestoreConstants.FIELD_DEFAULT_EXCLUDE, newExclude)
+        }
+
     }
 
     override fun getShoppingList(): MutableStateFlow<List<ShoppingItem>> {
@@ -116,18 +137,27 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override fun addToShoppingList(uid: String, shoppingItem: ShoppingItem) {
-        val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
-        user.update(FirestoreConstants.FIELD_SHOPPING_LIST, FieldValue.arrayUnion(shoppingItem))
+        CoroutineScope(Dispatchers.IO).launch {
+            val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
+            user.update(FirestoreConstants.FIELD_SHOPPING_LIST, FieldValue.arrayUnion(shoppingItem))
+        }
     }
 
     override fun removeFromShoppingList(uid: String, shoppingItem: ShoppingItem) {
-        val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
-        user.update(FirestoreConstants.FIELD_SHOPPING_LIST, FieldValue.arrayRemove(shoppingItem))
+        CoroutineScope(Dispatchers.IO).launch {
+            val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
+            user.update(
+                FirestoreConstants.FIELD_SHOPPING_LIST,
+                FieldValue.arrayRemove(shoppingItem)
+            )
+        }
     }
 
     override fun removeAllFromShoppingList(uid: String) {
-        val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
-        user.update(FirestoreConstants.FIELD_SHOPPING_LIST, arrayListOf<ShoppingItem>())
+        CoroutineScope(Dispatchers.IO).launch {
+            val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
+            user.update(FirestoreConstants.FIELD_SHOPPING_LIST, arrayListOf<ShoppingItem>())
+        }
     }
 
 }

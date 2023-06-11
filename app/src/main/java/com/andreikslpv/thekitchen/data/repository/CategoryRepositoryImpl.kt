@@ -92,10 +92,17 @@ class CategoryRepositoryImpl(
     override suspend fun removeFilter(id: String) {
         val temp = filters.value
         temp.removeCategory(id)
-        println("AAA removeFilter ${temp.getCategoriesList()}")
         filters.emit(temp)
     }
 
     override fun getFilters() = filters
+
+    override fun clearFiltersDishAndTime() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val category = getCategoriesIdByType(CategoryType.DISH.value).toMutableList()
+            category.addAll(getCategoriesIdByType(CategoryType.TIME.value))
+            filters.value.removeCategories(category)
+        }
+    }
 
 }

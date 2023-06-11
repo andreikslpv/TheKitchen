@@ -10,6 +10,7 @@ import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.domain.RecipeRepository
 import com.andreikslpv.thekitchen.domain.UserRepository
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
+import com.andreikslpv.thekitchen.domain.usecases.ClearFiltersDishAndTimeUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveAllFromFavoritesUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveFromFavoritesUseCase
 import kotlinx.coroutines.Dispatchers
@@ -33,6 +34,9 @@ class FavoritesViewModel : ViewModel() {
     @Inject
     lateinit var tryToRemoveAllFromFavoritesUseCase: TryToRemoveAllFromFavoritesUseCase
 
+    @Inject
+    lateinit var clearFiltersDishAndTimeUseCase: ClearFiltersDishAndTimeUseCase
+
     val recipes: Flow<PagingData<RecipePreview>>
 
     private val favorites = liveData(Dispatchers.IO) {
@@ -49,6 +53,9 @@ class FavoritesViewModel : ViewModel() {
             .flatMapLatest { recipeRepository.getRecipeFavorites(it) }
             // кешируем прлучившийся flow, чтобы на него можно было подписаться несколько раз
             .cachedIn(viewModelScope)
+
+        // удаляем фильтры категорий времени и типа блюда, чтобы при переходе на экран Поиск их не было
+        clearFiltersDishAndTimeUseCase.execute()
     }
 
     fun tryToRemoveFromFavorites(recipeId: String): Boolean {

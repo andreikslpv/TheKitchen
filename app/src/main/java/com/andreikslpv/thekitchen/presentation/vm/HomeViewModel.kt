@@ -6,6 +6,7 @@ import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.data.repository.AuthRepository
 import com.andreikslpv.thekitchen.domain.CategoryRepository
 import com.andreikslpv.thekitchen.domain.models.CategoryType
+import com.andreikslpv.thekitchen.domain.usecases.ClearFiltersDishAndTimeUseCase
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipeNewUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeFavoritesStatusUseCase
 import kotlinx.coroutines.CoroutineScope
@@ -27,12 +28,17 @@ class HomeViewModel : ViewModel() {
     @Inject
     lateinit var tryToChangeFavoritesStatusUseCase: TryToChangeFavoritesStatusUseCase
 
+    @Inject
+    lateinit var clearFiltersDishAndTimeUseCase: ClearFiltersDishAndTimeUseCase
+
     val currentUserFromAuth by lazy {
         authRepository.getCurrentUser()
     }
 
     init {
         App.instance.dagger.inject(this)
+        // удаляем фильтры категорий времени и типа блюда, чтобы при переходе на экран Поиск их не было
+        clearFiltersDishAndTimeUseCase.execute()
     }
 
     fun getAllCategories() = liveData(Dispatchers.IO) {
