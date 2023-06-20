@@ -14,5 +14,6 @@ data class UnitLocal(
     @PrimaryKey
     @ColumnInfo(name = RoomConstants.COLUMN_UNIT_ID) val id: String = "un00000",
     @ColumnInfo(name = RoomConstants.COLUMN_UNIT_NAME) val name: String = "unit",
+    @ColumnInfo(name = RoomConstants.COLUMN_IS_SHOW) val showWhenAdding: Boolean = false,
 )
 

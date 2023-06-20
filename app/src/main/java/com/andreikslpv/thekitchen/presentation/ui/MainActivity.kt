@@ -16,13 +16,10 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.R
-import com.andreikslpv.thekitchen.admin.AdminUtils
 import com.andreikslpv.thekitchen.databinding.ActivityMainBinding
 import com.andreikslpv.thekitchen.domain.usecases.InitApplicationSettingsUseCase
 import com.andreikslpv.thekitchen.presentation.ui.fragments.TabsFragment
 import com.andreikslpv.thekitchen.presentation.vm.MainViewModel
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
@@ -38,11 +35,6 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var initApplicationSettingsUseCase: InitApplicationSettingsUseCase
-
-    @Inject
-    lateinit var firestore: FirebaseFirestore
-    @Inject
-    lateinit var storage: FirebaseStorage
 
     // nav controller of the current screen
     private var navController: NavController? = null
@@ -74,8 +66,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        AdminUtils.uploadDb(firestore, storage)
 
         getAuthState()
         initApplicationSettings()

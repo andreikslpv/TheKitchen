@@ -56,7 +56,6 @@
     <style name="ThemeOverlay.App.Switch" parent="">
         <item name="colorPrimary">@color/purple</item>
         <item name="colorSurfaceVariant">#0D000000</item>
-        <item name="colorOutline">@color/white</item>
         <item name="colorOnPrimary">@color/white</item>
     </style>
 

@@ -10,17 +10,6 @@ import com.andreikslpv.thekitchen.domain.models.Unit
 
 object Mappers {
 
-//    object CategoryTypeToLocalListMapper : BaseMapper<List<CategoryTypeDB>, List<CategoryTypeLocal>> {
-//        override fun map(type: List<CategoryTypeDB>?): List<CategoryTypeLocal> {
-//            return type?.map {
-//                CategoryTypeLocal(
-//                    id = it.id,
-//                    name = it.name
-//                )
-//            } ?: listOf()
-//        }
-//    }
-
     object CategoryToLocalListMapper : BaseMapper<List<Category>, List<CategoryLocal>> {
         override fun map(type: List<Category>?): List<CategoryLocal> {
             return type?.map {
@@ -54,6 +43,7 @@ object Mappers {
                 UnitLocal(
                     id = it.id,
                     name = it.name,
+                    showWhenAdding = it.showWhenAdding,
                 )
             } ?: listOf()
         }
@@ -65,6 +55,7 @@ object Mappers {
                 Unit(
                     id = it.id,
                     name = it.name,
+                    showWhenAdding = it.showWhenAdding,
                 )
             } ?: listOf()
         }
@@ -75,6 +66,7 @@ object Mappers {
             return Unit(
                 id = type?.id ?: "un00000",
                 name = type?.name ?: "unit",
+                showWhenAdding = type?.showWhenAdding ?: false,
             )
         }
     }
@@ -85,7 +77,6 @@ object Mappers {
                 ProductLocal(
                     id = it.id,
                     name = it.name,
-                    saleUnit = it.saleUnit,
                 )
             } ?: listOf()
         }
@@ -96,7 +87,6 @@ object Mappers {
             return Product(
                 id = type?.id ?: "pr00000",
                 name = type?.name ?: "product",
-                saleUnit = type?.saleUnit ?: "un00000",
             )
         }
     }
@@ -107,7 +97,6 @@ object Mappers {
                 Product(
                     id = it.id,
                     name = it.name,
-                    saleUnit = it.saleUnit,
                 )
             } ?: listOf()
         }

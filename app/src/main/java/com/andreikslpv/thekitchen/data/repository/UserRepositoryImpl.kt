@@ -54,9 +54,7 @@ class UserRepositoryImpl @Inject constructor(
         try {
             emit(Response.Loading)
             database.collection(FirestoreConstants.PATH_USERS).document(uid).delete().await()
-                .also {
-                    emit(Response.Success(true))
-                }
+                .also { emit(Response.Success(true)) }
         } catch (e: Exception) {
             emit(Response.Failure(e.message ?: Constants.ERROR_MESSAGE))
         }

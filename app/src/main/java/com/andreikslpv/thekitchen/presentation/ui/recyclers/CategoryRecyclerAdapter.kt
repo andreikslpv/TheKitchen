@@ -7,11 +7,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.andreikslpv.thekitchen.databinding.ItemCategoryBinding
 import com.andreikslpv.thekitchen.domain.models.Category
 import com.andreikslpv.thekitchen.domain.models.CategoryType
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class CategoryRecyclerAdapter(
     private val categoryClickListener: ItemClickListener,
     private val type: CategoryType,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private val animDuration = 300L
+    private val animScale = 0.8f
 
     private val items = mutableListOf<Category>()
 
@@ -28,6 +34,12 @@ class CategoryRecyclerAdapter(
             is CategoryViewHolder -> {
                 holder.bind(items[position], position, type)
                 holder.binding.itemContainer.setOnClickListener {
+                    holder.binding.itemImage.animate()
+                        .setDuration(animDuration)
+                        .scaleX(animScale)
+                        .scaleY(animScale)
+                        .start()
+                    CoroutineScope(Dispatchers.IO).launch { delay(100L) }
                     categoryClickListener.click(items[position].id)
                 }
             }

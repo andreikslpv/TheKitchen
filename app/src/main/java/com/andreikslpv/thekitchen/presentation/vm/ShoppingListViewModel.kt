@@ -1,11 +1,13 @@
 package com.andreikslpv.thekitchen.presentation.vm
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.domain.IngredientRepository
 import com.andreikslpv.thekitchen.domain.UserRepository
 import com.andreikslpv.thekitchen.domain.models.ShoppingItem
+import com.andreikslpv.thekitchen.domain.models.Unit
 import com.andreikslpv.thekitchen.domain.usecases.ClearFiltersDishAndTimeUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToAddToShoppingListUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToEditShoppingItemUseCase
@@ -48,11 +50,8 @@ class ShoppingListViewModel : ViewModel() {
         }
     }
 
-    val unitList = liveData {
-        ingredientRepository.getAllUnits().collect { response ->
-            emit(response)
-        }
-    }
+    private var unitList = MutableLiveData<List<Unit>>()
+
 
     val selectedShoppingItem = MutableStateFlow(mutableListOf<ShoppingItem>())
 
@@ -60,6 +59,12 @@ class ShoppingListViewModel : ViewModel() {
         App.instance.dagger.inject(this)
         // удаляем фильтры категорий времени и типа блюда, чтобы при переходе на экран Поиск их не было
         clearFiltersDishAndTimeUseCase.execute()
+
+       CoroutineScope(Dispatchers.IO).launch {
+            ingredientRepository.getAllUnits().collect { response ->
+                unitList.postValue(response)
+            }
+        }
     }
 
     fun changeSelectedStatus(shoppingItem: ShoppingItem) {
@@ -105,7 +110,10 @@ class ShoppingListViewModel : ViewModel() {
         return tryToEditShoppingItemUseCase.execute(shoppingItem)
     }
 
-    fun getUnitsNameList() = unitList.value?.map { it.name } ?: emptyList()
+    fun getUnitsNameListEdit() = unitList.value?.map { it.name } ?: emptyList()
+
+    fun getUnitsNameListAdd() =
+        unitList.value?.filter { it.showWhenAdding }?.map { it.name } ?: emptyList()
 
     fun getUnitsNameById(id: String) = unitList.value?.find {
         it.id == id
