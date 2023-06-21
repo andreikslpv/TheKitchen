@@ -7,9 +7,12 @@ import com.andreikslpv.thekitchen.domain.RecipeRepository
 import com.andreikslpv.thekitchen.domain.SettingsRepository
 import com.andreikslpv.thekitchen.domain.UserRepository
 import com.andreikslpv.thekitchen.domain.usecases.ClearFiltersDishAndTimeUseCase
+import com.andreikslpv.thekitchen.domain.usecases.GetDefaultExcludeUseCase
+import com.andreikslpv.thekitchen.domain.usecases.GetFavoritesUseCase
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipeHistoryUseCase
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipeNewUseCase
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipePreviewUseCase
+import com.andreikslpv.thekitchen.domain.usecases.GetShoppingListUseCase
 import com.andreikslpv.thekitchen.domain.usecases.StartObserveUserUseCase
 import com.andreikslpv.thekitchen.domain.usecases.InitApplicationSettingsUseCase
 import com.andreikslpv.thekitchen.domain.usecases.RemoveFilterUseCase
@@ -134,6 +137,24 @@ class DomainModule {
 
     @Provides
     @Singleton
+    fun provideGetDefaultExcludeUseCase(
+        userRepository: UserRepository,
+        authRepository: AuthRepository,
+    ): GetDefaultExcludeUseCase {
+        return GetDefaultExcludeUseCase(userRepository, authRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetFavoritesUseCase(
+        userRepository: UserRepository,
+        authRepository: AuthRepository,
+    ): GetFavoritesUseCase {
+        return GetFavoritesUseCase(userRepository, authRepository)
+    }
+
+    @Provides
+    @Singleton
     fun provideTryToChangeFavoritesStatusUseCase(
         userRepository: UserRepository,
         authRepository: AuthRepository,
@@ -180,6 +201,15 @@ class DomainModule {
             authRepository,
             ingredientRepository
         )
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetShoppingListUseCase(
+        userRepository: UserRepository,
+        authRepository: AuthRepository,
+    ): GetShoppingListUseCase {
+        return GetShoppingListUseCase(userRepository, authRepository)
     }
 
     @Provides

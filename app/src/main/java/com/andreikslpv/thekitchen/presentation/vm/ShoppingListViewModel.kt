@@ -5,10 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.domain.IngredientRepository
-import com.andreikslpv.thekitchen.domain.UserRepository
 import com.andreikslpv.thekitchen.domain.models.ShoppingItem
 import com.andreikslpv.thekitchen.domain.models.Unit
 import com.andreikslpv.thekitchen.domain.usecases.ClearFiltersDishAndTimeUseCase
+import com.andreikslpv.thekitchen.domain.usecases.GetShoppingListUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToAddToShoppingListUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToEditShoppingItemUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveAllFromShoppingList
@@ -24,7 +24,7 @@ import javax.inject.Inject
 class ShoppingListViewModel : ViewModel() {
 
     @Inject
-    lateinit var userRepository: UserRepository
+    lateinit var getShoppingListUseCase: GetShoppingListUseCase
 
     @Inject
     lateinit var ingredientRepository: IngredientRepository
@@ -45,7 +45,7 @@ class ShoppingListViewModel : ViewModel() {
     lateinit var clearFiltersDishAndTimeUseCase: ClearFiltersDishAndTimeUseCase
 
     val shoppingList = liveData(Dispatchers.IO) {
-        userRepository.getShoppingList().collect { response ->
+        getShoppingListUseCase.execute().collect { response ->
             emit(response)
         }
     }

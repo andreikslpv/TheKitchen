@@ -122,7 +122,6 @@ class UserRepositoryImpl @Inject constructor(
             val user = database.collection(FirestoreConstants.PATH_USERS).document(uid)
             user.update(FirestoreConstants.FIELD_DEFAULT_EXCLUDE, newExclude)
         }
-
     }
 
     override fun getShoppingList(): MutableStateFlow<List<ShoppingItem>> {

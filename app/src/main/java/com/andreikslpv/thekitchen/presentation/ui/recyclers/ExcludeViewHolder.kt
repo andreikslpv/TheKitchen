@@ -3,8 +3,8 @@ package com.andreikslpv.thekitchen.presentation.ui.recyclers
 import androidx.recyclerview.widget.RecyclerView
 import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.databinding.ItemExcludeBinding
-import com.andreikslpv.thekitchen.domain.UserRepository
 import com.andreikslpv.thekitchen.domain.models.Category
+import com.andreikslpv.thekitchen.domain.usecases.GetDefaultExcludeUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeExcludeStatusUseCase
 import com.google.android.material.materialswitch.MaterialSwitch
 import kotlinx.coroutines.CoroutineScope
@@ -17,7 +17,7 @@ class ExcludeViewHolder(val binding: ItemExcludeBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     @Inject
-    lateinit var userRepository: UserRepository
+    lateinit var getDefaultExcludeUseCase: GetDefaultExcludeUseCase
 
     @Inject
     lateinit var tryToChangeExcludeStatusUseCase: TryToChangeExcludeStatusUseCase
@@ -29,7 +29,7 @@ class ExcludeViewHolder(val binding: ItemExcludeBinding) :
     fun bind(category: Category) {
         binding.itemExcludeName.text = category.name
         CoroutineScope(Dispatchers.IO).launch {
-            userRepository.getDefaultExclude().collect {
+            getDefaultExcludeUseCase.execute().collect {
                 withContext(Dispatchers.Main) {
                     binding.itemExcludeButton.isChecked = it.contains(category.id)
                     binding.itemExcludeButton.tag = category.id

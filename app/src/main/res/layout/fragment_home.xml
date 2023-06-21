@@ -17,8 +17,18 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:menu="@menu/toolbar_menu"
             app:title="@string/home_title">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/homeAvatar"
+                android:layout_width="@dimen/home_avatar_dimen"
+                android:layout_height="@dimen/home_avatar_dimen"
+                android:scaleType="centerCrop"
+                android:layout_marginEnd="@dimen/margin_basic"
+                android:layout_gravity="end"
+                app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+                tools:ignore="ContentDescription"
+                tools:src="@tools:sample/avatars" />
 
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>

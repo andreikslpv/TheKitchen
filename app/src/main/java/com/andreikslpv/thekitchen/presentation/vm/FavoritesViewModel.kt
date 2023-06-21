@@ -8,9 +8,9 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.domain.RecipeRepository
-import com.andreikslpv.thekitchen.domain.UserRepository
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
 import com.andreikslpv.thekitchen.domain.usecases.ClearFiltersDishAndTimeUseCase
+import com.andreikslpv.thekitchen.domain.usecases.GetFavoritesUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveAllFromFavoritesUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveFromFavoritesUseCase
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +26,7 @@ class FavoritesViewModel : ViewModel() {
     lateinit var recipeRepository: RecipeRepository
 
     @Inject
-    lateinit var userRepository: UserRepository
+    lateinit var getFavoritesUseCase: GetFavoritesUseCase
 
     @Inject
     lateinit var tryToRemoveFromFavoritesUseCase: TryToRemoveFromFavoritesUseCase
@@ -40,7 +40,7 @@ class FavoritesViewModel : ViewModel() {
     val recipes: Flow<PagingData<RecipePreview>>
 
     private val favorites = liveData(Dispatchers.IO) {
-        userRepository.getFavorites().collect { response ->
+        getFavoritesUseCase.execute().collect { response ->
             emit(response)
         }
     }
