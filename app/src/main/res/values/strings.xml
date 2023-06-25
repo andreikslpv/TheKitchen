@@ -94,13 +94,6 @@
     <string name="content_description_end_icon">Очистить поле</string>
 
 
-    //Menu Items
-
-    //Fragments
-
-    //TextViews
-
-    //Dummy Data
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="catalog_search_hint">Поиск по названию блюда</string>
 
 </resources>

@@ -1,7 +1,10 @@
 package com.andreikslpv.thekitchen.domain.models
 
+import java.util.Locale
+
 data class Filters(
     private val categories: ArrayList<String> = arrayListOf(),
+    private var query: String = "",
 ) {
 
     fun addCategories(categoryArray: ArrayList<String>) {
@@ -26,5 +29,14 @@ data class Filters(
 
     fun getCategoriesList() = categories
 
+    fun setQuery(newQuery: String): Boolean {
+        val temp = newQuery.lowercase(Locale.getDefault()).trim()
+        return if(temp != query) {
+            query = temp
+            true
+        } else false
+    }
+
+    fun getQuery() = query
 }
 

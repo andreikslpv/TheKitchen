@@ -40,6 +40,8 @@ class GetRecipePreviewUseCase(
                 .filter { it.type == CategoryType.DISH.value }
                 .map { it.id } as ArrayList<String>
 
+        filtersSeparated.query = filters.getQuery()
+
         return recipeRepository.getRecipePreview(filtersSeparated)
     }
 

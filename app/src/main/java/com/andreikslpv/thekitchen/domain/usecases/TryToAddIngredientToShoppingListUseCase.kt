@@ -30,7 +30,10 @@ class TryToAddIngredientToShoppingListUseCase(
                     var isInclude = false
                     currentShoppingList.forEach { item ->
                         // если ингредиент есть в списке покупок, то увеличиваем его кол-во
-                        if (item.ingredient.product == ingredient.product && item.ingredient.unit == ingredient.unit) {
+                        if (item.ingredient.product == ingredient.product
+                            && ingredient.product.isNotBlank()
+                            && item.ingredient.unit == ingredient.unit
+                        ) {
                             item.ingredient.count += ingredient.count
                             isInclude = true
                         }

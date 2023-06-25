@@ -1,6 +1,10 @@
 package com.andreikslpv.thekitchen.presentation.vm
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.andreikslpv.thekitchen.App
@@ -65,6 +69,7 @@ class CatalogViewModel : ViewModel() {
         // начинаем отслеживать список установленных фильтров
         CoroutineScope(Dispatchers.IO).launch {
             categoryRepository.getFilters().collect { response ->
+                response.setQuery(_filters.value?.getQuery() ?: "")
                 _filters.postValue(response)
             }
         }
@@ -80,7 +85,7 @@ class CatalogViewModel : ViewModel() {
             categoryRepository.removeFilter(categoryId)
         }
         refresh()
-        CoroutineScope(Dispatchers.IO).launch{
+        CoroutineScope(Dispatchers.IO).launch {
             removeFilterUseCase.execute(categoryId)
         }
     }
@@ -91,6 +96,13 @@ class CatalogViewModel : ViewModel() {
 
     fun tryToChangeFavoritesStatus(recipeId: String): Boolean {
         return tryToChangeFavoritesStatusUseCase.execute(recipeId)
+    }
+
+    fun setQuery(newQuery: String) {
+        _filters.value?.let { value ->
+            if (value.setQuery(newQuery)) refresh()
+        }
+
     }
 
 }
