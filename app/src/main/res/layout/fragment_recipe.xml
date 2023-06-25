@@ -337,7 +337,7 @@
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@id/stepsPager"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/step_height"
+                    android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_basic"
                     android:layout_marginTop="@dimen/margin_big_24"
                     android:background="@android:color/transparent"

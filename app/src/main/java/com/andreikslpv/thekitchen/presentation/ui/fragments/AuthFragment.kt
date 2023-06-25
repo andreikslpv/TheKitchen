@@ -1,6 +1,7 @@
 package com.andreikslpv.thekitchen.presentation.ui.fragments
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
@@ -52,6 +53,18 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>(FragmentAuthBinding::infl
         }
 
         initResultLauncher()
+        collectPrivacyPolicy()
+    }
+
+    private fun collectPrivacyPolicy() {
+        viewModel.privacyPolicy.observe(viewLifecycleOwner) {url->
+            if (url.isNotBlank()) {
+                binding.authCopyrightText.setOnClickListener {
+                    val i = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                    startActivity(i)
+                }
+            }
+        }
     }
 
     private fun initResultLauncher() {
