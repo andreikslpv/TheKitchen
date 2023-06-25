@@ -24,8 +24,10 @@
                 android:id="@+id/catalogSearchView"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/search_height"
+                android:theme="@style/CursorSearchView"
+                app:defaultQueryHint="@string/catalog_search_hint"
+                app:queryBackground="@android:color/transparent"
                 android:background="@drawable/background_search_view"
-                android:visibility="gone"
                 app:layout_constraintTop_toTopOf="parent" />
         </com.google.android.material.appbar.MaterialToolbar>
 

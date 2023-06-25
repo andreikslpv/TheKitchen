@@ -39,7 +39,7 @@ class CategoryRepositoryImpl(
     override suspend fun getAllCategories() = currentCategoryList
 
     override fun getCategoryById(id: String): Category? {
-        currentCategoryList.value?.forEach {
+        currentCategoryList.value.forEach {
             if (it.id == id) return it
         }
         return null
@@ -71,23 +71,38 @@ class CategoryRepositoryImpl(
         filters.value.addCategories(newFilters.getCategoriesList())
     }
 
-    override fun setFilterDish(categoryId: String) {
-        val dish = getAllDishCategories()
+    override suspend fun setExcludeFilters(newFilters: List<String>) {
+        val exclude = getCategoriesIdByType(CategoryType.EXCLUDE.value)
+        filters.value.removeCategories(exclude)
+        newFilters.forEach {
+            filters.value.addCategory(it)
+        }
+    }
+
+    override suspend fun setFilterCategory(categoryId: String, type: CategoryType) {
+        val dish = getCategoriesIdByType(type.value)
         filters.value.removeCategories(dish)
         filters.value.addCategory(categoryId)
     }
 
-    private fun getAllDishCategories(): List<String> {
-        return currentCategoryList.value.filter { it.type == CategoryType.DISH.value }.map { it.id }
+    override fun getCategoriesIdByType(type: String): List<String> {
+        return currentCategoryList.value.filter { it.type == type }.map { it.id }
     }
 
     override suspend fun removeFilter(id: String) {
         val temp = filters.value
         temp.removeCategory(id)
-        println("AAA removeFilter ${temp.getCategoriesList()}")
         filters.emit(temp)
     }
 
     override fun getFilters() = filters
+
+    override fun clearFiltersDishAndTime() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val category = getCategoriesIdByType(CategoryType.DISH.value).toMutableList()
+            category.addAll(getCategoriesIdByType(CategoryType.TIME.value))
+            filters.value.removeCategories(category)
+        }
+    }
 
 }

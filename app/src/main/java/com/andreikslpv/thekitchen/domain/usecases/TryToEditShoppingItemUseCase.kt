@@ -24,7 +24,9 @@ class TryToEditShoppingItemUseCase(
                 // ... и проверяем его на наличие shoppingItem с тем же productId и  unitId
                 currentShoppingList.forEach { item ->
                     // если item есть в списке покупок
-                    if (item.ingredient.product == shoppingItem.ingredient.product) {
+                    if (item.ingredient.product == shoppingItem.ingredient.product
+                        && item.showingName == shoppingItem.showingName
+                        && item.ingredient.unit == shoppingItem.ingredient.unit) {
                         // ... удаляем старый
                         userRepository.removeFromShoppingList(user.uid, item)
                         return@forEach

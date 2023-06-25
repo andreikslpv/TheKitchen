@@ -38,6 +38,11 @@
         <item name="postSplashScreenTheme">@style/Theme.TheKitchen</item>
     </style>
 
+    <!-- SearchView -->
+    <style name="CursorSearchView" parent="Widget.AppCompat.SearchView">
+        <item name="colorControlActivated">@color/black</item>
+    </style>
+
     <!-- Toolbar Title -->
     <style name="Widget.App.Toolbar" parent="Widget.Material3.Toolbar">
         <item name="titleTextAppearance">@style/TextTitle</item>
@@ -56,7 +61,6 @@
     <style name="ThemeOverlay.App.Switch" parent="">
         <item name="colorPrimary">@color/purple</item>
         <item name="colorSurfaceVariant">#0D000000</item>
-        <item name="colorOutline">@color/white</item>
         <item name="colorOnPrimary">@color/white</item>
     </style>
 
@@ -76,15 +80,6 @@
         <item name="colorOnError">@color/design_default_color_error</item>
     </style>
 
-    <!-- FAB -->
-    <!--    <style name="Widget.MaterialComponents.FloatingActionButton" parent="Widget.Design.FloatingActionButton">-->
-    <!--        <item name="materialThemeOverlay">@style/ThemeOverlay.App.FAB</item>-->
-    <!--    </style>-->
-
-    <!--    <style name="ThemeOverlay.App.FAB" parent="">-->
-    <!--        <item name="fabSize">mini</item>-->
-    <!--    </style>-->
-
     <!-- TextField -->
     <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.Material3.SmallComponent">
         <item name="cornerFamily">rounded</item>
@@ -101,6 +96,7 @@
     <style name="ThemeOverlay.App.TextInputLayout" parent="">
         <item name="colorPrimary">@color/purple</item>
         <item name="colorOnSurface">@color/black</item>
+        <item name="colorControlActivated">@color/black</item>
         <item name="colorError">@color/design_default_color_error</item>
         <item name="editTextStyle">@style/Widget.Material3.TextInputEditText.OutlinedBox.Dense
         </item>
@@ -121,28 +117,6 @@
         <item name="cornerSize">50%</item>
     </style>
 
-    <style name="RoundButton" parent="Widget.MaterialComponents.Button">
-        <item name="cornerRadius">@dimen/button_radius</item>
-        <item name="android:layout_width">@dimen/button_width</item>
-        <item name="android:layout_height">@dimen/button_height</item>
-        <item name="android:textSize">@dimen/text_title_button</item>
-        <item name="android:gravity">center</item>
-        <item name="android:elevation">@dimen/card_elevation_no</item>
-    </style>
-
-    <style name="RoundButton.Transparent">
-        <item name="android:textColor">@color/text_card_title</item>
-        <item name="background">@android:color/transparent</item>
-        <item name="strokeWidth">@dimen/button_border</item>
-        <item name="strokeColor">@color/text_card_title</item>
-    </style>
-
-
-    <style name="RoundButton.Fill">
-        <item name="android:textColor">@color/white</item>
-        <item name="background">@color/purple</item>
-        <item name="backgroundTint">@color/purple</item>
-    </style>
 
     <!-- Тема для ExtendedFAB Reminder -->
     <style name="ShapeAppearanceOverlayExtended" parent="">

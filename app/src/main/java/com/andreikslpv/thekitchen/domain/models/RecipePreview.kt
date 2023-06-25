@@ -8,9 +8,7 @@ data class RecipePreview(
     val categoriesExclude: ArrayList<String> = arrayListOf(),
     val categoriesDish: ArrayList<String> = arrayListOf(),
     val time: Int = 0,
-    val timeUnit: String = "un00001",
     val caloriesCount: Int = 0,
-    val caloriesUnit: String = "un00002",
     val portions: Int = 0,
     val imagePreview: String = "",
     @Exclude

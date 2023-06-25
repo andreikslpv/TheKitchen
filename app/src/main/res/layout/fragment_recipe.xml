@@ -86,9 +86,9 @@
                     android:layout_height="@dimen/FAB_dimen"
                     android:layout_marginStart="@dimen/card_preview_margin_image"
                     android:gravity="start|center_vertical"
+                    app:layout_constraintBottom_toBottomOf="@+id/recipeTimerImage"
                     app:layout_constraintStart_toEndOf="@+id/recipeTimerImage"
                     app:layout_constraintTop_toTopOf="@+id/recipeTimerImage"
-                    app:layout_constraintBottom_toBottomOf="@+id/recipeTimerImage"
                     tools:text="XX min" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -98,9 +98,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin_big_52"
                     android:gravity="start|center_vertical"
+                    app:layout_constraintBottom_toBottomOf="@+id/recipeTimerImage"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/recipeTimerImage"
-                    app:layout_constraintBottom_toBottomOf="@+id/recipeTimerImage"
                     tools:text="XXX kkal/portion" />
 
                 <ImageView
@@ -111,9 +111,9 @@
                     android:background="@android:color/transparent"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_kkal"
+                    app:layout_constraintBottom_toBottomOf="@+id/recipeTimerImage"
                     app:layout_constraintEnd_toStartOf="@+id/recipeKkalValue"
                     app:layout_constraintTop_toTopOf="@+id/recipeTimerImage"
-                    app:layout_constraintBottom_toBottomOf="@+id/recipeTimerImage"
                     tools:ignore="ContentDescription"
                     tools:src="@tools:sample/avatars" />
 
@@ -135,13 +135,13 @@
                     android:layout_width="@dimen/calc_button_dimen_width"
                     android:layout_height="@dimen/calc_button_dimen_height"
                     android:layout_marginTop="@dimen/margin_basic"
-                    android:layout_marginEnd="@dimen/margin_basic"
-                    android:background="@drawable/background_calc_minus"
+                    android:background="@drawable/background_calc_plus"
                     android:clickable="true"
                     android:elevation="@dimen/card_elevation_no"
                     android:focusable="true"
+                    android:foreground="?android:attr/actionBarItemBackground"
                     android:src="@drawable/ic_minus"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/recipeCalcText"
                     app:layout_constraintTop_toBottomOf="@+id/recipeTimerImage"
                     tools:ignore="ContentDescription" />
 
@@ -153,7 +153,7 @@
                     android:layout_marginTop="@dimen/margin_basic"
                     android:background="@color/lime"
                     android:text="@string/portion_default"
-                    app:layout_constraintEnd_toStartOf="@+id/recipeCalcMinus"
+                    app:layout_constraintEnd_toStartOf="@+id/recipeCalcPlus"
                     app:layout_constraintTop_toBottomOf="@+id/recipeTimerImage" />
 
                 <ImageView
@@ -161,12 +161,14 @@
                     android:layout_width="@dimen/calc_button_dimen_width"
                     android:layout_height="@dimen/calc_button_dimen_height"
                     android:layout_marginTop="@dimen/margin_basic"
-                    android:background="@drawable/background_calc_plus"
+                    android:layout_marginEnd="@dimen/margin_basic"
+                    android:background="@drawable/background_calc_minus"
                     android:clickable="true"
                     android:elevation="@dimen/card_elevation_no"
                     android:focusable="true"
+                    android:foreground="?android:attr/actionBarItemBackground"
                     android:src="@drawable/ic_plus"
-                    app:layout_constraintEnd_toStartOf="@+id/recipeCalcText"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/recipeTimerImage"
                     tools:ignore="ContentDescription" />
 
@@ -180,7 +182,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/recipeCalcMinus" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
             <androidx.constraintlayout.widget.ConstraintLayout

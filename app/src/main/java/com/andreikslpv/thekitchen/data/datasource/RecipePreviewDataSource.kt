@@ -7,6 +7,7 @@ import com.andreikslpv.thekitchen.domain.models.FiltersSeparated
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
+import java.util.Locale
 import javax.inject.Inject
 
 class RecipePreviewDataSource @Inject constructor(
@@ -31,6 +32,11 @@ class RecipePreviewDataSource @Inject constructor(
                 .asSequence()
                 .mapNotNull { it.toObject(RecipePreview::class.java) }
                 .filter { it.id != RecipePreview().id }
+                .filter {
+                    if (filters.query.isNotBlank())
+                        it.name.lowercase(Locale.getDefault()).trim().contains(filters.query)
+                    else true
+                }
                 .map {
                     if (filters.categoriesExclude.isNotEmpty())
                         if (!it.categoriesExclude.containsAll(filters.categoriesExclude))

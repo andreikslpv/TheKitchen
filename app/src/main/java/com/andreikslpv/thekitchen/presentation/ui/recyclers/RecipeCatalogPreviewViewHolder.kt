@@ -3,8 +3,8 @@ package com.andreikslpv.thekitchen.presentation.ui.recyclers
 import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.R
 import com.andreikslpv.thekitchen.databinding.ItemRecipePreviewBinding
-import com.andreikslpv.thekitchen.domain.UserRepository
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
+import com.andreikslpv.thekitchen.domain.usecases.GetFavoritesUseCase
 import com.andreikslpv.thekitchen.presentation.ui.base.BaseRecipePreviewViewHolder
 import com.andreikslpv.thekitchen.presentation.utils.visible
 import kotlinx.coroutines.CoroutineScope
@@ -16,7 +16,7 @@ class RecipeCatalogPreviewViewHolder(override val binding: ItemRecipePreviewBind
     BaseRecipePreviewViewHolder(binding) {
 
     @Inject
-    lateinit var userRepository: UserRepository
+    lateinit var getFavoritesUseCase: GetFavoritesUseCase
 
     init {
         App.instance.dagger.inject(this)
@@ -25,7 +25,7 @@ class RecipeCatalogPreviewViewHolder(override val binding: ItemRecipePreviewBind
     override fun bind(recipe: RecipePreview) {
         super.bind(recipe)
         CoroutineScope(Dispatchers.Main).launch {
-            userRepository.getFavorites().collect {
+            getFavoritesUseCase.execute().collect {
                 if (it.contains(recipe.id))
                     binding.itemButtonFavorites.setImageResource(R.drawable.ic_favorites_fill)
                 else

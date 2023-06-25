@@ -2,6 +2,7 @@ package com.andreikslpv.thekitchen.presentation.ui.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -51,6 +52,7 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
         initCollectFilter()
         setupSwipeToRefresh()
         initFiltersButton()
+        initSearchView()
     }
 
     private fun initCollectFilter() {
@@ -200,5 +202,25 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>(FragmentCatalogBind
             recipePreview
         )
         findNavController().navigate(direction)
+    }
+
+    private fun initSearchView() {
+        binding.catalogSearchView.setOnClickListener {
+            binding.catalogSearchView.isIconified = false
+        }
+
+        //Подключаем слушателя изменений введенного текста в поиска
+        binding.catalogSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            //Этот метод отрабатывает при нажатии кнопки "поиск" на софт клавиатуре
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            //Этот метод отрабатывает на каждое изменения текста
+            override fun onQueryTextChange(newText: String): Boolean {
+                viewModel.setQuery(newText)
+                return true
+            }
+        })
     }
 }

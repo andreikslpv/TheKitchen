@@ -1,6 +1,10 @@
 package com.andreikslpv.thekitchen.presentation.vm
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.andreikslpv.thekitchen.App
@@ -11,6 +15,8 @@ import com.andreikslpv.thekitchen.domain.models.Category
 import com.andreikslpv.thekitchen.domain.models.Filters
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipePreviewUseCase
+import com.andreikslpv.thekitchen.domain.usecases.RemoveFilterUseCase
+import com.andreikslpv.thekitchen.domain.usecases.SetDefaultExcludeFromDbUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeFavoritesStatusUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -38,6 +44,12 @@ class CatalogViewModel : ViewModel() {
     @Inject
     lateinit var tryToChangeFavoritesStatusUseCase: TryToChangeFavoritesStatusUseCase
 
+    @Inject
+    lateinit var removeFilterUseCase: RemoveFilterUseCase
+
+    @Inject
+    lateinit var setDefaultExcludeFromDbUseCase: SetDefaultExcludeFromDbUseCase
+
     val recipes: Flow<PagingData<RecipePreview>>
 
     private val _filters = MutableLiveData(Filters())
@@ -52,9 +64,12 @@ class CatalogViewModel : ViewModel() {
             // кешируем прлучившийся flow, чтобы на него можно было подписаться несколько раз
             .cachedIn(viewModelScope)
 
+        setDefaultExcludeFromDbUseCase.execute()
+
         // начинаем отслеживать список установленных фильтров
         CoroutineScope(Dispatchers.IO).launch {
             categoryRepository.getFilters().collect { response ->
+                response.setQuery(_filters.value?.getQuery() ?: "")
                 _filters.postValue(response)
             }
         }
@@ -70,6 +85,9 @@ class CatalogViewModel : ViewModel() {
             categoryRepository.removeFilter(categoryId)
         }
         refresh()
+        CoroutineScope(Dispatchers.IO).launch {
+            removeFilterUseCase.execute(categoryId)
+        }
     }
 
     fun refresh() {
@@ -78,6 +96,13 @@ class CatalogViewModel : ViewModel() {
 
     fun tryToChangeFavoritesStatus(recipeId: String): Boolean {
         return tryToChangeFavoritesStatusUseCase.execute(recipeId)
+    }
+
+    fun setQuery(newQuery: String) {
+        _filters.value?.let { value ->
+            if (value.setQuery(newQuery)) refresh()
+        }
+
     }
 
 }

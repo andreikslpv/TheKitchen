@@ -23,6 +23,7 @@ import com.andreikslpv.thekitchen.presentation.ui.recyclers.itemDecoration.Space
 import com.andreikslpv.thekitchen.presentation.utils.findTopNavController
 import com.andreikslpv.thekitchen.presentation.utils.makeToast
 import com.andreikslpv.thekitchen.presentation.vm.HomeViewModel
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 
 /**
@@ -85,6 +86,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 }
             }
         }
+
+        viewModel.currentUser.observe(viewLifecycleOwner) {
+            if (it != null) {
+                Glide.with(binding.homeAvatar)
+                    .load(it.photoUrl)
+                    .centerCrop()
+                    .into(binding.homeAvatar)
+            } else {
+                Glide.with(binding.homeAvatar)
+                    .load(R.drawable.ic_avatar)
+                    .centerCrop()
+                    .into(binding.homeAvatar)
+            }
+        }
     }
 
     private fun initRecyclers() {
@@ -115,7 +130,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             categoryDishAdapter = CategoryRecyclerAdapter(
                 object : ItemClickListener {
                     override fun click(id: String) {
-                        goToCatalogFragment(id)
+                        viewModel.setCategoryDish(id)
+                        goToCatalogFragment()
                     }
                 },
                 CategoryType.DISH
@@ -130,7 +146,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             categoryTimeAdapter = CategoryRecyclerAdapter(
                 object : ItemClickListener {
                     override fun click(id: String) {
-                        goToCatalogFragment(id)
+                        viewModel.setCategoryTime(id)
+                        goToCatalogFragment()
                     }
                 },
                 CategoryType.TIME
@@ -143,12 +160,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     private fun initProfileButton() {
-        binding.homeToolbar.menu.findItem(R.id.profileButton).setOnMenuItemClickListener {
-            if (viewModel.currentUserFromAuth != null)
+        binding.homeAvatar.setOnClickListener {
+            if (viewModel.currentUser.value != null)
             // для запуска экранов верхнего уровня (graph_main) используем extension
                 findTopNavController().navigate(R.id.profileFragment)
             else goToAuthFragment()
-            true
         }
     }
 
@@ -160,8 +176,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         })
     }
 
-    private fun goToCatalogFragment(id: String) {
-        viewModel.setCategoryDish(id)
+    private fun goToCatalogFragment() {
         val fragment = requireParentFragment().parentFragment
         if (fragment is TabsFragment) {
             fragment.goToCatalog()

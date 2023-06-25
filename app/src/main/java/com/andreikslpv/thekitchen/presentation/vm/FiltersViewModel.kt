@@ -6,7 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.domain.CategoryRepository
+import com.andreikslpv.thekitchen.domain.models.CategoryType
 import com.andreikslpv.thekitchen.domain.models.Filters
+import com.andreikslpv.thekitchen.domain.usecases.TryToSetExcludeUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,6 +18,9 @@ class FiltersViewModel : ViewModel() {
 
     @Inject
     lateinit var categoryRepository: CategoryRepository
+
+    @Inject
+    lateinit var tryToSetExcludeUseCase: TryToSetExcludeUseCase
 
     private val _filters = MutableLiveData(Filters())
     val filters: LiveData<Filters> = _filters
@@ -36,7 +41,12 @@ class FiltersViewModel : ViewModel() {
 
     fun sendFiltersToRepository() {
         CoroutineScope(Dispatchers.IO).launch {
-            _filters.value?.let { categoryRepository.setFilters(it) }
+            _filters.value?.let {
+                categoryRepository.setFilters(it)
+                val exclude = categoryRepository.getCategoriesIdByType(CategoryType.EXCLUDE.value)
+                val temp = exclude.intersect(it.getCategoriesList().toSet())
+                tryToSetExcludeUseCase.execute(temp.toList())
+            }
         }
     }
 

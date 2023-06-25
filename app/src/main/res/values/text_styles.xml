@@ -12,13 +12,6 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="TextTitleButtonFill">
-        <item name="android:textSize">@dimen/text_title_button</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:gravity">center</item>
-    </style>
-
     <style name="TextTitleCategory">
         <item name="android:textSize">@dimen/text_title_category</item>
         <item name="android:textColor">@color/text_card_title</item>
@@ -35,12 +28,6 @@
         <item name="android:gravity">start</item>
     </style>
 
-    <style name="TextToolbarMenu">
-        <item name="android:textSize">@dimen/text_title_button</item>
-        <item name="android:textColor">@color/purple</item>
-        <item name="android:gravity">start</item>
-    </style>
-
     <style name="TextUps">
         <item name="android:textSize">@dimen/text_title</item>
         <item name="android:textColor">@color/purple</item>
@@ -52,6 +39,7 @@
     <style name="TextButtonBig">
         <item name="android:textSize">@dimen/text_title_button</item>
         <item name="android:textColor">@color/purple</item>
+        <item name="android:foreground">?android:attr/actionBarItemBackground</item>
     </style>
 
     <style name="TextButtonBig.End" parent="TextButtonBig">
@@ -65,12 +53,14 @@
     <style name="TextButtonDanger">
         <item name="android:textSize">@dimen/text_title_button</item>
         <item name="android:textColor">@color/text_button_danger</item>
+        <item name="android:foreground">?android:attr/actionBarItemBackground</item>
         <item name="android:gravity">start</item>
     </style>
 
     <style name="TextButtonDangerSmall">
         <item name="android:textSize">@dimen/text_title_category</item>
         <item name="android:textColor">@color/text_button_danger</item>
+        <item name="android:foreground">?android:attr/actionBarItemBackground</item>
         <item name="android:gravity">center</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -78,6 +68,7 @@
 
     <style name="TextButtonSmall">
         <item name="android:textSize">@dimen/text_title_category</item>
+        <item name="android:foreground">?android:attr/actionBarItemBackground</item>
         <item name="android:textColor">@color/purple</item>
     </style>
 
@@ -141,10 +132,6 @@
         <item name="android:textSize">@dimen/text_title_category</item>
         <item name="android:textColor">@color/link</item>
         <item name="android:gravity">start</item>
-    </style>
-
-    <style name="TextLink.Center" parent="TextLink">
-        <item name="android:gravity">center</item>
     </style>
 
 

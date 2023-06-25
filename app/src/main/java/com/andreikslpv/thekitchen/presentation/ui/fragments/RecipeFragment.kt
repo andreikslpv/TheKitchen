@@ -17,7 +17,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.andreikslpv.thekitchen.App
 import com.andreikslpv.thekitchen.R
 import com.andreikslpv.thekitchen.databinding.FragmentRecipeBinding
-import com.andreikslpv.thekitchen.domain.UserRepository
+import com.andreikslpv.thekitchen.domain.usecases.GetFavoritesUseCase
 import com.andreikslpv.thekitchen.presentation.ui.base.BaseFragment
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.IngredientRecyclerAdapter
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.StepRecyclerAdapter
@@ -46,7 +46,7 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>(FragmentRecipeBinding
     private lateinit var stepAdapter: StepRecyclerAdapter
 
     @Inject
-    lateinit var userRepository: UserRepository
+    lateinit var getFavoritesUseCase: GetFavoritesUseCase
 
     init {
         App.instance.dagger.inject(this)
@@ -152,7 +152,7 @@ class RecipeFragment : BaseFragment<FragmentRecipeBinding>(FragmentRecipeBinding
                 // Safely collect from source when the lifecycle is STARTED
                 // and stop collecting when the lifecycle is STOPPED
                 viewLifecycleOwner.lifecycleScope.launch {
-                    userRepository.getFavorites().collect { list ->
+                    getFavoritesUseCase.execute().collect { list ->
                         if (list.contains(viewModel.recipePreview.value?.id)) {
                             binding.recipeButtonFavorites.setImageResource(R.drawable.ic_favorites_fill)
                         } else {

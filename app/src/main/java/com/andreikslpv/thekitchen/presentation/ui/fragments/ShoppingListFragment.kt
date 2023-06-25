@@ -42,24 +42,13 @@ class ShoppingListFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupSwipeToRefresh()
         initRecyclers()
         initProductCollect()
         initSelectAllButton()
         initClearButton()
         initAddButton()
-        initShoppingDialog()
         initShareButton()
         initClearListButton()
-    }
-
-    private fun setupSwipeToRefresh() {
-//        binding.shoppingSwipeRefreshLayout.setOnRefreshListener {
-//            this.lifecycleScope.launch {
-//                //recipePreviewAdapter.retry()
-//                binding.shoppingSwipeRefreshLayout.isRefreshing = false
-//            }
-//        }
     }
 
     private fun initRecyclers() {
@@ -143,14 +132,6 @@ class ShoppingListFragment :
         }
     }
 
-    private fun initShoppingDialog() {
-        viewModel.unitList.observe(viewLifecycleOwner) {
-            (binding.shoppingDialog.unitText as? MaterialAutoCompleteTextView)?.setSimpleItems(
-                viewModel.getUnitsNameList().toTypedArray()
-            )
-        }
-    }
-
     private fun showDialogEdit(shoppingItem: ShoppingItem) {
         binding.shoppingDialog.apply {
             //Делаем видимой
@@ -167,7 +148,9 @@ class ShoppingListFragment :
             nameText.setText(shoppingItem.showingName)
             nameText.tag = shoppingItem.ingredient.product
             countText.setText(shoppingItem.ingredient.count.ingredientCountToString())
-
+            (unitText as? MaterialAutoCompleteTextView)?.setSimpleItems(
+                viewModel.getUnitsNameListEdit().toTypedArray()
+            )
             (unitText as? MaterialAutoCompleteTextView)?.setText(
                 viewModel.getUnitsNameById(shoppingItem.ingredient.unit),
                 false
@@ -201,7 +184,11 @@ class ShoppingListFragment :
             actionButton.text = getString(R.string.shopping_dialog_action_add)
             nameText.setText("")
             nameText.tag = ""
+            nameText.error = null
             countText.setText("")
+            (unitText as? MaterialAutoCompleteTextView)?.setSimpleItems(
+                viewModel.getUnitsNameListAdd().toTypedArray()
+            )
             (unitText as? MaterialAutoCompleteTextView)?.setText("гр.", false)
 
             actionButton.setOnClickListener {
