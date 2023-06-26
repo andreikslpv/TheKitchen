@@ -12,6 +12,7 @@ import com.andreikslpv.thekitchen.domain.models.CategoryType
 import com.andreikslpv.thekitchen.domain.usecases.GetRecipeHistoryUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeAvatarUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeFavoritesStatusUseCase
+import com.andreikslpv.thekitchen.domain.usecases.TryToDeleteAvatarUseCase
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -36,6 +37,9 @@ class ProfileViewModel : ViewModel() {
 
     @Inject
     lateinit var tryToChangeAvatarUseCase: TryToChangeAvatarUseCase
+
+    @Inject
+    lateinit var tryToDeleteAvatarUseCase: TryToDeleteAvatarUseCase
 
     private var uid = ""
 
@@ -87,6 +91,12 @@ class ProfileViewModel : ViewModel() {
 
     fun deleteUserDb() = liveData(Dispatchers.IO) {
         userRepository.deleteUser(uid).collect { response ->
+            emit(response)
+        }
+    }
+
+    fun deleteAvatar() = liveData(Dispatchers.IO) {
+        tryToDeleteAvatarUseCase.execute(uid).collect { response ->
             emit(response)
         }
     }

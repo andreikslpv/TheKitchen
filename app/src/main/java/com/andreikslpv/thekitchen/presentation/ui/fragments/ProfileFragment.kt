@@ -23,7 +23,6 @@ import com.andreikslpv.thekitchen.R
 import com.andreikslpv.thekitchen.databinding.FragmentProfileBinding
 import com.andreikslpv.thekitchen.domain.models.RecipePreview
 import com.andreikslpv.thekitchen.domain.models.Response
-import com.andreikslpv.thekitchen.presentation.ui.MainActivity
 import com.andreikslpv.thekitchen.presentation.ui.base.BaseFragment
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.ExcludeRecyclerAdapter
 import com.andreikslpv.thekitchen.presentation.ui.recyclers.ItemClickListener
@@ -66,6 +65,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                             viewModel.refreshUser()
                             binding.progressBar.hide()
                         }
+
                         is Response.Failure -> {
                             print(response.errorMessage)
                             binding.progressBar.hide()
@@ -119,6 +119,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                         val googleSignInAccount = task.getResult(ApiException::class.java)
                         googleSignInAccount?.apply {
                             idToken?.let { idToken ->
+                                deleteUserDb()
+                                deleteAvatar()
                                 deleteUserAuth(idToken)
                             }
                         }
@@ -134,12 +136,12 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
             when (response) {
                 is Response.Loading -> binding.progressBar.show()
                 is Response.Success -> {
-                    deleteUserDb()
                     binding.progressBar.hide()
+                    getString(R.string.profile_delete_success).makeToast(requireContext())
                 }
 
                 is Response.Failure -> {
-                    println("AAA signInWithGoogle ${response.errorMessage}")
+                    println("AAA deleteUserAuth ${response.errorMessage}")
                     binding.progressBar.hide()
                 }
             }
@@ -150,18 +152,22 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         viewModel.deleteUserDb().observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Response.Loading -> binding.progressBar.show()
-                is Response.Success -> {
-                    getString(R.string.profile_delete_success).makeToast(requireContext())
-                    binding.progressBar.hide()
-                    // перезапускаем приложение
-                    val intent = Intent(requireContext(), MainActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                    startActivity(intent)
-                    Runtime.getRuntime().exit(0)
-                }
-
+                is Response.Success -> binding.progressBar.hide()
                 is Response.Failure -> {
-                    println("AAA signInWithGoogle ${response.errorMessage}")
+                    println("AAA deleteUserDb ${response.errorMessage}")
+                    binding.progressBar.hide()
+                }
+            }
+        }
+    }
+
+    private fun deleteAvatar() {
+        viewModel.deleteAvatar().observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Response.Loading -> binding.progressBar.show()
+                is Response.Success -> binding.progressBar.hide()
+                is Response.Failure -> {
+                    println("AAA deleteAvatar ${response.errorMessage}")
                     binding.progressBar.hide()
                 }
             }

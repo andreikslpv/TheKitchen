@@ -24,35 +24,42 @@
                 android:id="@+id/catalogSearchView"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/search_height"
-                android:theme="@style/CursorSearchView"
-                app:searchIcon="@drawable/ic_search_view"
-                app:searchHintIcon="@null"
-                app:defaultQueryHint="@string/catalog_search_hint"
-                app:queryBackground="@android:color/transparent"
                 android:background="@drawable/background_search_view"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:theme="@style/CursorSearchView"
+                app:defaultQueryHint="@string/catalog_search_hint"
+                app:layout_constraintTop_toTopOf="parent"
+                app:queryBackground="@android:color/transparent"
+                app:searchHintIcon="@null"
+                app:searchIcon="@drawable/ic_search_view" />
         </com.google.android.material.appbar.MaterialToolbar>
 
         <HorizontalScrollView
             android:id="@+id/catalogNested"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:elevation="@dimen/card_elevation_no"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/catalogFilters"
-                style="@style/TextTitleCategory"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin_basic"
-                android:background="@android:color/transparent"
-                android:elevation="@dimen/card_elevation_no"
-                android:theme="@style/Theme.MaterialComponents.Light"
-                android:visibility="gone"
-                app:singleLine="true" />
+                android:orientation="horizontal">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/catalogFilters"
+                    style="@style/TextTitleCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_basic"
+                    android:background="@android:color/transparent"
+                    android:elevation="@dimen/card_elevation_no"
+                    android:theme="@style/Theme.MaterialComponents.Light"
+                    android:visibility="gone"
+                    app:singleLine="true" />
+
+            </LinearLayout>
 
         </HorizontalScrollView>
 
@@ -63,7 +70,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/catalogSwipeRefreshLayout"

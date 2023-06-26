@@ -23,6 +23,7 @@ import com.andreikslpv.thekitchen.domain.usecases.TryToAddToShoppingListUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeAvatarUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeExcludeStatusUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToChangeFavoritesStatusUseCase
+import com.andreikslpv.thekitchen.domain.usecases.TryToDeleteAvatarUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToEditShoppingItemUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveAllFromFavoritesUseCase
 import com.andreikslpv.thekitchen.domain.usecases.TryToRemoveAllFromShoppingList
@@ -257,6 +258,14 @@ class DomainModule {
         storage: FirebaseStorage,
     ): TryToChangeAvatarUseCase {
         return TryToChangeAvatarUseCase(authRepository, storage)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTryToDeleteAvatarUseCase(
+        storage: FirebaseStorage,
+    ): TryToDeleteAvatarUseCase {
+        return TryToDeleteAvatarUseCase(storage)
     }
 
 }
