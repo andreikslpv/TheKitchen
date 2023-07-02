@@ -13,12 +13,6 @@ import javax.inject.Singleton
 @Module
 class AppModule {
 
-//    @Singleton
-//    @MainIntent
-//    fun provideApplication(context: Context): Application {
-//        return context.
-//    }
-
     @Provides
     @Singleton
     fun provideGoogleSignInOptions(): GoogleSignInOptions {
@@ -31,7 +25,6 @@ class AppModule {
     @Provides
     @Singleton
     fun provideGoogleSignInClient(
-//        application: Application,
         options: GoogleSignInOptions
     ): GoogleSignInClient {
         return GoogleSignIn.getClient(App.instance, options)
@@ -42,4 +35,5 @@ class AppModule {
     fun provideSignInIntent(googleSignInClient: GoogleSignInClient): Intent {
         return googleSignInClient.signInIntent
     }
+
 }

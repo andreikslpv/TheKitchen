@@ -42,6 +42,43 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:735022595038:android:f028322486c4625a02fb4f",
+        "android_client_info": {
+          "package_name": "com.example.thekitchenadmin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "735022595038-e2gpbecidra0img9gh019n4oq19fjtle.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.thekitchenadmin",
+            "certificate_hash": "cf9e127931033c499d109e2f4f8233ecc1f127fd"
+          }
+        },
+        {
+          "client_id": "735022595038-6v09ip5g806r6ng71gg4bftpdah5lpcq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBg2N-Xexxl8LAicvZab9Xg0zaSFXh-T-g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "735022595038-0hdk9mdtn4bb6rf7qel8q6rj2dtukmbs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

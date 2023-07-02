@@ -48,6 +48,7 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>(FragmentAuthBinding::infl
         binding.googleSignInButton.setOnClickListener {
             resultLauncher.launch(signInIntent)
         }
+
         binding.anonymousButton.setOnClickListener {
             startTabsFragment()
         }
@@ -57,7 +58,7 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>(FragmentAuthBinding::infl
     }
 
     private fun collectPrivacyPolicy() {
-        viewModel.privacyPolicy.observe(viewLifecycleOwner) {url->
+        viewModel.privacyPolicy.observe(viewLifecycleOwner) { url ->
             if (url.isNotBlank()) {
                 binding.authCopyrightText.setOnClickListener {
                     val i = Intent(Intent.ACTION_VIEW, Uri.parse(url))
@@ -80,7 +81,6 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>(FragmentAuthBinding::infl
                             }
                         }
                     } catch (e: ApiException) {
-                        println("AAA initResultLauncher ${e.message}")
                         crashlytics.recordException(e)
                     }
                 }
@@ -102,7 +102,6 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>(FragmentAuthBinding::infl
                 }
 
                 is Response.Failure -> {
-                    println("AAA signInWithGoogle ${response.errorMessage}")
                     crashlytics.recordException(Throwable(response.errorMessage))
                     binding.progressBar.hide()
                 }
@@ -120,7 +119,6 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>(FragmentAuthBinding::infl
                 }
 
                 is Response.Failure -> {
-                    println("AAA createUser ${response.errorMessage}")
                     crashlytics.recordException(Throwable(response.errorMessage))
                     binding.progressBar.hide()
                 }

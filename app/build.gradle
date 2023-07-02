@@ -26,6 +26,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
     compileOptions {
@@ -48,7 +49,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
-    implementation 'com.google.android.gms:play-services-auth:20.5.0'
+    implementation 'com.google.android.gms:play-services-auth:20.6.0'
     // Modules
     implementation project(path: ':domain')
     implementation project(path: ':data')
@@ -80,11 +81,11 @@ dependencies {
     // Splashscreen
     implementation 'androidx.core:core-splashscreen:1.0.1'
     //Room
-    implementation "androidx.room:room-runtime:2.5.1"
-    implementation "androidx.room:room-ktx:2.5.1"
-    kapt "androidx.room:room-compiler:2.5.1"
+    implementation "androidx.room:room-runtime:2.5.2"
+    implementation "androidx.room:room-ktx:2.5.2"
+    kapt "androidx.room:room-compiler:2.5.2"
     // Jetpack Paging 3
-    implementation "androidx.paging:paging-runtime:3.2.0-beta01"
+    implementation "androidx.paging:paging-runtime:3.2.0-rc01"
     // pull-to-refresh
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
