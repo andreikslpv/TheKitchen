@@ -1,5 +1,8 @@
 # TheKitchen
 "Clean" architecture / MVVM / monolith / Dagger2 / LiveData / Flow / Navigation component / Retrofit2+Okhttp3 / Paging3 / Glide / Room / SharedPreferences / Firebase
+<P>
+The application is published on <a href="https://play.google.com/store/apps/details?id=com.andreikslpv.thekitchen&pli=1"> Google Play </a>
+</P>
 
 <P>"На Кухне" - большой выбор вкусных, простых и разнообразных рецептов для тех кто любит готовить, ценит время и постоянно сталкивается с трудностями приготовления еды для семьи, близких, гостей, а также для тех кто имеет определенные вкусовые предпочтения и хочет разнообразить свой рацион питания, учитывая личные пожелания к продуктам.</P>
 <P>Приложение имеет следующие категории блюд: супы, салаты, завтраки, выпечка, горячее, десерты, запеканки, заготовки.</P>
